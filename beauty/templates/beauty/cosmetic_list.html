@@ -1,0 +1,72 @@
+{% extends 'beauty/base.html' %}
+
+{% block title %}
+Cosmetic List
+{% endblock %}
+
+{% block content %}
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#all">all</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#lips">lips</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#brushes">brushes</a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="all">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>category</th>
+                    <th>cosmetic</th>
+                    <th>youtube</th>
+                    <th>youtube</th>
+                    <th>youtube</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cosmetic in cosmetics %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ cosmetic.category }}</td>
+                    <td>{{ cosmetic.name }}</td>
+                    {% for video in cosmetic.video_set.all|slice:":3" %}
+                    <td>
+                        {{ video.title }}
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="tab-pane fade" id="lips">
+        <table class="table">
+            {% include "beauty/cosmetic_thead.html" %}                
+            <tbody>
+                {% for cosmetic in lips %}
+                    {% include "beauty/cosmetic_tbody.html" %}                
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="tab-pane fade" id="brushes">
+        <table class="table">
+            {% include "beauty/cosmetic_thead.html" %}                            
+            <tbody>
+                {% for cosmetic in brushes %}
+                    {% include "beauty/cosmetic_tbody.html" %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'beauty/base.html' %}
+
+{% block title %}
+Combine Result
+{% endblock %}
+
+{% block content %}
+{% for cosmetic in cosmetics %}
+    <div>{{ cosmetic.video_set.all }}</div>
+{% endfor %}
+{% endblock %}

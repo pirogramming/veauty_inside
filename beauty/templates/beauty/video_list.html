@@ -1,0 +1,53 @@
+{% extends 'beauty/base.html' %}
+
+{% block title %}
+Video List
+{% endblock %}
+
+{% block content %}
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#all">all</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#month">month</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#week">week</a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="all">
+        <table class="table">
+            {% include "beauty/video_thead.html" %}            
+            <tbody>
+                {% for video in videos_all %}
+                {% include "beauty/video_tbody.html" %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="month">
+        <table class="table">
+            {% include "beauty/video_thead.html" %}            
+            <tbody>
+                {% for video in videos_month %}
+                    {% include "beauty/video_tbody.html" %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="week">
+        <table class="table">
+            {% include "beauty/video_thead.html" %}                        
+            <tbody>
+                {% for video in videos_week %}
+                {% include "beauty/video_tbody.html" %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}

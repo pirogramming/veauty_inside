@@ -15,6 +15,9 @@ class Video(models.Model):
     upload_at = models.DateField(auto_now=False, auto_now_add=False)
     hits = models.IntegerField()
 
+    class Meta:
+        ordering = ['hits', 'title']
+
     def __str__(self):
         return self.title
 
