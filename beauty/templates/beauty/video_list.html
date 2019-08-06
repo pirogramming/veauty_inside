@@ -7,45 +7,26 @@ Video List
 {% block content %}
 <ul class="nav nav-tabs">
     <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#all">all</a>
+        <a class="nav-link {% if period == 'all' %} active {% endif %}"  href="{% url 'beauty:video_list' 'all' %}">all</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#month">month</a>
+        <a class="nav-link {% if period == 'month' %} active {% endif %}"  href="{% url 'beauty:video_list' 'month' %}">month</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#week">week</a>
+        <a class="nav-link {% if period == 'week' %} active {% endif %}"  href="{% url 'beauty:video_list' 'week' %}">week</a>
     </li>
 </ul>
 <div class="tab-content">
-    <div class="tab-pane fade show active" id="all">
+    <div class="tab-pane fade show active">
         <table class="table">
             {% include "beauty/video_thead.html" %}            
             <tbody>
-                {% for video in videos_all %}
+                {% for video in videos %}
                 {% include "beauty/video_tbody.html" %}
                 {% endfor %}
             </tbody>
         </table>
-    </div>
-    <div class="tab-pane fade" id="month">
-        <table class="table">
-            {% include "beauty/video_thead.html" %}            
-            <tbody>
-                {% for video in videos_month %}
-                    {% include "beauty/video_tbody.html" %}
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <div class="tab-pane fade" id="week">
-        <table class="table">
-            {% include "beauty/video_thead.html" %}                        
-            <tbody>
-                {% for video in videos_week %}
-                {% include "beauty/video_tbody.html" %}
-                {% endfor %}
-            </tbody>
-        </table>
+        {% include 'beauty/pagination.html' %}
     </div>
 </div>
 

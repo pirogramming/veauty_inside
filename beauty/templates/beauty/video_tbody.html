@@ -1,5 +1,12 @@
+{% load mathfilters %}
 <tr>
-    <td>{{ forloop.counter }}</td>
+    <td>
+        {% if pageNum %}
+            {{  pageNum|mul:10| sub:10 |add:forloop.counter }}
+        {% else %}
+            {{ forloop.counter }}
+        {% endif %}
+    </td>
     <td><a href="{{ video.yt_url }}" target="_blank">{{ video.yt_url }}</a></td>
     <td>{{ video.title }}</td>
     <td>

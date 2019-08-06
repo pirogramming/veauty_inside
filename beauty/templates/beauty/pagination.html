@@ -1,0 +1,54 @@
+
+{% load mathfilters %}
+{% if endPageNum != 1 %}
+<div class="page_display d-flex justify-content-center my-4" aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item">
+            {% if startPageNum != 1 %}
+            <a class="page-link px-0" href="?pageNum={{startPageNum | sub:1}}" aria-label="Start"><span
+                    aria-hidden="true">&laquo;</span></a>
+            {% else %}
+            <a class="page-link px-0" aria-label="Start"><span aria-hidden="true" style="color:white;">-</span></a>
+            {% endif %}
+        </li>
+        <li class="page-item">
+            {% if pageNum != 1 %}
+            <a class="page-link px-0" href="?pageNum={{pageNum | sub:1}}" aria-label="Previous"><span
+                    aria-hidden="true">&lt;</span></a>
+            {% else %}
+            <a class="page-link px-0" aria-label="Previous"><span
+                aria-hidden="true" style="color:white;">-</span></a>
+            {% endif %}
+        </li>
+
+        {% for i in bottomPages %}
+        <li class="page-item">
+            {% if i == pageNum %}
+            <a class="page-link px-0" href="?pageNum={{i}}"><strong>{{i}}</strong></a>
+            {% else %}
+            <a class="page-link px-0" href="?pageNum={{i}}">{{i}}</a>
+            {% endif %}
+        </li>
+        {% endfor %}
+
+        <li class="page-item">
+                {% if pageNum < totalPageCount %}
+            <a class="page-link px-0" href="?pageNum={{pageNum | add:1}}" aria-label="Next"><span
+                    aria-hidden="true">&gt;</span></a>
+            {% else %}
+            <a class="page-link px-0" aria-label="Next"><span
+                aria-hidden="true" style="color:white;">-</span></a>
+            {% endif %}
+        </li>
+        <li class="page-item">
+            {% if endPageNum < totalPageCount %}
+            <a class="page-link px-0" href="?pageNum={{endPageNum | add:1}}" aria-label="End"><span
+                    aria-hidden="true">&raquo;</span></a>
+            {% else %}
+            <a class="page-link px-0" aria-label="End"><span
+                aria-hidden="true" style="color:white;">-</span></a>
+            {% endif %}
+        </li>
+    </ul>
+</div>
+{% endif %}
