@@ -9,20 +9,48 @@ Cosmetic List
     <li class="nav-item">
         <a class="nav-link {% if kind == 'all' %} active {% endif %}" href="{% url 'beauty:cosmetic_list' 'all' %}">all</a>
     </li>
+    {% for kind_name in cosmetic_kind %}
     <li class="nav-item">
-        <a class="nav-link {% if kind == 'lip' %} active {% endif %}" href="{% url 'beauty:cosmetic_list' 'lip' %}">lips</a>
+        <a class="nav-link {% if kind == kind_name %} active {% endif %}" href="{% url 'beauty:cosmetic_list' kind_name %}">{{ kind_name }}</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link {% if kind == 'brush' %} active {% endif %}" href="{% url 'beauty:cosmetic_list' 'brush' %}">brushes</a>
-    </li>
+    {% endfor %}
 </ul>
 <div class="tab-content">
     <div class="tab-pane fade show active">
         <table class="table">
-            {% include "beauty/cosmetic_thead.html" %}
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    {% if kind == 'all' %}
+                        <th>category</th>
+                    {% endif %}
+                    <th>cosmetic</th>
+                    <th>youtube</th>
+                    <th>youtube</th>
+                    <th>youtube</th>
+                </tr>
+            </thead>
             <tbody>
                 {% for cosmetic in cosmetics %}
-                {% include "beauty/cosmetic_tbody.html" %}
+                {% load mathfilters %}
+                <tr>
+                    <td>
+                        {% if pageNum %}
+                        {{  pageNum|mul:10| sub:10 |add:forloop.counter }}
+                        {% else %}
+                        {{ forloop.counter }}
+                        {% endif %}
+                    </td>
+                    {% if kind == 'all' %}
+                        <td>{{ cosmetic.category }}</td>
+                    {% endif %}
+                    <td>{{ cosmetic.name }}</td>
+                    {% for video in cosmetic.video_set.all|slice:":3" %}
+                    <td>
+                        {{ video.title }}
+                    </td>
+                    {% endfor %}
+                </tr>
                 {% endfor %}
             </tbody>
         </table>

@@ -5,6 +5,9 @@ from random import randint
 from .models import Youtuber, Video, Cosmetic #, Viuser
 import datetime
 
+cosmetic_kind = ['lip', 'brush', 'concealer']
+selected = []
+
 def pagnation(request, contexts, PAGE_ROW_COUNT, PAGE_DISPLAY_COUNT):
     paginator=Paginator(contexts, PAGE_ROW_COUNT)
     pageNum=request.GET.get('pageNum') # 현제 페이지
@@ -73,11 +76,9 @@ def video_list(request, period):
     contexts['videos'] = contexts['contexts']
     del contexts['contexts']
     contexts['period'] = period
+    contexts['cosmetic_kind'] = cosmetic_kind
     
     return render(request, 'beauty/video_list.html', contexts)
-
-
-cosmetic_kind = ['lip', 'brush']
 
 def cosmetic_list(request, kind):
     if kind == 'all':
@@ -94,19 +95,65 @@ def cosmetic_list(request, kind):
     contexts['cosmetics'] = contexts['contexts']
     del contexts['contexts']
     contexts['kind'] = kind
+    contexts['cosmetic_kind'] = cosmetic_kind
 
     return render(request, 'beauty/cosmetic_list.html', contexts)
 
-def combine_cosmetic(request):
-    cosmetics = Cosmetic.objects.annotate(count=Count('video')).order_by('-count')
-    lips = Cosmetic.objects.filter(category='lip').annotate(count=Count('video')).order_by('-count')
-    brushes = Cosmetic.objects.filter(category='brush').annotate(count=Count('video')).order_by('-count')
 
-    return render(request, 'beauty/combine_cosmetic.html', {
-        'cosmetics' : cosmetics,
-        'lips' : lips,
-        'brushes' : brushes,
-    })
+# fix : global variable 'selected' User model의 필드로 교체
+def combine_cosmetic(request, kind):
+    if kind == 'all':
+        cosmetics = Cosmetic.objects.annotate(count=Count('video')).order_by('-count')
+    elif kind in cosmetic_kind:
+        cosmetics = Cosmetic.objects.filter(category=kind).annotate(count=Count('video')).order_by('-count')
+    else:
+        redirect("beauty:combine_cosmetic")
+
+    PAGE_ROW_COUNT = 10
+    PAGE_DISPLAY_COUNT = 10
+
+    contexts = pagnation(request, cosmetics, PAGE_ROW_COUNT, PAGE_DISPLAY_COUNT)
+    contexts['cosmetics'] = contexts['contexts']
+    del contexts['contexts']
+    contexts['kind'] = kind
+    contexts['cosmetic_kind'] = cosmetic_kind
+
+    if request.method == "POST":
+        try:
+            request.POST['reset_selected']
+            selected.clear()
+            contexts['selected'] = selected
+            return render(request, 'beauty/combine_cosmetic.html', contexts)
+        except:
+            pass
+
+        try:
+            request.POST['delete_selected']
+            nums = []
+            for num in request.POST:
+                try:
+                    nums.append(int(num)-1)
+                except:
+                    pass
+            for num in sorted(nums, reverse=True):
+                del selected[num]
+
+            contexts['selected'] = selected
+            return render(request, 'beauty/combine_cosmetic.html', contexts)
+        except:
+            pass
+
+        for num in request.POST:
+            try:
+                selection = get_object_or_404(Cosmetic, pk=num)
+                if not selection in selected:
+                    selected.append(selection)
+            except:
+                pass
+    
+    contexts['selected'] = selected
+
+    return render(request, 'beauty/combine_cosmetic.html', contexts)
 
 
 def combine_result(request):
@@ -125,7 +172,7 @@ def combine_result(request):
                         video_cnt[video.id] = 1
             except:
                 pass
-        
+        print(len(video_cnt))
         videos = []
         for video_id, cnt in sorted(video_cnt.items(), key=lambda t : t[1], reverse=True)[0:10]:
             video = get_object_or_404(Video, pk=video_id)

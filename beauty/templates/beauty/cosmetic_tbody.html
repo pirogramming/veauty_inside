@@ -1,9 +1,0 @@
-<tr>
-    <td>{{ forloop.counter }}</td>
-    <td>{{ cosmetic.name }}</td>
-    {% for video in cosmetic.video_set.all|slice:":3" %}
-    <td>
-        {{ video.title }}
-    </td>
-    {% endfor %}
-</tr>
