@@ -5,20 +5,30 @@ Combine Cosmetics
 {% endblock %}
 
 {% block content %}
-<div class="row">
+<div class="container-fluid row">
     <div class="col-6">
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link {% if kind == 'all' %} active {% endif %}"
                     href="{% url 'beauty:combine_cosmetic' 'all' %}">all</a>
             </li>
-            {% for kind_name in cosmetic_kind %}
+            {% for big_category in big_categories %}
             <li class="nav-item">
-                <a class="nav-link {% if kind == kind_name %} active {% endif %}"
-                    href="{% url 'beauty:combine_cosmetic' kind_name %}">{{ kind_name }}</a>
+                <a class="nav-link {% if big_category == curr_big %} active {% endif %}"
+                    href="{% url 'beauty:combine_cosmetic' big_category.smallcate_set.all.0.eng_name %}">{{ big_category }}</a>
             </li>
             {% endfor %}
         </ul>
+        {% if kind != 'all' %}
+        <ul class="nav nav-tabs">
+            {% for small_category in small_categories %}
+            <li class="nav-item">
+                <a class="nav-link {% if small_category == curr_small %} active {% endif %}"
+                    href="{% url 'beauty:combine_cosmetic' small_category.eng_name %}">{{ small_category }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
         <form action="" method="post">
             {% csrf_token %}
             <div class="tab-content">
@@ -66,25 +76,25 @@ Combine Cosmetics
         <form action="" method="post">
             {% csrf_token %}
             <table class="table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>category</th>
-                            <th>cosmetic</th>
-                            <th>check</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for selection in selected %}
-                        <tr>
-                            <td>{{ selection.id }}</td>
-                            <td>{{ selection.category }}</td>
-                            <td>{{ selection.name }}</td>
-                            <td><input type="checkbox" name="{{ forloop.counter }}" /></td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>category</th>
+                        <th>cosmetic</th>
+                        <th>check</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for selection in selected %}
+                    <tr>
+                        <td>{{ selection.id }}</td>
+                        <td>{{ selection.category }}</td>
+                        <td>{{ selection.name }}</td>
+                        <td><input type="checkbox" name="{{ forloop.counter }}" /></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
             <input type="hidden" name="delete_selected">
             <input type="submit" value="delete">
         </form>
@@ -92,7 +102,7 @@ Combine Cosmetics
         <form action="{% url 'beauty:combine_result' %}" method="post">
             {% csrf_token %}
             {% for selection in selected %}
-                <input type="hidden" name="{{ selection.id }}" />
+            <input type="hidden" name="{{ selection.id }}" />
             {% endfor %}
             <input type="submit" value="result">
         </form>

@@ -5,13 +5,15 @@ Combine Result
 {% endblock %}
 
 {% block content %}
-<h3>Selected Cosmetics</h3>
-{% for cosmetic in cosmetics %}
+<div class="container">
+    <h3>Selected Cosmetics</h3>
+    {% for cosmetic in cosmetics %}
     <div>{{ cosmetic.name }}</div>
-{% endfor %}
-<hr>
-<h3>Recommend TOP 10 Videos</h3>
-{% for video in videos %}
+    {% endfor %}
+    <hr>
+    <h3>Recommend TOP 10 Videos</h3>
+    {% for video in videos %}
     <div><a href="http://{{ video.yt_url }}" target="_blank">{{ video.title }}</a> : {{ video.hits }}</div>
-{% endfor %}
+    {% endfor %}
+</div>
 {% endblock %}

@@ -5,70 +5,69 @@ Video List
 {% endblock %}
 
 {% block content %}
-<ul class="nav nav-tabs">
-    <li class="nav-item">
-        <a class="nav-link {% if period == 'all' %} active {% endif %}"
-            href="{% url 'beauty:video_list' 'all' %}">all</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link {% if period == 'month' %} active {% endif %}"
-            href="{% url 'beauty:video_list' 'month' %}">month</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link {% if period == 'week' %} active {% endif %}"
-            href="{% url 'beauty:video_list' 'week' %}">week</a>
-    </li>
-</ul>
-<div class="tab-content">
-    <div class="tab-pane fade show active">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th>youtube url</th>
-                    <th>title</th>
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link {% if period == 'all' %} active {% endif %}"
+                href="{% url 'beauty:video_list' 'all' %}">all</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if period == 'month' %} active {% endif %}"
+                href="{% url 'beauty:video_list' 'month' %}">month</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if period == 'week' %} active {% endif %}"
+                href="{% url 'beauty:video_list' 'week' %}">week</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane fade show active">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>title</th>
 
-                    {% for category in cosmetic_kind %}
+                        {% for big_category in big_categories %}
                         <th>
-                            {{ category }}
+                            {{ big_category }}
                         </th>
-                    {% endfor %}
-                    
-                    <th>upload</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for video in videos %}
-                {% load mathfilters %}
-                <tr>
-                    <td>
-                        {% if pageNum %}
-                        {{  pageNum|mul:10| sub:10 |add:forloop.counter }}
-                        {% else %}
-                        {{ forloop.counter }}
-                        {% endif %}
-                    </td>
-                    <td><a href="{{ video.yt_url }}" target="_blank">{{ video.yt_url }}</a></td>
-                    <td>{{ video.title }}</td>
-
-                    {% for category in cosmetic_kind %}
-                        <td>
-                        {% for cosmetic in video.cosmetic.all %}
-                            {% if cosmetic.category == category %}
-                                {{ cosmetic.name }}
-                            {% endif %}
                         {% endfor %}
-                        </td>
-                    {% endfor %}                  
 
-                    <td>{{ video.upload_at }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% include 'beauty/pagination.html' %}
+                        <th>upload</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for video in videos %}
+                    {% load mathfilters %}
+                    <tr>
+                        <td>
+                            {% if pageNum %}
+                            {{  pageNum|mul:10| sub:10 |add:forloop.counter }}
+                            {% else %}
+                            {{ forloop.counter }}
+                            {% endif %}
+                        </td>
+                        <td><a href="{{ video.yt_url }}" target="_blank">{{ video.title }}</a></td>
+
+                        {% for big_category in big_categories %}
+                        <td>
+                            {% for cosmetic in video.cosmetic.all %}
+                            {% if cosmetic.category.bigcate == big_category %}
+                            {{ cosmetic.name }}
+                            {% endif %}
+                            {% endfor %}
+                        </td>
+                        {% endfor %}
+
+                        <td>{{ video.upload_at }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% include 'beauty/pagination.html' %}
+        </div>
     </div>
 </div>
-
 
 {% endblock %}

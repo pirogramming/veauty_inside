@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Youtuber, Video, Cosmetic #, Viuser
+from .models import Youtuber, Video, Cosmetic, Bigcate, Smallcate #, Viuser
 
 # Register your models here.
 @admin.register(Youtuber)
@@ -12,7 +12,15 @@ class VideoAdmin(admin.ModelAdmin):
 
 @admin.register(Cosmetic)
 class CosmeticAdmin(admin.ModelAdmin):
-    list_display = ['name', 'category']
+    list_display = ['name']
+
+@admin.register(Bigcate)
+class BigcateAdmin(admin.ModelAdmin):
+    list_display = ['name']
+
+@admin.register(Smallcate)
+class SmallcateAdmin(admin.ModelAdmin):
+    list_display = ['name']
 
 # @admin.register(Viuser)
 # class ViuserAdmin(admin.ModelAdmin):

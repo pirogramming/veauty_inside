@@ -5,57 +5,74 @@ Cosmetic List
 {% endblock %}
 
 {% block content %}
-<ul class="nav nav-tabs">
-    <li class="nav-item">
-        <a class="nav-link {% if kind == 'all' %} active {% endif %}" href="{% url 'beauty:cosmetic_list' 'all' %}">all</a>
-    </li>
-    {% for kind_name in cosmetic_kind %}
-    <li class="nav-item">
-        <a class="nav-link {% if kind == kind_name %} active {% endif %}" href="{% url 'beauty:cosmetic_list' kind_name %}">{{ kind_name }}</a>
-    </li>
-    {% endfor %}
-</ul>
-<div class="tab-content">
-    <div class="tab-pane fade show active">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Rank</th>
-                    {% if kind == 'all' %}
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link {% if kind == 'all' %} active {% endif %}"
+                href="{% url 'beauty:cosmetic_list' 'all' %}">all</a>
+        </li>
+        {% for big_category in big_categories %}
+        <li class="nav-item">
+            <a class="nav-link {% if big_category == curr_big %} active {% endif %}"
+                href="{% url 'beauty:cosmetic_list' big_category.smallcate_set.all.0.eng_name %}">{{ big_category }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% if kind != 'all' %}
+    <ul class="nav nav-tabs">
+        {% for small_category in small_categories %}
+        <li class="nav-item">
+            <a class="nav-link {% if small_category == curr_small %} active {% endif %}"
+                href="{% url 'beauty:cosmetic_list' small_category.eng_name %}">{{ small_category }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="tab-content">
+        <div class="tab-pane fade show active">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        {% if kind == 'all' %}
                         <th>category</th>
-                    {% endif %}
-                    <th>cosmetic</th>
-                    <th>youtube</th>
-                    <th>youtube</th>
-                    <th>youtube</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for cosmetic in cosmetics %}
-                {% load mathfilters %}
-                <tr>
-                    <td>
-                        {% if pageNum %}
-                        {{  pageNum|mul:10| sub:10 |add:forloop.counter }}
                         {% else %}
-                        {{ forloop.counter }}
+                        <th>category(delete please)</th>
                         {% endif %}
-                    </td>
-                    {% if kind == 'all' %}
+                        <th>cosmetic</th>
+                        <th>youtube</th>
+                        <th>youtube</th>
+                        <th>youtube</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cosmetic in cosmetics %}
+                    {% load mathfilters %}
+                    <tr>
+                        <td>
+                            {% if pageNum %}
+                            {{  pageNum|mul:10| sub:10 |add:forloop.counter }}
+                            {% else %}
+                            {{ forloop.counter }}
+                            {% endif %}
+                        </td>
+                        {% if kind == 'all' %}
+                        <td>{{ cosmetic.category.bigcate }}</td>
+                        {% else %}
                         <td>{{ cosmetic.category }}</td>
-                    {% endif %}
-                    <td>{{ cosmetic.name }}</td>
-                    {% for video in cosmetic.video_set.all|slice:":3" %}
-                    <td>
-                        {{ video.title }}
-                    </td>
+                        {% endif %}
+                        <td>{{ cosmetic.name }}</td>
+                        {% for video in cosmetic.video_set.all|slice:":3" %}
+                        <td>
+                            {{ video.title }}
+                        </td>
+                        {% endfor %}
+                    </tr>
                     {% endfor %}
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% include 'beauty/pagination.html' %}
+                </tbody>
+            </table>
+            {% include 'beauty/pagination.html' %}
+        </div>
     </div>
 </div>
-
 {% endblock %}
