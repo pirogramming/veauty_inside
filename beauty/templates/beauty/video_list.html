@@ -43,7 +43,7 @@ Video List
                     <tr>
                         <td>
                             {% if pageNum %}
-                            {{  pageNum|mul:10| sub:10 |add:forloop.counter }}
+                            {{  pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
                             {% else %}
                             {{ forloop.counter }}
                             {% endif %}

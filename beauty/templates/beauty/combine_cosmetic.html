@@ -29,7 +29,7 @@ Combine Cosmetics
             {% endfor %}
         </ul>
         {% endif %}
-        <form action="" method="post">
+        <form action="{% url 'beauty:cosmetic_pick' %}" method="post">
             {% csrf_token %}
             <div class="tab-content">
                 <div class="tab-pane fade show active">
@@ -40,7 +40,6 @@ Combine Cosmetics
                                 {% if kind == 'all' %}
                                 <th>category</th>
                                 {% endif %}
-                                <th>ID</th>
                                 <th>cosmetic</th>
                                 <th>check</th>
                             </tr>
@@ -51,7 +50,7 @@ Combine Cosmetics
                             <tr>
                                 <td>
                                     {% if pageNum %}
-                                    {{  pageNum|mul:10| sub:10 |add:forloop.counter }}
+                                    {{  pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
                                     {% else %}
                                     {{ forloop.counter }}
                                     {% endif %}
@@ -59,7 +58,6 @@ Combine Cosmetics
                                 {% if kind == 'all' %}
                                 <td>{{ cosmetic.category }}</td>
                                 {% endif %}
-                                <td>{{ cosmetic.id }}</td>
                                 <td>{{ cosmetic.name }}</td>
                                 <td><input type="checkbox" name="{{ cosmetic.id }}" /></td>
                             </tr>
@@ -69,16 +67,16 @@ Combine Cosmetics
                     {% include 'beauty/pagination.html' %}
                 </div>
             </div>
+            <input type="hidden" name="kind" value="{{ kind }}">
             <input type="submit" value="담기">
         </form>
     </div>
     <div class="col-6">
-        <form action="" method="post">
+        <form action="{% url 'beauty:cosmetic_delete' %}" method="post">
             {% csrf_token %}
             <table class="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>category</th>
                         <th>cosmetic</th>
                         <th>check</th>
@@ -87,7 +85,6 @@ Combine Cosmetics
                 <tbody>
                     {% for selection in selected %}
                     <tr>
-                        <td>{{ selection.id }}</td>
                         <td>{{ selection.category }}</td>
                         <td>{{ selection.name }}</td>
                         <td><input type="checkbox" name="{{ forloop.counter }}" /></td>
@@ -95,22 +92,19 @@ Combine Cosmetics
                     {% endfor %}
                 </tbody>
             </table>
-            <input type="hidden" name="delete_selected">
+            <input type="hidden" name="kind" value="{{ kind }}">
             <input type="submit" value="delete">
+        </form>
+
+        <form action="{% url 'beauty:cosmetic_reset' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="kind" value="{{ kind }}">
+            <input type="submit" value="reset">
         </form>
 
         <form action="{% url 'beauty:combine_result' %}" method="post">
             {% csrf_token %}
-            {% for selection in selected %}
-            <input type="hidden" name="{{ selection.id }}" />
-            {% endfor %}
             <input type="submit" value="result">
-        </form>
-
-        <form action="" method="post">
-            {% csrf_token %}
-            <input type="hidden" name="reset_selected">
-            <input type="submit" value="reset">
         </form>
     </div>
 </div>

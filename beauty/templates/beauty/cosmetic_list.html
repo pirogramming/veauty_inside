@@ -36,13 +36,11 @@ Cosmetic List
                         <th>Rank</th>
                         {% if kind == 'all' %}
                         <th>category</th>
-                        {% else %}
-                        <th>category(delete please)</th>
                         {% endif %}
                         <th>cosmetic</th>
+                        {% for i in yt_range %}
                         <th>youtube</th>
-                        <th>youtube</th>
-                        <th>youtube</th>
+                        {% endfor %}
                     </tr>
                 </thead>
                 <tbody>
@@ -51,18 +49,16 @@ Cosmetic List
                     <tr>
                         <td>
                             {% if pageNum %}
-                            {{  pageNum|mul:10| sub:10 |add:forloop.counter }}
+                            {{  pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
                             {% else %}
                             {{ forloop.counter }}
                             {% endif %}
                         </td>
                         {% if kind == 'all' %}
                         <td>{{ cosmetic.category.bigcate }}</td>
-                        {% else %}
-                        <td>{{ cosmetic.category }}</td>
                         {% endif %}
                         <td>{{ cosmetic.name }}</td>
-                        {% for video in cosmetic.video_set.all|slice:":3" %}
+                        {% for video in cosmetic.video_set.all|slice:yt_num %}
                         <td>
                             {{ video.title }}
                         </td>

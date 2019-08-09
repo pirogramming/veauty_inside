@@ -13,7 +13,8 @@ Combine Result
     <hr>
     <h3>Recommend TOP 10 Videos</h3>
     {% for video in videos %}
-    <div><a href="http://{{ video.yt_url }}" target="_blank">{{ video.title }}</a> : {{ video.hits }}</div>
+    <div><a href="http://{{ video.yt_url }}" target="_blank">{{ video.title }}</a> : {{ video.hits }}
+    </div>
     {% endfor %}
 </div>
 {% endblock %}
