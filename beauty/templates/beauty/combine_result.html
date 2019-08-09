@@ -13,7 +13,15 @@ Combine Result
     <hr>
     <h3>Recommend TOP 10 Videos</h3>
     {% for video in videos %}
-    <div><a href="http://{{ video.yt_url }}" target="_blank">{{ video.title }}</a> : {{ video.hits }}
+    <div>
+        <a href="http://{{ video.yt_url }}" target="_blank">{{ video.title }}</a> - 조회수 : {{ video.hits }}
+        <p>
+            {% for cosmetic in video.cosmetic.all %}
+                {% if cosmetic in cosmetics %}
+                    <span>{{ cosmetic }} </span>
+                {% endif %}
+            {% endfor %}
+        </p>
     </div>
     {% endfor %}
 </div>

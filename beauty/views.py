@@ -8,7 +8,7 @@ import datetime
 # fix : global variable 'selected' User model의 필드로 교체
 selected = []
 
-def pagnation(request, contexts, PAGE_ROW_COUNT, PAGE_DISPLAY_COUNT, contexts_name):
+def pagnation(request, contexts, contexts_name, PAGE_ROW_COUNT=10, PAGE_DISPLAY_COUNT=10):
     paginator=Paginator(contexts, PAGE_ROW_COUNT)
     pageNum=request.GET.get('pageNum') # 현재 페이지
     
@@ -124,10 +124,7 @@ def video_list(request, period):
     else:
         return redirect("beauty:home")
 
-    PAGE_ROW_COUNT = 10
-    PAGE_DISPLAY_COUNT = 10
-
-    contexts = pagnation(request, videos, PAGE_ROW_COUNT, PAGE_DISPLAY_COUNT, 'videos')
+    contexts = pagnation(request, videos, 'videos')
     contexts['period'] = period
     contexts['big_categories'] = Bigcate.objects.all()
     
@@ -135,7 +132,6 @@ def video_list(request, period):
 
 def list_for_cosmetic(request, kind):
     bigcates = Bigcate.objects.all()
-
     if kind == 'all':
         cosmetics = Cosmetic.objects.annotate(count=Count('video')).order_by('-count')
     else:
@@ -148,10 +144,7 @@ def list_for_cosmetic(request, kind):
         else:
             return 0
 
-    PAGE_ROW_COUNT = 10
-    PAGE_DISPLAY_COUNT = 10
-
-    contexts = pagnation(request, cosmetics, PAGE_ROW_COUNT, PAGE_DISPLAY_COUNT, 'cosmetics')
+    contexts = pagnation(request, cosmetics, 'cosmetics')
     contexts['kind'] = kind
     contexts['big_categories'] = bigcates
 
@@ -228,7 +221,7 @@ def combine_result(request):
 
         videos = []
         recomend_videos = sorted(video_infos.items(), key=lambda t : (t[1][1], t[1][0]), reverse=True)[0:10]
-        print(recomend_videos)
+
         for recomend_video in recomend_videos:
             video = get_object_or_404(Video, pk=recomend_video[0])
             videos.append(video)
