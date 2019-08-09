@@ -58,6 +58,7 @@ def home(request):
         smallcate.bigcate = bigcates[randint(0, len(bigcates)-1)]
         smallcate.name = 'smallcate'+str(i)
         smallcate.eng_name = 'eng_smallcate'+str(i)
+        smallcate.save()
     smallcates = Smallcate.objects.all()
 
     for i in range(1, 100+1):
