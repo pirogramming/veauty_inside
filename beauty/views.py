@@ -46,6 +46,12 @@ def pagnation(request, contexts, contexts_name, PAGE_ROW_COUNT=10, PAGE_DISPLAY_
 def home(request):
     #test db 생성
     '''
+    Bigcate.objects.all().delete()
+    Youtuber.objects.all().delete()
+    Video.objects.all().delete()
+    Cosmetic.objects.all().delete()
+    Smallcate.objects.all().delete()
+
     for i in range(1, 5+1):
         bigcate = Bigcate()
         bigcate.name = 'bigcate'+str(i)
