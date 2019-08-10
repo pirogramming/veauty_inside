@@ -7,5 +7,14 @@ HOME
 {% block content %}
 <div class="container">
     <h1>Veauty_Inside</h1>
+    <ul>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'profile' %}">{{ user }}</a></li>
+        <li><a href="{% url 'logout' %}?next={{ request.path }}">로그아웃</a></li>
+        {% else %}
+        <li><a href="{% url 'login' %}?next={{ request.path }}">로그인</a></li>
+        <li><a href="{% url 'signup' %}?next={{ request.path }}">회원가입</a></li>
+        {% endif %}
+</ul>
 </div>
 {% endblock %}
