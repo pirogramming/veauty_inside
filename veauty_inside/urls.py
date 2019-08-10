@@ -21,4 +21,5 @@ urlpatterns = [
     path('', lambda r:redirect('beauty:home'), name='root'),
     path('admin/', admin.site.urls),
     path('beauty/', include('beauty.urls', namespace="beauty")),
+    path('accounts/', include('accounts.urls')),
 ]
