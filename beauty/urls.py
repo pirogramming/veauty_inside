@@ -9,6 +9,7 @@ urlpatterns = [
     path('video_scrap', views.video_scrap, name="video_scrap"),
 
     path('cosmetic/<str:kind>', views.cosmetic_list, name="cosmetic_list"),
+    path('cosmetic_scrap', views.cosmetic_scrap, name="cosmetic_scrap"),
 
     path('combinate/result', views.combine_result, name="combine_result"),
     path('combinate/<str:kind>', views.combine_cosmetic, name="combine_cosmetic"),

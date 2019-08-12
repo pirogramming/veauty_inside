@@ -30,44 +30,69 @@ Cosmetic List
     {% endif %}
     <div class="tab-content">
         <div class="tab-pane fade show active">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        {% if kind == 'all' %}
-                        <th>category</th>
-                        {% endif %}
-                        <th>cosmetic</th>
-                        {% for i in yt_range %}
-                        <th>youtube</th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for cosmetic in cosmetics %}
-                    {% load mathfilters %}
-                    <tr>
-                        <td>
-                            {% if pageNum %}
-                            {{  pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
-                            {% else %}
-                            {{ forloop.counter }}
+            <form action="{% url 'beauty:cosmetic_scrap' %}" method="post">
+                {% csrf_token %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>check</th>
+                            <th>Rank</th>
+                            {% if kind == 'all' %}
+                            <th>category</th>
                             {% endif %}
-                        </td>
-                        {% if kind == 'all' %}
-                        <td>{{ cosmetic.category.bigcate }}</td>
-                        {% endif %}
-                        <td>{{ cosmetic.name }}</td>
-                        {% for video in cosmetic.video_set.all|slice:yt_num %}
-                        <td>
-                            {{ video.title }}
-                        </td>
+                            <th>cosmetic</th>
+                            {% for i in yt_range %}
+                            <th>youtube</th>
+                            {% endfor %}
+                            <th>scrap</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cosmetic in cosmetics %}
+                        {% load mathfilters %}
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="{{ cosmetic.id }}" {% if cosmetic in user_cosmetics %}
+                                    checked="checked" {% endif %}>
+                            </td>
+                            <td>
+                                {% if pageNum %}
+                                {{  pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
+                                {% else %}
+                                {{ forloop.counter }}
+                                {% endif %}
+                            </td>
+                            {% if kind == 'all' %}
+                            <td>{{ cosmetic.category.bigcate }}</td>
+                            {% endif %}
+                            <td>{{ cosmetic.name }}</td>
+                            {% for video in cosmetic.video_set.all|slice:yt_num %}
+                            <td>
+                                {{ video.title }}
+                            </td>
+                            {% endfor %}
+                            <td>
+                                <form action="{% url 'beauty:cosmetic_scrap' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="kind" value="{{ kind }}">
+                                    <input type="hidden" name="pageNum" value="{{ pageNum }}">
+                                    <input type="hidden" name="cosmetic_id" value="{{ cosmetic.id }}">
+                                    {% if cosmetic in user_cosmetics %}
+                                    <input type="submit" name="func" value="cancle">
+                                    {% else %}
+                                    <input type="submit" name="func" value="scrap">
+                                    {% endif %}
+                                </form>
+                            </td>
+                        </tr>
                         {% endfor %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% include 'beauty/pagination.html' %}
+                    </tbody>
+                </table>
+                {% include 'beauty/pagination.html' %}
+                <input type="hidden" name="kind" value="{{ kind }}">
+                <input type="hidden" name="pageNum" value="{{ pageNum }}">
+                <input type="submit" value="selected scrap">
+            </form>
         </div>
     </div>
 </div>

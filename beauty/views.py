@@ -192,7 +192,29 @@ def cosmetic_list(request, kind):
         youtube_num = 5
         contexts['yt_num'] = youtube_num
         contexts['yt_range'] = range(youtube_num)
+        contexts['user_cosmetics'] = get_object_or_404(User, pk=request.user.id).cosmetic.all()
         return render(request, 'beauty/cosmetic_list.html', contexts)
+
+def cosmetic_scrap(request):
+    if request.method == 'POST':
+        user = get_object_or_404(User, pk=request.user.id)
+
+        try:
+            cosmetic = get_object_or_404(Cosmetic, pk=request.POST['cosmetic_id'])
+            if request.POST['func'] == 'cancle':
+                user.cosmetic.remove(cosmetic)
+            elif request.POST['func'] == 'scrap':
+                user.cosmetic.add(cosmetic)
+        except:
+            for num in request.POST:
+                try:
+                    cosmetic = get_object_or_404(Cosmetic, pk=num)
+                    user.cosmetic.add(cosmetic)
+                except:
+                    pass
+    response = redirect("beauty:cosmetic_list", request.POST['kind'])
+    response['Location'] += '?pageNum='+request.POST['pageNum']
+    return response
 
 def combine_cosmetic(request, kind):
     contexts = list_for_cosmetic(request, kind)
