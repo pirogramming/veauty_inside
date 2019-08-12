@@ -23,6 +23,7 @@ Video List
     <div class="tab-content">
         <div class="tab-pane fade show active">
             <form action="{% url 'beauty:video_scrap' %}" method="post">
+
                 {% csrf_token %}
                 <table class="table">
                     <thead>
@@ -47,6 +48,7 @@ Video List
                         <tr>
                             <td><input type="checkbox" name="{{ video.id }}"
                                     {% if video in user_videos %}checked="checked" {% endif %}></td>
+
                             <td>
                                 {% if pageNum %}
                                 {{  pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
@@ -68,6 +70,7 @@ Video List
 
                             <td>{{ video.upload_at }}</td>
 
+
                             <td>
                                 <form action="{% url 'beauty:video_scrap' %}" method="post">
                                     {% csrf_token %}
@@ -81,6 +84,7 @@ Video List
                                     {% endif %}
                                 </form>
                             </td>
+
                         </tr>
                         {% endfor %}
                     </tbody>
