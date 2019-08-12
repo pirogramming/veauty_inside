@@ -2,4 +2,11 @@
 
 {% block content %}
     <h2>{{ user }}'s Profile</h2>
+    {% for video in user.video.all %}
+        <div>{{ video }}</div>
+    {% endfor %}
+    <br>
+    {% for cosmetic in user.cosmetic.all %}
+        <div>{{ cosmetic }}</div>
+    {% endfor %}
 {% endblock %}

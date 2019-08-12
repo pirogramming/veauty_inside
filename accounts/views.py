@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect, resolve_url
+from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.conf import settings
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView
 from django.contrib.auth import get_user_model
 from .forms import SignupForm
+from .models import User
 
 User = get_user_model()
 
@@ -27,4 +28,7 @@ signup = SignupView.as_view()
 
 @login_required
 def profile(request):
-    return render(request, 'accounts/profile.html')
+    user = get_object_or_404(User, pk=request.user.pk)
+    return render(request, 'accounts/profile.html', {
+        'user' : user,
+    })
