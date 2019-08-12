@@ -137,6 +137,9 @@ def video_list(request, period):
     
     return render(request, 'beauty/video_list.html', contexts)
 
+def video_scrap(request, period):
+    pass
+
 def list_for_cosmetic(request, kind):
     bigcates = Bigcate.objects.all()
     if kind == 'all':
