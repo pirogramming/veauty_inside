@@ -23,7 +23,6 @@ Video List
     <div class="tab-content">
         <div class="tab-pane fade show active">
             <form action="{% url 'beauty:video_scrap' %}" method="post">
-
                 {% csrf_token %}
                 <table class="table">
                     <thead>
@@ -46,9 +45,12 @@ Video List
                         {% for video in videos %}
                         {% load mathfilters %}
                         <tr>
-                            <td><input type="checkbox" name="{{ video.id }}"
-                                    {% if video in user_videos %}checked="checked" {% endif %}></td>
-
+                            <td>
+                                <input type="checkbox" name="{{ video.id }}"
+                                {% if video in user_videos %}
+                                checked="checked"
+                                {% endif %}>
+                            </td>
                             <td>
                                 {% if pageNum %}
                                 {{  pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
@@ -69,8 +71,6 @@ Video List
                             {% endfor %}
 
                             <td>{{ video.upload_at }}</td>
-
-
                             <td>
                                 <form action="{% url 'beauty:video_scrap' %}" method="post">
                                     {% csrf_token %}
@@ -84,7 +84,6 @@ Video List
                                     {% endif %}
                                 </form>
                             </td>
-
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -92,7 +91,7 @@ Video List
                 {% include 'beauty/pagination.html' %}
                 <input type="hidden" name="period" value="{{ period }}">
                 <input type="hidden" name="pageNum" value="{{ pageNum }}">
-                <input type="submit" value="스크랩">
+                <input type="submit" value="selected scrap">
             </form>
         </div>
     </div>
