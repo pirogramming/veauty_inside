@@ -3,7 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
 from random import randint
 from .models import Youtuber, Video, Cosmetic, Bigcate, Smallcate
-#from accounts.models import User
+from accounts.models import User
 import datetime
 
 # fix : global variable 'selected' User model의 필드로 교체
@@ -134,11 +134,30 @@ def video_list(request, period):
     contexts = pagnation(request, videos, 'videos')
     contexts['period'] = period
     contexts['big_categories'] = Bigcate.objects.all()
+    contexts['user_videos'] = get_object_or_404(User, pk=request.user.id).video.all()
     
     return render(request, 'beauty/video_list.html', contexts)
 
-def video_scrap(request, period):
-    pass
+def video_scrap(request):
+    if request.method == 'POST':
+        user = get_object_or_404(User, pk=request.user.id)
+
+        try:
+            video = get_object_or_404(Video, pk=request.POST['video_id'])
+            if request.POST['func'] == 'cancle':
+                user.video.remove(video)
+            elif request.POST['func'] == 'scrap':
+                user.video.add(video)
+        except:
+            for num in request.POST:
+                try:
+                    video = get_object_or_404(Video, pk=num)
+                    user.video.add(video)
+                except:
+                    pass
+    response = redirect("beauty:video_list", request.POST['period'])
+    response['Location'] += '?pageNum='+request.POST['pageNum']
+    return response
 
 def list_for_cosmetic(request, kind):
     bigcates = Bigcate.objects.all()
