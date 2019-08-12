@@ -43,13 +43,3 @@ class Cosmetic(models.Model):
     def __str__(self):
         return self.name
 
-# class Viuser(models.Model):
-#     name = models.CharField(max_length=50)
-#     pw = models.CharField(max_length=50)
-#     birth = models.DateField(auto_now=False, auto_now_add=False)
-#     age = models.IntegerField()
-#     cosmetic = models.ManyToManyField("Cos")
-
-#     def __str__(self):
-#         return self.name
-

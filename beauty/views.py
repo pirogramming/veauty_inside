@@ -2,7 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
 from random import randint
-from .models import Youtuber, Video, Cosmetic, Bigcate, Smallcate #, Viuser
+from .models import Youtuber, Video, Cosmetic, Bigcate, Smallcate
+#from accounts.models import User
 import datetime
 
 # fix : global variable 'selected' User model의 필드로 교체
