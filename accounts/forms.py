@@ -15,7 +15,9 @@ class SignupForm(UserCreationForm):
         model = User
         fields = (
             'username',
-            'realname',
+            'email',
+            'first_name',
+            'last_name',
             'nickname',
             'password1',
             'password2',
@@ -28,7 +30,17 @@ class SignupForm(UserCreationForm):
                     'class': 'form-control',
                 }
             ),
-            'realname': forms.TextInput(
+            'email': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                }
+            ),
+            'first_name': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                }
+            ),
+            'last_name': forms.TextInput(
                 attrs={
                     'class': 'form-control',
                 }
