@@ -27,7 +27,6 @@ Video List
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>check</th>
                             <th>Rank</th>
                             <th>title</th>
 
@@ -39,18 +38,13 @@ Video List
 
                             <th>upload</th>
                             <th>scrap</th>
+                            <th>my</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for video in videos %}
                         {% load mathfilters %}
                         <tr>
-                            <td>
-                                <input type="checkbox" name="{{ video.id }}"
-                                {% if video in user_videos %}
-                                checked="checked"
-                                {% endif %}>
-                            </td>
                             <td>
                                 {% if pageNum %}
                                 {{  pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
@@ -83,6 +77,12 @@ Video List
                                     <input type="submit" name="func" value="scrap">
                                     {% endif %}
                                 </form>
+                            </td>
+                            <td>
+                                <input type="checkbox" name="{{ video.id }}"
+                                {% if video in user_videos %}
+                                    checked="checked"
+                                {% endif %}>
                             </td>
                         </tr>
                         {% endfor %}
