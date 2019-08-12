@@ -22,50 +22,57 @@ Video List
     </ul>
     <div class="tab-content">
         <div class="tab-pane fade show active">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>title</th>
+            <form action="{% url 'beauty:cosmetic_pick' %}" method="post">
+                {% csrf_token %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>check</th>
+                            <th>Rank</th>
+                            <th>title</th>
 
-                        {% for big_category in big_categories %}
-                        <th>
-                            {{ big_category }}
-                        </th>
-                        {% endfor %}
-
-                        <th>upload</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for video in videos %}
-                    {% load mathfilters %}
-                    <tr>
-                        <td>
-                            {% if pageNum %}
-                            {{  pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
-                            {% else %}
-                            {{ forloop.counter }}
-                            {% endif %}
-                        </td>
-                        <td><a href="{{ video.yt_url }}" target="_blank">{{ video.title }}</a></td>
-
-                        {% for big_category in big_categories %}
-                        <td>
-                            {% for cosmetic in video.cosmetic.all %}
-                            {% if cosmetic.category.bigcate == big_category %}
-                            {{ cosmetic.name }}
-                            {% endif %}
+                            {% for big_category in big_categories %}
+                            <th>
+                                {{ big_category }}
+                            </th>
                             {% endfor %}
-                        </td>
-                        {% endfor %}
 
-                        <td>{{ video.upload_at }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% include 'beauty/pagination.html' %}
+                            <th>upload</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for video in videos %}
+                        {% load mathfilters %}
+                        <tr>
+                            <td><input type="checkbox" name="{{ video.id }}"></td>
+                            <td>
+                                {% if pageNum %}
+                                {{  pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
+                                {% else %}
+                                {{ forloop.counter }}
+                                {% endif %}
+                            </td>
+                            <td><a href="{{ video.yt_url }}" target="_blank">{{ video.title }}</a></td>
+
+                            {% for big_category in big_categories %}
+                            <td>
+                                {% for cosmetic in video.cosmetic.all %}
+                                {% if cosmetic.category.bigcate == big_category %}
+                                {{ cosmetic.name }}
+                                {% endif %}
+                                {% endfor %}
+                            </td>
+                            {% endfor %}
+
+                            <td>{{ video.upload_at }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% include 'beauty/pagination.html' %}
+                <input type="hidden" name="period" value="{{ period }}">
+                <input type="submit" value="스크랩">
+            </form>
         </div>
     </div>
 </div>
