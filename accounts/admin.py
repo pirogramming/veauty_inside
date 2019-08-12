@@ -8,11 +8,11 @@ User = get_user_model()
 
 class UserAdmin(BaseUserAdmin):
     fieldsets = BaseUserAdmin.fieldsets + (
-        ('custom features', {'fields': ('nickname', 'gender', 'birth', 'cosmetic')}),
+        ('custom features', {'fields': ('nickname', 'gender', 'birth', 'cosmetic', 'video')}),
     )
     add_fieldsets = BaseUserAdmin.add_fieldsets + (
         ('custom features', {
-            'fields': ('nickname', 'gender', 'birth', 'cosmetic',),
+            'fields': ('nickname', 'gender', 'birth', 'cosmetic', 'video',),
         }),
     )
     add_form = SignupForm
