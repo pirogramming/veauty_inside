@@ -138,7 +138,6 @@ def video_list(request, period):
     
     return render(request, 'beauty/video_list.html', contexts)
 
-<<<<<<< HEAD
 def video_scrap(request):
     if request.method == 'POST':
         user = get_object_or_404(User, pk=request.user.id)
@@ -159,10 +158,6 @@ def video_scrap(request):
     response = redirect("beauty:video_list", request.POST['period'])
     response['Location'] += '?pageNum='+request.POST['pageNum']
     return response
-=======
-def video_scrap(request, period):
-    pass
->>>>>>> 6f4af50164863e4225b4a8fb5d5bf4b4388dc35a
 
 def list_for_cosmetic(request, kind):
     bigcates = Bigcate.objects.all()
