@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractUser, UserManager as BaseUserManager
-from beauty.models import Cosmetic
+from beauty.models import Cosmetic, Video
 import datetime
 
 today = datetime.datetime.now()
@@ -24,6 +24,7 @@ class User(AbstractUser):
     nickname = models.CharField(max_length=50)
     birth = models.DateField(auto_now=False, auto_now_add=False, default=today)
     cosmetic = models.ManyToManyField(Cosmetic)
+    video = models.ManyToManyField(Video)
 
     def __str__(self):
         return self.username
