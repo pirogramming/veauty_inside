@@ -134,7 +134,10 @@ def video_list(request, period):
     contexts = pagnation(request, videos, 'videos')
     contexts['period'] = period
     contexts['big_categories'] = Bigcate.objects.all()
-    contexts['user_videos'] = get_object_or_404(User, pk=request.user.id).video.all()
+    if request.user.is_authenticated:
+        contexts['user_videos'] = get_object_or_404(User, pk=request.user.id).video.all()
+    else:
+        contexts['user_videos'] = []
     
     return render(request, 'beauty/video_list.html', contexts)
 
@@ -144,7 +147,7 @@ def video_scrap(request):
 
         try:
             video = get_object_or_404(Video, pk=request.POST['video_id'])
-            if request.POST['func'] == 'cancle':
+            if request.POST['func'] == 'cancel':
                 user.video.remove(video)
             elif request.POST['func'] == 'scrap':
                 user.video.add(video)
@@ -201,7 +204,7 @@ def cosmetic_scrap(request):
 
         try:
             cosmetic = get_object_or_404(Cosmetic, pk=request.POST['cosmetic_id'])
-            if request.POST['func'] == 'cancle':
+            if request.POST['func'] == 'cancel':
                 user.cosmetic.remove(cosmetic)
             elif request.POST['func'] == 'scrap':
                 user.cosmetic.add(cosmetic)
