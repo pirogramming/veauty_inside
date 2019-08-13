@@ -188,7 +188,10 @@ def cosmetic_list(request, kind):
         youtube_num = 5
         contexts['yt_num'] = youtube_num
         contexts['yt_range'] = range(youtube_num)
-        contexts['user_cosmetics'] = get_object_or_404(User, pk=request.user.id).cosmetic.all()
+        if request.user.is_authenticated:
+            contexts['user_cosmetics'] = get_object_or_404(User, pk=request.user.id).cosmetic.all()
+        else:
+            contexts['user_cosmetics'] = []
         return render(request, 'beauty/cosmetic_list.html', contexts)
 
 def cosmetic_scrap(request):

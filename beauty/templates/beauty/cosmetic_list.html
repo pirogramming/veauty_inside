@@ -30,8 +30,10 @@ Cosmetic List
     {% endif %}
     <div class="tab-content">
         <div class="tab-pane fade show active">
+            {% if user.is_authenticated %}
             <form action="{% url 'beauty:cosmetic_scrap' %}" method="post">
                 {% csrf_token %}
+                {% endif %}
                 <table class="table">
                     <thead>
                         <tr>
@@ -43,7 +45,10 @@ Cosmetic List
                             {% for i in yt_range %}
                             <th>youtube</th>
                             {% endfor %}
+
+                            {% if user.is_authenticated %}
                             <th>select</th>
+                            {% endif %}
                         </tr>
                     </thead>
                     <tbody>
@@ -66,19 +71,24 @@ Cosmetic List
                                 {{ video.title }}
                             </td>
                             {% endfor %}
+                            {% if user.is_authenticated %}
                             <td>
                                 <input type="checkbox" name="{{ cosmetic.id }}">
                             </td>
+                            {% endif %}
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
                 {% include 'beauty/pagination.html' %}
+
+                {% if user.is_authenticated %}
                 <input type="hidden" name="kind" value="{{ kind }}">
                 <input type="hidden" name="pageNum" value="{{ pageNum }}">
                 <input type="submit" name="selection" value="Interest">
                 <input type="submit" name="selection" value="MY">
             </form>
+            {% endif %}
         </div>
     </div>
 </div>
