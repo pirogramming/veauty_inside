@@ -6,23 +6,28 @@ Combine Result
 
 {% block content %}
 <div class="container">
-    <h3>Selected Cosmetics</h3>
-    {% for cosmetic in cosmetics %}
-    <div>{{ cosmetic.name }}</div>
-    {% endfor %}
-    <hr>
-    <h3>Recommend TOP 10 Videos</h3>
-    {% for video in videos %}
-    <div>
-        <a href="http://{{ video.yt_url }}" target="_blank">{{ video.title }}</a> - 조회수 : {{ video.hits }}
-        <p>
-            {% for cosmetic in video.cosmetic.all %}
-                {% if cosmetic in cosmetics %}
-                    <span>{{ cosmetic }} </span>
-                {% endif %}
+    <div class="row">
+        <div class="col-6">
+            <h3>Selected Cosmetics</h3>
+            {% for cosmetic in cosmetics %}
+            <div>{{ cosmetic.name }}</div>
             {% endfor %}
-        </p>
+        </div>
+        <div class="col-6">
+            <h3>Recommend TOP 10 Videos</h3>
+            {% for video in videos %}
+            <div>
+                <a href="http://{{ video.yt_url }}" target="_blank">{{ video.title }}</a> - 조회수 : {{ video.hits }}
+                <p>
+                    {% for cosmetic in video.cosmetic.all %}
+                    {% if cosmetic in cosmetics %}
+                    <span>{{ cosmetic }} </span>
+                    {% endif %}
+                    {% endfor %}
+                </p>
+            </div>
+            {% endfor %}
+        </div>
     </div>
-    {% endfor %}
 </div>
 {% endblock %}
