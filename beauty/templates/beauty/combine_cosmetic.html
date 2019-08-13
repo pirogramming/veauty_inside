@@ -12,6 +12,16 @@ Combine Cosmetics
                 <a class="nav-link {% if kind == 'all' %} active {% endif %}"
                     href="{% url 'beauty:combine_cosmetic' 'all' %}">all</a>
             </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link {% if kind == 'interest' %} active {% endif %}"
+                    href="{% url 'beauty:combine_cosmetic' 'interest' %}">interest</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if kind == 'my' %} active {% endif %}"
+                    href="{% url 'beauty:combine_cosmetic' 'my' %}">my</a>
+            </li>
+            {% endif %}
             {% for big_category in big_categories %}
             <li class="nav-item">
                 <a class="nav-link {% if big_category == curr_big %} active {% endif %}"

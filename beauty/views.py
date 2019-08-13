@@ -155,10 +155,22 @@ def video_scrap(request):
     response['Location'] += '?pageNum='+request.POST['pageNum']
     return response
 
-def list_for_cosmetic(request, kind):
+def list_for_cosmetic(request, kind, combinate=False):
+    if combinate:
+        addtional_cate = ['interest', 'my']
+    else:
+        addtional_cate = []
     bigcates = Bigcate.objects.all()
+
     if kind == 'all':
         cosmetics = Cosmetic.objects.annotate(count=Count('video')).order_by('-count')
+    elif kind in addtional_cate and request.user.is_authenticated:
+        user = get_object_or_404(User, pk=request.user.id)
+
+        if kind == 'interest':
+            cosmetics = user.cosmetic.all().annotate(count=Count('video')).order_by('-count')
+        elif kind == 'my':
+            cosmetics = user.my_cosmetic.all().annotate(count=Count('video')).order_by('-count')
     else:
         smallcate_eng_name = [smallcategory.eng_name for smallcategory in Smallcate.objects.all()]
         if kind in smallcate_eng_name:
@@ -173,7 +185,7 @@ def list_for_cosmetic(request, kind):
     contexts['kind'] = kind
     contexts['big_categories'] = bigcates
 
-    if kind != 'all':
+    if kind != 'all' and not kind in addtional_cate:
         contexts['curr_big'] = curr_bigcate
         contexts['curr_small'] = curr_smallcate
         contexts['small_categories'] = smallcates
@@ -218,7 +230,8 @@ def cosmetic_scrap(request):
     return response
 
 def combine_cosmetic(request, kind):
-    contexts = list_for_cosmetic(request, kind)
+    contexts = list_for_cosmetic(request, kind, combinate=True)
+        
     if contexts == 0:
         return redirect("beauty:home")
     else:
