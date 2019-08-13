@@ -145,19 +145,12 @@ def video_scrap(request):
     if request.method == 'POST':
         user = get_object_or_404(User, pk=request.user.id)
 
-        try:
-            video = get_object_or_404(Video, pk=request.POST['video_id'])
-            if request.POST['func'] == 'cancel':
-                user.video.remove(video)
-            elif request.POST['func'] == 'scrap':
+        for num in request.POST:
+            try:
+                video = get_object_or_404(Video, pk=num)
                 user.video.add(video)
-        except:
-            for num in request.POST:
-                try:
-                    video = get_object_or_404(Video, pk=num)
-                    user.video.add(video)
-                except:
-                    pass
+            except:
+                pass
     response = redirect("beauty:video_list", request.POST['period'])
     response['Location'] += '?pageNum='+request.POST['pageNum']
     return response

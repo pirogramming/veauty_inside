@@ -37,8 +37,7 @@ Video List
                             {% endfor %}
 
                             <th>upload</th>
-                            <th>scrap</th>
-                            <th>my</th>
+                            <th>select</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -66,23 +65,7 @@ Video List
 
                             <td>{{ video.upload_at }}</td>
                             <td>
-                                <form action="{% url 'beauty:video_scrap' %}" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="period" value="{{ period }}">
-                                    <input type="hidden" name="pageNum" value="{{ pageNum }}">
-                                    <input type="hidden" name="video_id" value="{{ video.id }}">
-                                    {% if video in user_videos %}
-                                    <input type="submit" name="func" value="cancel">
-                                    {% else %}
-                                    <input type="submit" name="func" value="scrap">
-                                    {% endif %}
-                                </form>
-                            </td>
-                            <td>
-                                <input type="checkbox" name="{{ video.id }}"
-                                {% if video in user_videos %}
-                                    checked="checked"
-                                {% endif %}>
+                                <input type="checkbox" name="{{ video.id }}">
                             </td>
                         </tr>
                         {% endfor %}
@@ -91,7 +74,7 @@ Video List
                 {% include 'beauty/pagination.html' %}
                 <input type="hidden" name="period" value="{{ period }}">
                 <input type="hidden" name="pageNum" value="{{ pageNum }}">
-                <input type="submit" value="selected scrap">
+                <input type="submit" value="Scrap">
             </form>
         </div>
     </div>
