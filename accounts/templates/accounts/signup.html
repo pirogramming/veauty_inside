@@ -1,11 +1,17 @@
 {% extends "accounts/base.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-<form action="" method="post">
-    {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-    </table>
-    <input type="submit"/>
-</form>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="d-flex justify-content-center">
+            <div>
+                <img src="" width=500 height=800 style="float:left;">
+            </div>
+            <div>
+                {{ form | crispy }}
+            </div>
+        </div>
+        <input type="submit"/>
+    </form>
 {% endblock %}
