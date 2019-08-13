@@ -22,8 +22,10 @@ Video List
     </ul>
     <div class="tab-content">
         <div class="tab-pane fade show active">
+            {% if user.is_authenticated %}
             <form action="{% url 'beauty:video_scrap' %}" method="post">
                 {% csrf_token %}
+                {% endif %}
                 <table class="table">
                     <thead>
                         <tr>
@@ -37,7 +39,10 @@ Video List
                             {% endfor %}
 
                             <th>upload</th>
+
+                            {% if user.is_authenticated %}
                             <th>select</th>
+                            {% endif %}
                         </tr>
                     </thead>
                     <tbody>
@@ -64,18 +69,22 @@ Video List
                             {% endfor %}
 
                             <td>{{ video.upload_at }}</td>
+                            {% if user.is_authenticated %}
                             <td>
                                 <input type="checkbox" name="{{ video.id }}">
                             </td>
+                            {% endif %}
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
                 {% include 'beauty/pagination.html' %}
+                {% if user.is_authenticated %}
                 <input type="hidden" name="period" value="{{ period }}">
                 <input type="hidden" name="pageNum" value="{{ pageNum }}">
                 <input type="submit" value="Scrap">
             </form>
+            {% endif %}
         </div>
     </div>
 </div>
