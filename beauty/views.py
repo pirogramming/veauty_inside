@@ -195,19 +195,21 @@ def cosmetic_scrap(request):
     if request.method == 'POST':
         user = get_object_or_404(User, pk=request.user.id)
 
-        try:
-            cosmetic = get_object_or_404(Cosmetic, pk=request.POST['cosmetic_id'])
-            if request.POST['func'] == 'cancel':
-                user.cosmetic.remove(cosmetic)
-            elif request.POST['func'] == 'scrap':
-                user.cosmetic.add(cosmetic)
-        except:
+        if request.POST['selection'] == 'Interest':
             for num in request.POST:
                 try:
                     cosmetic = get_object_or_404(Cosmetic, pk=num)
                     user.cosmetic.add(cosmetic)
                 except:
                     pass
+        elif request.POST['selection'] == 'MY':
+            for num in request.POST:
+                try:
+                    my_cosmetic = get_object_or_404(Cosmetic, pk=num)
+                    user.my_cosmetic.add(my_cosmetic)
+                except:
+                    pass
+        
     response = redirect("beauty:cosmetic_list", request.POST['kind'])
     response['Location'] += '?pageNum='+request.POST['pageNum']
     return response

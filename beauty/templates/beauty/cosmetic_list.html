@@ -43,8 +43,7 @@ Cosmetic List
                             {% for i in yt_range %}
                             <th>youtube</th>
                             {% endfor %}
-                            <th>scrap</th>
-                            <th>my</th>
+                            <th>select</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -68,23 +67,7 @@ Cosmetic List
                             </td>
                             {% endfor %}
                             <td>
-                                <form action="{% url 'beauty:cosmetic_scrap' %}" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="kind" value="{{ kind }}">
-                                    <input type="hidden" name="pageNum" value="{{ pageNum }}">
-                                    <input type="hidden" name="cosmetic_id" value="{{ cosmetic.id }}">
-                                    {% if cosmetic in user_cosmetics %}
-                                    <input type="submit" name="func" value="cancel">
-                                    {% else %}
-                                    <input type="submit" name="func" value="scrap">
-                                    {% endif %}
-                                </form>
-                            </td>
-                            <td>
-                                <input type="checkbox" name="{{ cosmetic.id }}"
-                                {% if cosmetic in user_cosmetics %}
-                                    checked="checked"
-                                {% endif %}>
+                                <input type="checkbox" name="{{ cosmetic.id }}">
                             </td>
                         </tr>
                         {% endfor %}
@@ -93,7 +76,8 @@ Cosmetic List
                 {% include 'beauty/pagination.html' %}
                 <input type="hidden" name="kind" value="{{ kind }}">
                 <input type="hidden" name="pageNum" value="{{ pageNum }}">
-                <input type="submit" value="selected scrap">
+                <input type="submit" name="selection" value="Interest">
+                <input type="submit" name="selection" value="MY">
             </form>
         </div>
     </div>
