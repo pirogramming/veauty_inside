@@ -11,10 +11,15 @@ urlpatterns = [
     path('cosmetic/<str:kind>', views.cosmetic_list, name="cosmetic_list"),
     path('cosmetic_scrap', views.cosmetic_scrap, name="cosmetic_scrap"),
 
-    path('combinate/result', views.combine_result, name="combine_result"),
-    path('combinate/<str:kind>', views.combine_cosmetic, name="combine_cosmetic"),
+    path('combine/result', views.combine_result, name="combine_result"),
+    path('combine_processing', views.combine_processing, name="combine_processing"),
+
+    path('combine/<str:kind>', views.combine_cosmetic, name="combine_cosmetic"),
     
     path('cosmetic_pick', views.cosmetic_pick, name="cosmetic_pick"),
     path('cosmetic_delete', views.cosmetic_delete, name="cosmetic_delete"),
     path('cosmetic_reset', views.cosmetic_reset, name="cosmetic_reset"),
+
+    path('cosmetic_save', views.cosmetic_save, name="cosmetic_save"),
+    path('recommend_scrap', views.recommend_scrap, name="recommend_scrap"),
 ]

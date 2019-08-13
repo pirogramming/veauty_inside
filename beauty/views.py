@@ -273,27 +273,64 @@ def cosmetic_reset(request):
     else:
         return redirect("beauty:combine_cosmetic", 'all')
 
-def combine_result(request):
+def combine_processing(request):
     if request.method == 'POST':
-        video_infos = {}
-        for cosmetic in selected:
-            for video in cosmetic.video_set.all():
-                try:
-                    video_infos[video.id][1] = video_infos[video.id][1] + 1
-                except:
-                    video_info = [video.hits, 1]
-                    video_infos[video.id] = video_info
-
-        videos = []
-        recomend_videos = sorted(video_infos.items(), key=lambda t : (t[1][1], t[1][0]), reverse=True)[0:10]
-
-        for recomend_video in recomend_videos:
-            video = get_object_or_404(Video, pk=recomend_video[0])
-            videos.append(video)
-
-        return render(request, "beauty/combine_result.html", {
-            'cosmetics' : selected,
-            'videos' : videos,
-        })
+        return redirect("beauty:combine_result")
     else:
         return redirect("beauty:combine_cosmetic", 'all')
+
+def combine_result(request):
+    video_infos = {}
+    for cosmetic in selected:
+        for video in cosmetic.video_set.all():
+            try:
+                video_infos[video.id][1] = video_infos[video.id][1] + 1
+            except:
+                video_info = [video.hits, 1]
+                video_infos[video.id] = video_info
+
+    videos = []
+    recomend_videos = sorted(video_infos.items(), key=lambda t : (t[1][1], t[1][0]), reverse=True)[0:10]
+
+    for recomend_video in recomend_videos:
+        video = get_object_or_404(Video, pk=recomend_video[0])
+        videos.append(video)
+
+    return render(request, "beauty/combine_result.html", {
+        'cosmetics' : selected,
+        'videos' : videos,
+    })
+
+def cosmetic_save(request):
+    if request.method == "POST" and request.user.is_authenticated:
+        user = get_object_or_404(User, pk=request.user.id)
+        if request.POST['selection'] == 'interest':
+            for num in request.POST:
+                try:
+                    cosmetic = get_object_or_404(Cosmetic, pk=num)
+                    user.cosmetic.add(cosmetic)
+                except:
+                    pass
+        elif request.POST['selection'] == 'my':
+            for num in request.POST:
+                try:
+                    my_cosmetic = get_object_or_404(Cosmetic, pk=num)
+                    user.my_cosmetic.add(my_cosmetic)
+                except:
+                    pass
+    
+    return redirect("beauty:combine_result")
+
+def recommend_scrap(request):
+    if request.method == "POST" and request.user.is_authenticated:
+        user = get_object_or_404(User, pk=request.user.id)
+
+        for num in request.POST:
+            try:
+                video = get_object_or_404(Video, pk=num)
+                user.video.add(video)
+            except:
+                pass
+    
+    return redirect("beauty:combine_result")
+        

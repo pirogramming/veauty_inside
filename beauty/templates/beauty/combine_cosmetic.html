@@ -112,7 +112,7 @@ Combine Cosmetics
             <input type="submit" value="reset">
         </form>
 
-        <form action="{% url 'beauty:combine_result' %}" method="post">
+        <form action="{% url 'beauty:combine_processing' %}" method="post">
             {% csrf_token %}
             <input type="submit" value="result">
         </form>
