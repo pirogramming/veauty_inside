@@ -134,18 +134,16 @@ def video_list(request, period=""):
     contexts = pagnation(request, videos, 'videos')
     contexts['period'] = period
     contexts['big_categories'] = Bigcate.objects.all()
-    contexts['user_videos'] = (lambda x : get_object_or_404(User, pk=request.user.id).video.all() if x else [])(request.user.is_authenticated)
+    contexts['user_videos'] = (lambda x : request.user.video.all() if x else [])(request.user.is_authenticated)
     
     return render(request, 'beauty/video_list.html', contexts)
 
 def video_scrap(request):
     if request.method == 'POST':
-        user = get_object_or_404(User, pk=request.user.id)
-
         for num in request.POST:
             try:
                 video = get_object_or_404(Video, pk=num)
-                user.video.add(video)
+                request.user.video.add(video)
             except:
                 pass
     response = redirect("beauty:video_list", request.POST['period'])
@@ -160,12 +158,10 @@ def list_for_cosmetic(request, kind, combinate=False):
         kind = "all"
         cosmetics = Cosmetic.objects.annotate(count=Count('video')).order_by('-count')
     elif kind in addtional_cate and request.user.is_authenticated:
-        user = get_object_or_404(User, pk=request.user.id)
-
         if kind == 'interest':
-            cosmetics = user.cosmetic.all().annotate(count=Count('video')).order_by('-count')
+            cosmetics = request.user.cosmetic.all().annotate(count=Count('video')).order_by('-count')
         elif kind == 'my':
-            cosmetics = user.my_cosmetic.all().annotate(count=Count('video')).order_by('-count')
+            cosmetics = request.user.my_cosmetic.all().annotate(count=Count('video')).order_by('-count')
     else:
         smallcate_eng_name = [smallcategory.eng_name for smallcategory in Smallcate.objects.all()]
         if kind in smallcate_eng_name:
@@ -190,26 +186,24 @@ def cosmetic_list(request, kind=""):
         youtube_num = 5
         contexts['yt_num'] = youtube_num
         contexts['yt_range'] = range(youtube_num)
-        contexts['user_cosmetics'] = (lambda x : get_object_or_404(User, pk=request.user.id).cosmetic.all() if x else [])(request.user.is_authenticated)
+        contexts['user_cosmetics'] = (lambda x : request.user.cosmetic.all() if x else [])(request.user.is_authenticated)
         
         return render(request, 'beauty/cosmetic_list.html', contexts)
 
 def cosmetic_scrap(request):
     if request.method == 'POST':
-        user = get_object_or_404(User, pk=request.user.id)
-
         if request.POST['selection'] == 'Interest':
             for num in request.POST:
                 try:
                     cosmetic = get_object_or_404(Cosmetic, pk=num)
-                    user.cosmetic.add(cosmetic)
+                    request.user.cosmetic.add(cosmetic)
                 except:
                     pass
         elif request.POST['selection'] == 'MY':
             for num in request.POST:
                 try:
                     my_cosmetic = get_object_or_404(Cosmetic, pk=num)
-                    user.my_cosmetic.add(my_cosmetic)
+                    request.user.my_cosmetic.add(my_cosmetic)
                 except:
                     pass
         
@@ -291,19 +285,18 @@ def combine_result(request):
 
 def cosmetic_save(request):
     if request.method == "POST" and request.user.is_authenticated:
-        user = get_object_or_404(User, pk=request.user.id)
         if request.POST['selection'] == 'interest':
             for num in request.POST:
                 try:
                     cosmetic = get_object_or_404(Cosmetic, pk=num)
-                    user.cosmetic.add(cosmetic)
+                    request.user.cosmetic.add(cosmetic)
                 except:
                     pass
         elif request.POST['selection'] == 'my':
             for num in request.POST:
                 try:
                     my_cosmetic = get_object_or_404(Cosmetic, pk=num)
-                    user.my_cosmetic.add(my_cosmetic)
+                    request.user.my_cosmetic.add(my_cosmetic)
                 except:
                     pass
     
@@ -311,12 +304,10 @@ def cosmetic_save(request):
 
 def recommend_scrap(request):
     if request.method == "POST" and request.user.is_authenticated:
-        user = get_object_or_404(User, pk=request.user.id)
-
         for num in request.POST:
             try:
                 video = get_object_or_404(Video, pk=num)
-                user.video.add(video)
+                request.user.video.add(video)
             except:
                 pass
     
