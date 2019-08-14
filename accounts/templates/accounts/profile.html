@@ -1,16 +1,16 @@
 {% extends "accounts/base.html" %}
 
 {% block content %}
-    <h2>{{ user }}'s Profile</h2>
-    {% for video in user.video.all %}
-        <div>{{ video }}</div>
-    {% endfor %}
-    <br>
-    {% for cosmetic in user.cosmetic.all %}
-        <div>{{ cosmetic }}</div>
-    {% endfor %}
-    <br>
-    {% for my_cosmetic in user.my_cosmetic.all %}
-        <div>{{ my_cosmetic }}</div>
-    {% endfor %}
+<h2>{{ user }}'s Profile</h2>
+{% for video in user.video.all %}
+<div>{{ video }}</div>
+{% endfor %}
+<br>
+{% for cosmetic in user.cosmetic.all %}
+<div>{{ cosmetic }}</div>
+{% endfor %}
+<br>
+{% for my_cosmetic in user.my_cosmetic.all %}
+<div>{{ my_cosmetic }}</div>
+{% endfor %}
 {% endblock %}

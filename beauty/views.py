@@ -6,7 +6,6 @@ from .models import Youtuber, Video, Cosmetic, Bigcate, Smallcate
 from accounts.models import User
 import datetime
 
-# fix : global variable 'selected' User model의 필드로 교체
 selected = []
 
 def pagnation(request, contexts, contexts_name, PAGE_ROW_COUNT=10, PAGE_DISPLAY_COUNT=10):
@@ -134,10 +133,7 @@ def video_list(request, period):
     contexts = pagnation(request, videos, 'videos')
     contexts['period'] = period
     contexts['big_categories'] = Bigcate.objects.all()
-    if request.user.is_authenticated:
-        contexts['user_videos'] = get_object_or_404(User, pk=request.user.id).video.all()
-    else:
-        contexts['user_videos'] = []
+    contexts['user_videos'] = (lambda x : get_object_or_404(User, pk=request.user.id).video.all() if x else [])(request.user.is_authenticated)
     
     return render(request, 'beauty/video_list.html', contexts)
 
@@ -156,11 +152,8 @@ def video_scrap(request):
     return response
 
 def list_for_cosmetic(request, kind, combinate=False):
-    if combinate:
-        addtional_cate = ['interest', 'my']
-    else:
-        addtional_cate = []
-    bigcates = Bigcate.objects.all()
+    addtional_cate = (lambda x : ['interest', 'my'] if x else [])(combinate)
+    contexts = {}
 
     if kind == 'all':
         cosmetics = Cosmetic.objects.annotate(count=Count('video')).order_by('-count')
@@ -174,22 +167,17 @@ def list_for_cosmetic(request, kind, combinate=False):
     else:
         smallcate_eng_name = [smallcategory.eng_name for smallcategory in Smallcate.objects.all()]
         if kind in smallcate_eng_name:
-            curr_smallcate = get_object_or_404(Smallcate, eng_name=kind)
-            curr_bigcate = get_object_or_404(Bigcate, pk=curr_smallcate.bigcate.pk)
-            smallcates = curr_bigcate.smallcate_set.all()
-            cosmetics = Cosmetic.objects.filter(category=curr_smallcate).annotate(count=Count('video')).order_by('-count')
+            contexts['curr_small'] = get_object_or_404(Smallcate, eng_name=kind)
+            contexts['curr_big'] = get_object_or_404(Bigcate, pk=contexts['curr_small'].bigcate.pk)
+            contexts['small_categories'] = contexts['curr_big'].smallcate_set.all()
+            cosmetics = Cosmetic.objects.filter(category=contexts['curr_small']).annotate(count=Count('video')).order_by('-count')
         else:
             return 0
 
-    contexts = pagnation(request, cosmetics, 'cosmetics')
+    contexts.update(pagnation(request, cosmetics, 'cosmetics'))
     contexts['kind'] = kind
-    contexts['big_categories'] = bigcates
+    contexts['big_categories'] = Bigcate.objects.all()
 
-    if kind != 'all' and not kind in addtional_cate:
-        contexts['curr_big'] = curr_bigcate
-        contexts['curr_small'] = curr_smallcate
-        contexts['small_categories'] = smallcates
-    
     return contexts
 
 def cosmetic_list(request, kind):
@@ -200,10 +188,8 @@ def cosmetic_list(request, kind):
         youtube_num = 5
         contexts['yt_num'] = youtube_num
         contexts['yt_range'] = range(youtube_num)
-        if request.user.is_authenticated:
-            contexts['user_cosmetics'] = get_object_or_404(User, pk=request.user.id).cosmetic.all()
-        else:
-            contexts['user_cosmetics'] = []
+        contexts['user_cosmetics'] = (lambda x : get_object_or_404(User, pk=request.user.id).cosmetic.all() if x else [])(request.user.is_authenticated)
+        
         return render(request, 'beauty/cosmetic_list.html', contexts)
 
 def cosmetic_scrap(request):
