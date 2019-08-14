@@ -37,11 +37,9 @@ a.nav-link:visited{
 
 
 body > div > ul{
-    margin-top: 10px;
+    margin-top: 15px;
 }
-table {
-    margin-top : 1px;
-}
+
 table > tbody > tr:hover {
     background-color: #F0F0F0;
 }
@@ -76,5 +74,16 @@ body > div > div > div > form > div.text-right{
     justify-content: space-around;
 }
 .nav-item > .active{
-        background-color : #F6648C;
+
+        background-color : #F6648C !important;
+}
+
+
+.vid-select{
+    width: 30px;
+}
+tbody > .vid-select > input{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
