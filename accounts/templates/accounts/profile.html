@@ -1,16 +1,30 @@
 {% extends "accounts/base.html" %}
 
 {% block content %}
-<h2>{{ user }}'s Profile</h2>
-{% for video in user.video.all %}
-<div>{{ video }}</div>
-{% endfor %}
-<br>
-{% for cosmetic in user.cosmetic.all %}
-<div>{{ cosmetic }}</div>
-{% endfor %}
-<br>
-{% for my_cosmetic in user.my_cosmetic.all %}
-<div>{{ my_cosmetic }}</div>
-{% endfor %}
+<div class="container">
+    <h2>{{ user }}'s Profile</h2>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="">Videos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="">Interested Cosmetics</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="">MY Cosmetics</a>
+        </li>
+    </ul>
+
+    {% for video in user.video.all %}
+    <div>{{ video }}</div>
+    {% endfor %}
+    <br>
+    {% for cosmetic in user.cosmetic.all %}
+    <div>{{ cosmetic }}</div>
+    {% endfor %}
+    <br>
+    {% for my_cosmetic in user.my_cosmetic.all %}
+    <div>{{ my_cosmetic }}</div>
+    {% endfor %}
+</div>
 {% endblock %}
