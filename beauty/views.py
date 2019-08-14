@@ -116,8 +116,9 @@ def home(request):
     '''
     return render(request, 'beauty/home.html')
 
-def video_list(request, period):
-    if period == "all":
+def video_list(request, period=""):
+    if period == "all" or period == "":
+        period = "all"
         videos = Video.objects.all().order_by('-hits')
     elif period == "month":
         today = datetime.datetime.now()
@@ -155,7 +156,8 @@ def list_for_cosmetic(request, kind, combinate=False):
     addtional_cate = (lambda x : ['interest', 'my'] if x else [])(combinate)
     contexts = {}
 
-    if kind == 'all':
+    if kind == 'all' or kind == "":
+        kind = "all"
         cosmetics = Cosmetic.objects.annotate(count=Count('video')).order_by('-count')
     elif kind in addtional_cate and request.user.is_authenticated:
         user = get_object_or_404(User, pk=request.user.id)
@@ -180,7 +182,7 @@ def list_for_cosmetic(request, kind, combinate=False):
 
     return contexts
 
-def cosmetic_list(request, kind):
+def cosmetic_list(request, kind=""):
     contexts = list_for_cosmetic(request, kind)
     if contexts == 0:
         return redirect("beauty:home")
@@ -215,7 +217,7 @@ def cosmetic_scrap(request):
     response['Location'] += '?pageNum='+request.POST['pageNum']
     return response
 
-def combine_cosmetic(request, kind):
+def combine_cosmetic(request, kind=""):
     contexts = list_for_cosmetic(request, kind, combinate=True)
         
     if contexts == 0:
