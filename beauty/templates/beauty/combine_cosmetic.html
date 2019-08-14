@@ -36,18 +36,20 @@
                         <table class="table">
                             <thead>
                             <tr>
+                                <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
                                 <th>Rank</th>
                                 {% if kind == 'all' %}
                                     <th>category</th>
                                 {% endif %}
                                 <th>cosmetic</th>
-                                <th>check</th>
+
                             </tr>
                             </thead>
                             <tbody>
                             {% for cosmetic in cosmetics %}
                                 {% load mathfilters %}
                                 <tr>
+                                    <td><input type="checkbox" name="{{ cosmetic.id }}"/></td>
                                     <td>
                                         {% if pageNum %}
                                             {{ pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
@@ -59,7 +61,7 @@
                                         <td>{{ cosmetic.category }}</td>
                                     {% endif %}
                                     <td>{{ cosmetic.name }}</td>
-                                    <td><input type="checkbox" name="{{ cosmetic.id }}"/></td>
+
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -85,25 +87,27 @@
                 <table class="table">
                     <thead>
                     <tr>
+                        <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
                         <th>category</th>
                         <th>cosmetic</th>
-                        <th>check</th>
+
                     </tr>
                     </thead>
                     <tbody>
                     {% for selection in selected %}
                         <tr>
+                            <td><input type="checkbox" name="{{ forloop.counter }}"/></td>
                             <td>{{ selection.category }}</td>
                             <td>{{ selection.name }}</td>
-                            <td><input type="checkbox" name="{{ forloop.counter }}"/></td>
+
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
-            <div class="cosmetic-combine">
-                <input type="hidden" name="kind" value="{{ kind }}">
+                <div class="cosmetic-combine">
+                    <input type="hidden" name="kind" value="{{ kind }}">
 
-                        <button type="submit" class="btn btn-danger disabled" value="delete">목록에서 제거</button>
+                    <button type="submit" class="btn btn-danger disabled" value="delete">목록에서 제거</button>
 
             </form>
 
@@ -111,17 +115,17 @@
                 {% csrf_token %}
                 <input type="hidden" name="kind" value="{{ kind }}">
 
-                        <button type="submit" class="btn btn-danger disabled" value="reset">초기화</button>
+                <button type="submit" class="btn btn-danger disabled" value="reset">초기화</button>
 
             </form>
 
             <form action="{% url 'beauty:combine_result' %}" method="post">
                 {% csrf_token %}
 
-                        <button type="submit" class="btn btn-danger disabled" value="result">결과 보기</button>
+                <button type="submit" class="btn btn-danger disabled" value="result">결과 보기</button>
 
             </form>
         </div>
-        </div>
+    </div>
     </div>
 {% endblock %}

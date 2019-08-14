@@ -35,6 +35,8 @@
                     <table class="table">
                         <thead>
                         <tr>
+
+                            <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
                             <th>Rank</th>
                             {% if kind == 'all' %}
                                 <th>category</th>
@@ -44,13 +46,19 @@
                                 <th>youtube</th>
                             {% endfor %}
                             <th>scrap</th>
-                            <th>my</th>
+
                         </tr>
                         </thead>
                         <tbody>
                         {% for cosmetic in cosmetics %}
                             {% load mathfilters %}
                             <tr>
+                                <td>
+                                    <input type="checkbox" name="{{ cosmetic.id }}"
+                                            {% if cosmetic in user_cosmetics %}
+                                           checked="checked"
+                                            {% endif %}>
+                                </td>
                                 <td>
                                     {% if pageNum %}
                                         {{ pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
@@ -80,12 +88,7 @@
                                         {% endif %}
                                     </form>
                                 </td>
-                                <td>
-                                    <input type="checkbox" name="{{ cosmetic.id }}"
-                                            {% if cosmetic in user_cosmetics %}
-                                           checked="checked"
-                                            {% endif %}>
-                                </td>
+
                             </tr>
                         {% endfor %}
                         </tbody>
