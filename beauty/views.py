@@ -8,7 +8,7 @@ import datetime
 
 selected = []
 
-def pagnation(request, contexts, contexts_name, PAGE_ROW_COUNT=10, PAGE_DISPLAY_COUNT=10):
+def pagination(request, contexts, contexts_name, PAGE_ROW_COUNT=10, PAGE_DISPLAY_COUNT=10):
     paginator=Paginator(contexts, PAGE_ROW_COUNT)
     pageNum=request.GET.get('pageNum') # 현재 페이지
     
@@ -122,8 +122,9 @@ def video_list(request, period=""):
         videos = Video.objects.all().order_by('-hits')
     elif period == "month":
         today = datetime.datetime.now()
+        year = today.year
         month = today.month
-        videos = Video.objects.filter(upload_at__month=month).order_by('-hits')
+        videos = Video.objects.filter(upload_at__month=month).filter(upload_at__year=year).order_by('-hits')
     elif period == "week":
         today = datetime.datetime.now()
         seven_days = datetime.timedelta(days=7)
@@ -131,7 +132,7 @@ def video_list(request, period=""):
     else:
         return redirect("beauty:home")
 
-    contexts = pagnation(request, videos, 'videos')
+    contexts = pagination(request, videos, 'videos')
     contexts['period'] = period
     contexts['big_categories'] = Bigcate.objects.all()
     contexts['user_videos'] = (lambda x : request.user.video.all() if x else [])(request.user.is_authenticated)
@@ -172,7 +173,7 @@ def list_for_cosmetic(request, kind, combinate=False):
         else:
             return 0
 
-    contexts.update(pagnation(request, cosmetics, 'cosmetics'))
+    contexts.update(pagination(request, cosmetics, 'cosmetics'))
     contexts['kind'] = kind
     contexts['big_categories'] = Bigcate.objects.all()
 

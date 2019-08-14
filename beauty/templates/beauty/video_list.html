@@ -9,15 +9,15 @@ Video List
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a class="nav-link {% if period == 'all' %} active {% endif %}"
-                href="{% url 'beauty:video_list' 'all' %}">all</a>
+                href="{% url 'beauty:video_list' 'all' %}">All-time Best</a>
         </li>
         <li class="nav-item">
             <a class="nav-link {% if period == 'month' %} active {% endif %}"
-                href="{% url 'beauty:video_list' 'month' %}">month</a>
+                href="{% url 'beauty:video_list' 'month' %}">Monthly Best</a>
         </li>
         <li class="nav-item">
             <a class="nav-link {% if period == 'week' %} active {% endif %}"
-                href="{% url 'beauty:video_list' 'week' %}">week</a>
+                href="{% url 'beauty:video_list' 'week' %}">Weekly Best</a>
         </li>
     </ul>
     <div class="tab-content">
@@ -29,6 +29,9 @@ Video List
                 <table class="table">
                     <thead>
                         <tr>
+                            {% if user.is_authenticated %}
+                            <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
+                            {% endif %}
                             <th>Rank</th>
                             <th>title</th>
 
@@ -39,19 +42,20 @@ Video List
                             {% endfor %}
 
                             <th>upload</th>
-
-                            {% if user.is_authenticated %}
-                            <th>select</th>
-                            {% endif %}
                         </tr>
                     </thead>
                     <tbody>
                         {% for video in videos %}
                         {% load mathfilters %}
                         <tr>
+                            {% if user.is_authenticated %}
+                            <td class="vid-select">
+                                <input type="checkbox" name="{{ video.id }}">
+                            </td>
+                            {% endif %}
                             <td>
                                 {% if pageNum %}
-                                {{  pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
+                                {{ pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
                                 {% else %}
                                 {{ forloop.counter }}
                                 {% endif %}
@@ -69,24 +73,25 @@ Video List
                             {% endfor %}
 
                             <td>{{ video.upload_at }}</td>
-                            {% if user.is_authenticated %}
-                            <td>
-                                <input type="checkbox" name="{{ video.id }}">
-                            </td>
-                            {% endif %}
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
-                {% include 'beauty/pagination.html' %}
+                <div class="scrap-wrap">
+                    {% if user.is_authenticated %}
+                    <input type="hidden" name="period" value="{{ period }}">
+                    <input type="hidden" name="pageNum" value="{{ pageNum }}">
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-danger disabled" value="Scrap">비디오 스크랩하기</button>
+                    </div>
+                    {% endif %}
+
+                    {% include 'beauty/pagination.html' %}
+                </div>
                 {% if user.is_authenticated %}
-                <input type="hidden" name="period" value="{{ period }}">
-                <input type="hidden" name="pageNum" value="{{ pageNum }}">
-                <input type="submit" value="Scrap">
             </form>
             {% endif %}
         </div>
     </div>
 </div>
-
 {% endblock %}
