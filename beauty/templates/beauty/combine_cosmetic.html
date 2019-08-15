@@ -1,130 +1,129 @@
 {% extends 'beauty/base.html' %}
 
 {% block title %}
-Combine Cosmetics
+    Combine Cosmetics
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid row">
-    <div class="col-8">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link {% if kind == 'all' %} active {% endif %}"
-                    href="{% url 'beauty:combine_cosmetic' 'all' %}">all</a>
-            </li>
-            {% if user.is_authenticated %}
-            <li class="nav-item">
-                <a class="nav-link {% if kind == 'interest' %} active {% endif %}"
-                    href="{% url 'beauty:combine_cosmetic' 'interest' %}">interest</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {% if kind == 'my' %} active {% endif %}"
-                    href="{% url 'beauty:combine_cosmetic' 'my' %}">my</a>
-            </li>
+    <div class="container-fluid row">
+        <div class="col-8">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link {% if kind == 'all' %} active {% endif %}"
+                       href="{% url 'beauty:combine_cosmetic' 'all' %}">all</a>
+                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if kind == 'interest' %} active {% endif %}"
+                           href="{% url 'beauty:combine_cosmetic' 'interest' %}">interest</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if kind == 'my' %} active {% endif %}"
+                           href="{% url 'beauty:combine_cosmetic' 'my' %}">my</a>
+                    </li>
+                {% endif %}
+                {% for big_category in big_categories %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if big_category == curr_big %} active {% endif %}"
+                           href="{% url 'beauty:combine_cosmetic' big_category.smallcate_set.all.0.eng_name %}">{{ big_category }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+            {% if kind != 'all' %}
+                <ul class="nav nav-tabs">
+                    {% for small_category in small_categories %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if small_category == curr_small %} active {% endif %}"
+                               href="{% url 'beauty:combine_cosmetic' small_category.eng_name %}">{{ small_category }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
             {% endif %}
-            {% for big_category in big_categories %}
-            <li class="nav-item">
-                <a class="nav-link {% if big_category == curr_big %} active {% endif %}"
-                    href="{% url 'beauty:combine_cosmetic' big_category.smallcate_set.all.0.eng_name %}">{{ big_category }}</a>
-            </li>
-            {% endfor %}
-        </ul>
-        {% if kind != 'all' %}
-        <ul class="nav nav-tabs">
-            {% for small_category in small_categories %}
-            <li class="nav-item">
-                <a class="nav-link {% if small_category == curr_small %} active {% endif %}"
-                    href="{% url 'beauty:combine_cosmetic' small_category.eng_name %}">{{ small_category }}</a>
-            </li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        <form action="{% url 'beauty:cosmetic_pick' %}" method="post">
-            {% csrf_token %}
-            <div class="tab-content">
-                <div class="tab-pane fade show active">
-                    <table class="table">
-                        <thead>
+            <form action="{% url 'beauty:cosmetic_pick' %}" method="post">
+                {% csrf_token %}
+                <div class="tab-content">
+                    <div class="tab-pane fade show active">
+                        <table class="table">
+                            <thead>
                             <tr>
                                 <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
                                 <th>Rank</th>
                                 {% if kind == 'all' %}
-                                <th>category</th>
+                                    <th>category</th>
                                 {% endif %}
                                 <th>cosmetic</th>
 
                             </tr>
-                        </thead>
-                        <tbody>
+                            </thead>
+                            <tbody>
                             {% for cosmetic in cosmetics %}
-                            {% load mathfilters %}
-                            <tr>
-                                <td><input type="checkbox" name="{{ cosmetic.id }}" /></td>
-                                <td>
-                                    {% if pageNum %}
-                                    {{ pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
-                                    {% else %}
-                                    {{ forloop.counter }}
+                                {% load mathfilters %}
+                                <tr>
+                                    <td><input type="checkbox" name="{{ cosmetic.id }}"/></td>
+                                    <td>
+                                        {% if pageNum %}
+                                            {{ pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
+                                        {% else %}
+                                            {{ forloop.counter }}
+                                        {% endif %}
+                                    </td>
+                                    {% if kind == 'all' %}
+                                        <td>{{ cosmetic.category }}</td>
                                     {% endif %}
-                                </td>
-                                {% if kind == 'all' %}
-                                <td>{{ cosmetic.category }}</td>
-                                {% endif %}
-                                <td>{{ cosmetic.name }}</td>
-                            </tr>
+                                    <td>{{ cosmetic.name }}</td>
+                                </tr>
                             {% endfor %}
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
 
-            <div class="scrap-wrap">
+
                 <input type="hidden" name="kind" value="{{ kind }}">
                 <div class="text-right">
                     <button type="submit" class="btn btn-danger disabled" value="add_cosmetic">화장품 담기</button>
                 </div>
                 {% include 'beauty/pagination.html' %}
-            </div>
-        </form>
-    </div>
-    <div class="col-4">
-        <form action="{% url 'beauty:cosmetic_delete' %}" method="post">
-            {% csrf_token %}
-            <table class="table">
-                <thead>
+            </form>
+        </div>
+        <div class="col-4">
+            <form action="{% url 'beauty:cosmetic_delete' %}" method="post">
+                {% csrf_token %}
+                <table class="table">
+                    <thead>
                     <tr>
                         <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
                         <th>category</th>
                         <th>cosmetic</th>
 
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     {% for selection in selected %}
-                    <tr>
-                        <td><input type="checkbox" name="{{ forloop.counter }}" /></td>
-                        <td>{{ selection.category }}</td>
-                        <td>{{ selection.name }}</td>
-                    </tr>
+                        <tr>
+                            <td><input type="checkbox" name="{{ forloop.counter }}"/></td>
+                            <td>{{ selection.category }}</td>
+                            <td>{{ selection.name }}</td>
+                        </tr>
                     {% endfor %}
-                </tbody>
-            </table>
-            <div class="cosmetic-combine">
+                    </tbody>
+                </table>
+                <div class="cosmetic-combine">
+                    <input type="hidden" name="kind" value="{{ kind }}">
+                    <button type="submit" class="btn btn-danger disabled" value="delete">목록에서 제거</button>
+                </div>
+            </form>
+
+            <form action="{% url 'beauty:cosmetic_reset' %}" method="post">
+                {% csrf_token %}
                 <input type="hidden" name="kind" value="{{ kind }}">
-                <button type="submit" class="btn btn-danger disabled" value="delete">목록에서 제거</button>
-            </div>
-        </form>
+                <button type="submit" class="btn btn-danger disabled" value="reset">초기화</button>
+            </form>
 
-        <form action="{% url 'beauty:cosmetic_reset' %}" method="post">
-            {% csrf_token %}
-            <input type="hidden" name="kind" value="{{ kind }}">
-            <button type="submit" class="btn btn-danger disabled" value="reset">초기화</button>
-        </form>
-
-        <form action="{% url 'beauty:combine_result' %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger disabled" value="result">결과 보기</button>
-        </form>
+            <form action="{% url 'beauty:combine_result' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger disabled" value="result">결과 보기</button>
+            </form>
+        </div>
     </div>
-</div>
 {% endblock %}
