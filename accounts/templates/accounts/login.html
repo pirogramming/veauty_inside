@@ -1,33 +1,20 @@
 {% extends "accounts/base.html" %}
 
 {% block content %}
-<form class="form-horizontal" method="post">{% csrf_token %}
-    <fieldset>
-        <legend>{{ title }}</legend>
-        {% for field in form %}
-            {% if field.errors %}
-                <div class="control-group error">
-                    <label class="control-label">{{ field.label }}</label>
-                    <div class="controls">{{ field }}
-                        <span class="help-inline">
-                            {% for error in  field.errors %}{{ error }}{% endfor %}
-                        </span>
-                    </div>
-                </div>
-            {% else %}
-                <div class="control-group">
-                    <label class="control-label">{{ field.label }}</label>
-                    <div class="controls">{{ field }}
-                        {% if field.help_text %}
-                            <p class="help-inline"><small>{{ field.help_text }}</small></p>
-                        {% endif %}
-                    </div>
-                </div>
-            {% endif %}
-        {% endfor %}
-    </fieldset>
-    <div class="form-actions">
-        <button type="submit" class="btn btn-primary" >Submit</button>
-    </div>
-</form>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div style="border:1px solid; padding:10px; width:400px; height:250px; margin:50px auto 0; color:#F6648C;">
+            <h1>Veuty Inside</h1>
+            <p>스타 유튜버들의 잇템을 공유하세요!</p>
+            <table>
+                {{ form.as_table }}
+            </table>
+            <input style="margin:0 0 0 30%;" type="submit"/>
+        </div>
+        <div style="border:1px solid; padding:10px; width:400px; height:120px; margin:10px auto; color:#F6648C;">
+            계정이 없으신가요?
+            <button onclick="location.href='{% url 'signup' %}'">회원가입</button><hr/>
+            <p onclick="location.href='{% url 'root' %}'">둘러보기</p>
+        </div>
+    </form>
 {% endblock %}
