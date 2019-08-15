@@ -6,6 +6,7 @@ from django.views.generic import CreateView
 from django.contrib.auth import get_user_model
 from .forms import SignupForm
 from .models import User
+from beauty.models import Bigcate, Video
 
 User = get_user_model()
 
@@ -30,16 +31,32 @@ signup = SignupView.as_view()
 def profile(request, kind=""):
     contexts = {}
     contexts['taps'] = ['video', 'interested', 'mycosmetic']
+    contexts['kind'] = kind
 
     if kind == contexts['taps'][0] or kind == "":
         kind = contexts['taps'][0]
+        contexts['kind'] = kind
         contexts['videos'] = request.user.video.all()
+        contexts['big_categories'] = Bigcate.objects.all()
+
+        return render(request, 'accounts/video_table.html', contexts)
+
     elif kind == contexts['taps'][1]:
         contexts['cosmetics'] = request.user.cosmetic.all()
     elif kind == contexts['taps'][2]:
-        contexts['my_cosmetics'] = request.user.my_cosmetic.all()
+        contexts['cosmetics'] = request.user.my_cosmetic.all()
     else:
         return redirect("profile", contexts['taps'][0])
         
-    contexts['kind'] = kind
     return render(request, 'accounts/profile.html', contexts)
+
+@login_required
+def video_scrap_cancel(request):
+    if request.method == 'POST':
+        for num in request.POST:
+            try:
+                video = get_object_or_404(Video, pk=num)
+                request.user.video.remove(video)
+            except:
+                pass
+    return redirect("profile", 'video')
