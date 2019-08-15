@@ -6,10 +6,9 @@ from .models import Youtuber, Video, Cosmetic, Bigcate, Smallcate
 from accounts.models import User
 import datetime
 
-# fix : global variable 'selected' User model의 필드로 교체
 selected = []
 
-def pagnation(request, contexts, contexts_name, PAGE_ROW_COUNT=10, PAGE_DISPLAY_COUNT=10):
+def pagination(request, contexts, contexts_name, PAGE_ROW_COUNT=10, PAGE_DISPLAY_COUNT=10):
     paginator=Paginator(contexts, PAGE_ROW_COUNT)
     pageNum=request.GET.get('pageNum') # 현재 페이지
     
@@ -117,13 +116,15 @@ def home(request):
     '''
     return render(request, 'beauty/home.html')
 
-def video_list(request, period):
-    if period == "all":
+def video_list(request, period=""):
+    if period == "all" or period == "":
+        period = "all"
         videos = Video.objects.all().order_by('-hits')
     elif period == "month":
         today = datetime.datetime.now()
+        year = today.year
         month = today.month
-        videos = Video.objects.filter(upload_at__month=month).order_by('-hits')
+        videos = Video.objects.filter(upload_at__month=month).filter(upload_at__year=year).order_by('-hits')
     elif period == "week":
         today = datetime.datetime.now()
         seven_days = datetime.timedelta(days=7)
@@ -131,63 +132,54 @@ def video_list(request, period):
     else:
         return redirect("beauty:home")
 
-    contexts = pagnation(request, videos, 'videos')
+    contexts = pagination(request, videos, 'videos')
     contexts['period'] = period
     contexts['big_categories'] = Bigcate.objects.all()
-    if request.user.is_authenticated:
-        contexts['user_videos'] = get_object_or_404(User, pk=request.user.id).video.all()
-    else:
-        contexts['user_videos'] = []
+    contexts['user_videos'] = (lambda x : request.user.video.all() if x else [])(request.user.is_authenticated)
     
     return render(request, 'beauty/video_list.html', contexts)
 
 def video_scrap(request):
     if request.method == 'POST':
-        user = get_object_or_404(User, pk=request.user.id)
-
-        try:
-            video = get_object_or_404(Video, pk=request.POST['video_id'])
-            if request.POST['func'] == 'cancel':
-                user.video.remove(video)
-            elif request.POST['func'] == 'scrap':
-                user.video.add(video)
-        except:
-            for num in request.POST:
-                try:
-                    video = get_object_or_404(Video, pk=num)
-                    user.video.add(video)
-                except:
-                    pass
+        for num in request.POST:
+            try:
+                video = get_object_or_404(Video, pk=num)
+                request.user.video.add(video)
+            except:
+                pass
     response = redirect("beauty:video_list", request.POST['period'])
     response['Location'] += '?pageNum='+request.POST['pageNum']
     return response
 
-def list_for_cosmetic(request, kind):
-    bigcates = Bigcate.objects.all()
-    if kind == 'all':
+def list_for_cosmetic(request, kind, combinate=False):
+    addtional_cate = (lambda x : ['interest', 'my'] if x else [])(combinate)
+    contexts = {}
+
+    if kind == 'all' or kind == "":
+        kind = "all"
         cosmetics = Cosmetic.objects.annotate(count=Count('video')).order_by('-count')
+    elif kind in addtional_cate and request.user.is_authenticated:
+        if kind == 'interest':
+            cosmetics = request.user.cosmetic.all().annotate(count=Count('video')).order_by('-count')
+        elif kind == 'my':
+            cosmetics = request.user.my_cosmetic.all().annotate(count=Count('video')).order_by('-count')
     else:
         smallcate_eng_name = [smallcategory.eng_name for smallcategory in Smallcate.objects.all()]
         if kind in smallcate_eng_name:
-            curr_smallcate = get_object_or_404(Smallcate, eng_name=kind)
-            curr_bigcate = get_object_or_404(Bigcate, pk=curr_smallcate.bigcate.pk)
-            smallcates = curr_bigcate.smallcate_set.all()
-            cosmetics = Cosmetic.objects.filter(category=curr_smallcate).annotate(count=Count('video')).order_by('-count')
+            contexts['curr_small'] = get_object_or_404(Smallcate, eng_name=kind)
+            contexts['curr_big'] = get_object_or_404(Bigcate, pk=contexts['curr_small'].bigcate.pk)
+            contexts['small_categories'] = contexts['curr_big'].smallcate_set.all()
+            cosmetics = Cosmetic.objects.filter(category=contexts['curr_small']).annotate(count=Count('video')).order_by('-count')
         else:
             return 0
 
-    contexts = pagnation(request, cosmetics, 'cosmetics')
+    contexts.update(pagination(request, cosmetics, 'cosmetics'))
     contexts['kind'] = kind
-    contexts['big_categories'] = bigcates
+    contexts['big_categories'] = Bigcate.objects.all()
 
-    if kind != 'all':
-        contexts['curr_big'] = curr_bigcate
-        contexts['curr_small'] = curr_smallcate
-        contexts['small_categories'] = smallcates
-    
     return contexts
 
-def cosmetic_list(request, kind):
+def cosmetic_list(request, kind=""):
     contexts = list_for_cosmetic(request, kind)
     if contexts == 0:
         return redirect("beauty:home")
@@ -195,32 +187,34 @@ def cosmetic_list(request, kind):
         youtube_num = 5
         contexts['yt_num'] = youtube_num
         contexts['yt_range'] = range(youtube_num)
-        contexts['user_cosmetics'] = get_object_or_404(User, pk=request.user.id).cosmetic.all()
+        contexts['user_cosmetics'] = (lambda x : request.user.cosmetic.all() if x else [])(request.user.is_authenticated)
+        
         return render(request, 'beauty/cosmetic_list.html', contexts)
 
 def cosmetic_scrap(request):
     if request.method == 'POST':
-        user = get_object_or_404(User, pk=request.user.id)
-
-        try:
-            cosmetic = get_object_or_404(Cosmetic, pk=request.POST['cosmetic_id'])
-            if request.POST['func'] == 'cancel':
-                user.cosmetic.remove(cosmetic)
-            elif request.POST['func'] == 'scrap':
-                user.cosmetic.add(cosmetic)
-        except:
+        if request.POST['selection'] == 'Interest':
             for num in request.POST:
                 try:
                     cosmetic = get_object_or_404(Cosmetic, pk=num)
-                    user.cosmetic.add(cosmetic)
+                    request.user.cosmetic.add(cosmetic)
                 except:
                     pass
+        elif request.POST['selection'] == 'MY':
+            for num in request.POST:
+                try:
+                    my_cosmetic = get_object_or_404(Cosmetic, pk=num)
+                    request.user.my_cosmetic.add(my_cosmetic)
+                except:
+                    pass
+        
     response = redirect("beauty:cosmetic_list", request.POST['kind'])
     response['Location'] += '?pageNum='+request.POST['pageNum']
     return response
 
-def combine_cosmetic(request, kind):
-    contexts = list_for_cosmetic(request, kind)
+def combine_cosmetic(request, kind=""):
+    contexts = list_for_cosmetic(request, kind, combinate=True)
+        
     if contexts == 0:
         return redirect("beauty:home")
     else:
@@ -262,27 +256,61 @@ def cosmetic_reset(request):
     else:
         return redirect("beauty:combine_cosmetic", 'all')
 
-def combine_result(request):
+def combine_processing(request):
     if request.method == 'POST':
-        video_infos = {}
-        for cosmetic in selected:
-            for video in cosmetic.video_set.all():
-                try:
-                    video_infos[video.id][1] = video_infos[video.id][1] + 1
-                except:
-                    video_info = [video.hits, 1]
-                    video_infos[video.id] = video_info
-
-        videos = []
-        recomend_videos = sorted(video_infos.items(), key=lambda t : (t[1][1], t[1][0]), reverse=True)[0:10]
-
-        for recomend_video in recomend_videos:
-            video = get_object_or_404(Video, pk=recomend_video[0])
-            videos.append(video)
-
-        return render(request, "beauty/combine_result.html", {
-            'cosmetics' : selected,
-            'videos' : videos,
-        })
+        return redirect("beauty:combine_result")
     else:
         return redirect("beauty:combine_cosmetic", 'all')
+
+def combine_result(request):
+    video_infos = {}
+    for cosmetic in selected:
+        for video in cosmetic.video_set.all():
+            try:
+                video_infos[video.id][1] = video_infos[video.id][1] + 1
+            except:
+                video_info = [video.hits, 1]
+                video_infos[video.id] = video_info
+
+    videos = []
+    recomend_videos = sorted(video_infos.items(), key=lambda t : (t[1][1], t[1][0]), reverse=True)[0:10]
+
+    for recomend_video in recomend_videos:
+        video = get_object_or_404(Video, pk=recomend_video[0])
+        videos.append(video)
+
+    return render(request, "beauty/combine_result.html", {
+        'cosmetics' : selected,
+        'videos' : videos,
+    })
+
+def cosmetic_save(request):
+    if request.method == "POST" and request.user.is_authenticated:
+        if request.POST['selection'] == 'interest':
+            for num in request.POST:
+                try:
+                    cosmetic = get_object_or_404(Cosmetic, pk=num)
+                    request.user.cosmetic.add(cosmetic)
+                except:
+                    pass
+        elif request.POST['selection'] == 'my':
+            for num in request.POST:
+                try:
+                    my_cosmetic = get_object_or_404(Cosmetic, pk=num)
+                    request.user.my_cosmetic.add(my_cosmetic)
+                except:
+                    pass
+    
+    return redirect("beauty:combine_result")
+
+def recommend_scrap(request):
+    if request.method == "POST" and request.user.is_authenticated:
+        for num in request.POST:
+            try:
+                video = get_object_or_404(Video, pk=num)
+                request.user.video.add(video)
+            except:
+                pass
+    
+    return redirect("beauty:combine_result")
+        

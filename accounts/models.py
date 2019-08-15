@@ -3,9 +3,7 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractUser, UserManager as BaseUserManager
 from beauty.models import Cosmetic, Video
-import datetime
-
-today = datetime.datetime.now()
+from django.utils import timezone
 
 class UserManager(BaseUserManager):
     def create_superuser(self, *args, **kwargs):
@@ -22,8 +20,9 @@ class User(AbstractUser):
     )
     gender = models.CharField(max_length=1, choices=CHOICES_GENDER)
     nickname = models.CharField(max_length=50)
-    birth = models.DateField(auto_now=False, auto_now_add=False, default=today)
-    cosmetic = models.ManyToManyField(Cosmetic)
+    birth = models.DateField(auto_now=False, auto_now_add=False, default=timezone.localtime())
+    cosmetic = models.ManyToManyField(Cosmetic,related_name="cosmetics")
+    my_cosmetic = models.ManyToManyField(Cosmetic,related_name="my_cosmetics")
     video = models.ManyToManyField(Video)
 
     def __str__(self):

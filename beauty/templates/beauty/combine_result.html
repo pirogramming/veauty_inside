@@ -6,23 +6,63 @@ Combine Result
 
 {% block content %}
 <div class="container">
-    <h3>Selected Cosmetics</h3>
-    {% for cosmetic in cosmetics %}
-    <div>{{ cosmetic.name }}</div>
-    {% endfor %}
-    <hr>
-    <h3>Recommend TOP 10 Videos</h3>
-    {% for video in videos %}
-    <div>
-        <a href="http://{{ video.yt_url }}" target="_blank">{{ video.title }}</a> - 조회수 : {{ video.hits }}
-        <p>
-            {% for cosmetic in video.cosmetic.all %}
-                {% if cosmetic in cosmetics %}
-                    <span>{{ cosmetic }} </span>
-                {% endif %}
-            {% endfor %}
-        </p>
+    <div class="row">
+        <div class="col-6">
+            <table class='table'>
+                <thead>
+                    <tr>
+                        <th>Selected Cosmetics</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cosmetic in cosmetics %}
+                    <tr>
+                        <td>{{ cosmetic.name }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <form action="{% url 'beauty:cosmetic_save' %}" method="POST">
+                {% csrf_token %}
+                {% for cosmetic in cosmetics %}
+                <input type="hidden" name="{{ cosmetic.id }}">
+                {% endfor %}
+                <button type="submit" name="selection" value="interest">관심 화장품 등록</button>
+                <button type="submit" name="selection" value="my">내 화장품 등록</button>
+            </form>
+        </div>
+        <div class="col-6">
+            <form action="{% url 'beauty:recommend_scrap' %}" method="POST">
+                {% csrf_token %}
+                <table class='table'>
+                    <thead>
+                        <tr>
+                            <th>check</th>
+                            <th>Recommend Videos</th>
+                            <th>views</th>
+                            <th>cosmetics</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for video in videos %}
+                        <tr>
+                            <td><input type="checkbox" name="{{ video.id }}"></td>
+                            <td><a href="http://{{ video.yt_url }}" target="_blank">{{ video.title }}</a></td>
+                            <td>{{ video.hits }}</td>
+                            <td>
+                                {% for cosmetic in video.cosmetic.all %}
+                                {% if cosmetic in cosmetics %}
+                                <span>{{ cosmetic }} </span>
+                                {% endif %}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <input type="submit" value="동영상 스크랩">
+            </form>
+        </div>
     </div>
-    {% endfor %}
 </div>
 {% endblock %}
