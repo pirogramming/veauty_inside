@@ -3,51 +3,59 @@
 {% if endPageNum != 1 %}
 
 <div class="page_display d-flex justify-content-center" aria-label="Page navigation example">
-    <ul class="pagination">
+    <ul class="pagination pagination-sm">
         <li class="page-item">
             {% if startPageNum != 1 %}
-            <a class="page-link px-0" href="?pageNum={{startPageNum | sub:1}}" aria-label="Start"><span
-                    aria-hidden="true">&laquo;</span></a>
-            {% else %}
-            <a class="page-link px-0" aria-label="Start"><span aria-hidden="true" style="color:white;">-</span></a>
+            <a class="page-link" href="?pageNum={{startPageNum | sub:1}}" aria-label="Start"><span
+                    aria-hidden="true">
+              <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+            </span></a>
+{#            {% else %}#}
+{#            <a class="page-link" aria-label="Start"><span aria-hidden="true" style="color:white;">-</span></a>#}
             {% endif %}
         </li>
         <li class="page-item">
             {% if pageNum != 1 %}
-            <a class="page-link px-0" href="?pageNum={{pageNum | sub:1}}" aria-label="Previous"><span
-                    aria-hidden="true">&lt;</span></a>
-            {% else %}
-            <a class="page-link px-0" aria-label="Previous"><span
-                aria-hidden="true" style="color:white;">-</span></a>
+            <a class="page-link" href="?pageNum={{pageNum | sub:1}}" aria-label="Previous"><span
+                    aria-hidden="true">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+            </span></a>
+{#            {% else %}#}
+{#            <a class="page-link" aria-label="Previous"><span#}
+{#                aria-hidden="true" style="color:white;">-</span></a>#}
             {% endif %}
         </li>
 
         {% for i in bottomPages %}
         <li class="page-item">
             {% if i == pageNum %}
-            <a class="page-link px-0" href="?pageNum={{i}}"><strong>{{i}}</strong></a>
+            <a class="page-link" href="?pageNum={{i}}"><strong>{{i}}</strong></a>
             {% else %}
-            <a class="page-link px-0" href="?pageNum={{i}}">{{i}}</a>
+            <a class="page-link" href="?pageNum={{i}}">{{i}}</a>
             {% endif %}
         </li>
         {% endfor %}
 
         <li class="page-item">
                 {% if pageNum < totalPageCount %}
-            <a class="page-link px-0" href="?pageNum={{pageNum | add:1}}" aria-label="Next"><span
-                    aria-hidden="true">&gt;</span></a>
-            {% else %}
-            <a class="page-link px-0" aria-label="Next"><span
-                aria-hidden="true" style="color:white;">-</span></a>
+            <a class="page-link" href="?pageNum={{pageNum | add:1}}" aria-label="Next"><span
+                    aria-hidden="true">
+             <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </span></a>
+{#            {% else %}#}
+{#            <a class="page-link" aria-label="Next"><span#}
+{#                aria-hidden="true" style="color:white;">-</span></a>#}
             {% endif %}
         </li>
         <li class="page-item">
             {% if endPageNum < totalPageCount %}
-            <a class="page-link px-0" href="?pageNum={{endPageNum | add:1}}" aria-label="End"><span
-                    aria-hidden="true">&raquo;</span></a>
-            {% else %}
-            <a class="page-link px-0" aria-label="End"><span
-                aria-hidden="true" style="color:white;">-</span></a>
+            <a class="page-link" href="?pageNum={{endPageNum | add:1}}" aria-label="End"><span
+                    aria-hidden="true">
+                 <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            </span></a>
+{#            {% else %}#}
+{#            <a class="page-link" aria-label="End"><span#}
+{#                aria-hidden="true" style="color:white;">-</span></a>#}
             {% endif %}
         </li>
     </ul>

@@ -21,7 +21,7 @@ a.nav-link:active {
     color: black;
 }
 
-a.nav-link:hover  {
+a.nav-link:hover {
     background-color: #F6648C;
     color: blue;
     text-decoration: none;
@@ -30,13 +30,14 @@ a.nav-link:hover  {
 a.nav-link:link {
     color: black;
 }
-a.nav-link:visited{
+
+a.nav-link:visited {
     color: black;
-    background-color : #F6648C;
+    background-color: #F6648C;
 }
 
 
-body > div > ul{
+body > div > ul {
     margin-top: 15px;
 }
 
@@ -44,22 +45,22 @@ table > tbody > tr:hover {
     background-color: #F0F0F0;
 }
 
-table > thead > tr{
+table > thead > tr {
     background-color: #FABCCD;
     font-size: 20px
 }
 
-body > div > div > div > form > div.text-right{
+body > div > div > div > form > div.text-right {
     display: flex;
-    align-items : flex-end;
-    justify-content : flex-end;
+    align-items: flex-end;
+    justify-content: flex-end;
     margin-left: 2px;
 }
 
-.page_display{
+.page_display {
     display: flex;
-    align-items : center;
-    justify-content : center;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 0px;
 }
 
@@ -69,22 +70,50 @@ body > div > div > div > form > div.text-right{
 /*    justify-content: space-between;*/
 /*}*/
 
-.cosmetic-combine{
+.cosmetic-combine {
     display: inline-flex;
     width: 100%;
     justify-content: space-around;
 }
-.nav-item > .active{
 
-        background-color : #F6648C !important;
+.nav-item > .active {
+
+    background-color: #F6648C !important;
 }
 
 
-.vid-select{
+.vid-select {
     width: 30px;
 }
-tbody > .vid-select > input{
+
+tbody > .vid-select > input {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.fa-sign-in,
+.fa-user-o {
+    margin-right: 5px;
+}
+
+.nav-item {
+    padding-right: 10px;
+}
+
+.btn {
+    margin-left: 5px;
+}
+
+.pagination *,
+.pagination *:link,
+.pagination *:active,
+.pagination *:visited {
+    color: #F6648C !important;
+    outline: none;
+    box-shadow: none !important;
+}
+
+.pagination *:hover {
+    color: #F6648C;
 }
