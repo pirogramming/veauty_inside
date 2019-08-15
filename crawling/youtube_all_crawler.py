@@ -10,7 +10,7 @@ import json
 wait_between_requests = 3
 # url 내 정보를 크롤링하는데에 약 3초간의 딜레이가 필요
 
-channel_name = 'UCHFklTiPnl2TrCgLLtdfENw'
+channel_name = 'Hines382'
 # 크롤링하고 싶은 youtube 채널 작성
 
 youtube_base = 'https://www.youtube.com/'
