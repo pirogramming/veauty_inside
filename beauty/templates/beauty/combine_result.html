@@ -27,6 +27,11 @@ Combine Result
                 {% for cosmetic in cosmetics %}
                 <input type="hidden" name="{{ cosmetic.id }}">
                 {% endfor %}
+                {% if type == "general" %}
+                <input type="hidden" name="type" value="general">
+                {% elif type == "user" %}
+                <input type="hidden" name="type" value="user">
+                {% endif %}
                 <button type="submit" name="selection" value="interest">관심 화장품 등록</button>
                 <button type="submit" name="selection" value="my">내 화장품 등록</button>
             </form>
@@ -60,6 +65,11 @@ Combine Result
                         {% endfor %}
                     </tbody>
                 </table>
+                {% if type == "general" %}
+                <input type="hidden" name="type" value="general">
+                {% elif type == "user" %}
+                <input type="hidden" name="type" value="user">
+                {% endif %}
                 <input type="submit" value="동영상 스크랩">
             </form>
         </div>

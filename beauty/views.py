@@ -5,6 +5,7 @@ from random import randint
 from .models import Youtuber, Video, Cosmetic, Bigcate, Smallcate
 from accounts.models import User
 import datetime
+import copy
 
 selected = []
 
@@ -262,7 +263,7 @@ def combine_processing(request):
     else:
         return redirect("beauty:combine_cosmetic", 'all')
 
-def combine_result(request):
+def create_recomend(selected=selected):
     video_infos = {}
     for cosmetic in selected:
         for video in cosmetic.video_set.all():
@@ -278,10 +279,15 @@ def combine_result(request):
     for recomend_video in recomend_videos:
         video = get_object_or_404(Video, pk=recomend_video[0])
         videos.append(video)
+    return videos
+
+def combine_result(request):
+    videos = create_recomend(selected=selected)
 
     return render(request, "beauty/combine_result.html", {
         'cosmetics' : selected,
         'videos' : videos,
+        'type' : 'general',
     })
 
 def cosmetic_save(request):
@@ -300,8 +306,10 @@ def cosmetic_save(request):
                     request.user.my_cosmetic.add(my_cosmetic)
                 except:
                     pass
-    
-    return redirect("beauty:combine_result")
+    if request.POST['type'] == "general":
+        return redirect("beauty:combine_result")
+    elif request.POST['type'] == "user":
+        return redirect("combine_result")
 
 def recommend_scrap(request):
     if request.method == "POST" and request.user.is_authenticated:
@@ -312,5 +320,8 @@ def recommend_scrap(request):
             except:
                 pass
     
-    return redirect("beauty:combine_result")
+    if request.POST['type'] == "general":
+        return redirect("beauty:combine_result")
+    elif request.POST['type'] == "user":
+        return redirect("combine_result")
         
