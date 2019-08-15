@@ -53,6 +53,7 @@ body > div > div > div > form > div.text-right{
     display: flex;
     align-items : flex-end;
     justify-content : flex-end;
+    margin-left: 2px;
 }
 
 .page_display{
@@ -62,11 +63,11 @@ body > div > div > div > form > div.text-right{
     margin-bottom: 0px;
 }
 
-.scrap-wrap{
-    display: inline-flex;
-    width: 100%;
-    justify-content: space-between;
-}
+/*.scrap-wrap{*/
+/*    display: inline-flex;*/
+/*    width: 100%;*/
+/*    justify-content: space-between;*/
+/*}*/
 
 .cosmetic-combine{
     display: inline-flex;
