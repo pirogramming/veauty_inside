@@ -28,4 +28,18 @@ signup = SignupView.as_view()
 
 @login_required
 def profile(request, kind=""):
-    return render(request, 'accounts/profile.html')
+    contexts = {}
+    contexts['taps'] = ['video', 'interested', 'mycosmetic']
+
+    if kind == contexts['taps'][0] or kind == "":
+        kind = contexts['taps'][0]
+        contexts['videos'] = request.user.video.all()
+    elif kind == contexts['taps'][1]:
+        contexts['cosmetics'] = request.user.cosmetic.all()
+    elif kind == contexts['taps'][2]:
+        contexts['my_cosmetics'] = request.user.my_cosmetic.all()
+    else:
+        return redirect("profile", contexts['taps'][0])
+        
+    contexts['kind'] = kind
+    return render(request, 'accounts/profile.html', contexts)

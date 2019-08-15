@@ -5,25 +5,25 @@
     <h2>{{ user }}'s Profile</h2>
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link active" href="">Videos</a>
+            <a class="nav-link {% if kind == taps.0 %} active {% endif %}" href="{% url 'profile' taps.0 %}">Videos</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="">Interested Cosmetics</a>
+            <a class="nav-link {% if kind == taps.1 %} active {% endif %}" href="{% url 'profile' taps.1 %}">Interested Cosmetics</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="">MY Cosmetics</a>
+            <a class="nav-link {% if kind == taps.2 %} active {% endif %}" href="{% url 'profile' taps.2 %}">MY Cosmetics</a>
         </li>
     </ul>
 
-    {% for video in user.video.all %}
+    {% for video in videos %}
     <div>{{ video }}</div>
     {% endfor %}
     <br>
-    {% for cosmetic in user.cosmetic.all %}
+    {% for cosmetic in cosmetics %}
     <div>{{ cosmetic }}</div>
     {% endfor %}
     <br>
-    {% for my_cosmetic in user.my_cosmetic.all %}
+    {% for my_cosmetic in my_cosmetics %}
     <div>{{ my_cosmetic }}</div>
     {% endfor %}
 </div>
