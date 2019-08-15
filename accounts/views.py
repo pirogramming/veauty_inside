@@ -7,8 +7,12 @@ from django.contrib.auth import get_user_model
 from .forms import SignupForm
 from .models import User
 from beauty.models import Bigcate, Video, Cosmetic
+from beauty.views import create_recomend
+import copy
 
 User = get_user_model()
+user_selected = []
+temp_user_selected = []
 
 # Create your views here.
 class SignupView(CreateView):
@@ -81,12 +85,26 @@ def cosmetic_scrap_processing(request):
                     except:
                         pass
         elif request.POST['selection'] == 'combine':
-            selected = []
             for num in request.POST:
-                    try:
-                        cosmetic = get_object_or_404(Cosmetic, pk=num)
-                        selected.append(cosmetic)
-                    except:
-                        pass
-            return redirect("beauty:combine_result")
+                try:
+                    cosmetic = get_object_or_404(Cosmetic, pk=num)
+                    user_selected.append(cosmetic)
+                except:
+                    pass
+            temp_user_selected.clear()
+            temp_user_selected.extend(copy.deepcopy(user_selected))
+            
+            return redirect("combine_result")
+            
     return redirect("profile", request.POST['kind'])
+
+@login_required
+def combine_result(request):
+    videos = create_recomend(selected=temp_user_selected)
+    user_selected.clear()
+    
+    return render(request, "beauty/combine_result.html", {
+        'cosmetics': temp_user_selected,
+        'videos': videos,
+        'type' : 'user',
+    })

@@ -95,7 +95,6 @@
                         <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
                         <th>category</th>
                         <th>cosmetic</th>
-
                     </tr>
                     </thead>
                     <tbody>
@@ -111,6 +110,19 @@
                 <div class="cosmetic-combine text-right">
                     <input type="hidden" name="kind" value="{{ kind }}">
                     <button type="submit" class="btn btn-danger disabled" value="delete">목록에서 제거</button>
+
+                    <form action="{% url 'beauty:cosmetic_reset' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="kind" value="{{ kind }}">
+                        <button type="submit" class="btn btn-danger disabled">초기화</button>
+                    </form>
+                </div>
+                <div class="cosmetic-combine text-right">
+                    <form action="{% url 'beauty:combine_processing' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger disabled">결과 보기</button>
+                    </form>
+
                 </div>
             </form>
 
