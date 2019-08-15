@@ -40,7 +40,6 @@ def profile(request, kind=""):
         contexts['big_categories'] = Bigcate.objects.all()
 
         return render(request, 'accounts/video_table.html', contexts)
-
     elif kind == contexts['taps'][1]:
         contexts['cosmetics'] = request.user.cosmetic.all()
 
@@ -51,8 +50,6 @@ def profile(request, kind=""):
         return render(request, 'accounts/cosmetic_table.html', contexts)
     else:
         return redirect("profile", contexts['taps'][0])
-        
-    return render(request, 'accounts/profile.html', contexts)
 
 @login_required
 def video_scrap_processing(request):
@@ -76,4 +73,20 @@ def cosmetic_scrap_processing(request):
                         request.user.cosmetic.remove(cosmetic)
                     except:
                         pass
+            elif request.POST['kind'] == 'mycosmetic':
+                for num in request.POST:
+                    try:
+                        my_cosmetic = get_object_or_404(Cosmetic, pk=num)
+                        request.user.my_cosmetic.remove(my_cosmetic)
+                    except:
+                        pass
+        elif request.POST['selection'] == 'combine':
+            selected = []
+            for num in request.POST:
+                    try:
+                        cosmetic = get_object_or_404(Cosmetic, pk=num)
+                        selected.append(cosmetic)
+                    except:
+                        pass
+            return redirect("beauty:combine_result")
     return redirect("profile", request.POST['kind'])
