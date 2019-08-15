@@ -118,3 +118,22 @@ tbody > .vid-select > input {
 .pagination *:hover {
     color: #F6648C;
 }
+.scrolling{
+    overflow: auto;
+    white-space: nowrap;
+    table-layout: fixed
+}
+/*.big-cate{*/
+
+/*    width: 200px;*/
+/*}*/
+ul{
+    padding: 0;
+}
+li{
+    list-style: none;
+}
+
+ table, td{
+  border:1px solid #EEEEEE
+}

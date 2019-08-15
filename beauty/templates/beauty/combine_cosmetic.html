@@ -47,7 +47,7 @@
                             <thead>
                             <tr>
                                 <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
-                                <th>Rank</th>
+                                <th width="20">Rank</th>
                                 {% if kind == 'all' %}
                                     <th>category</th>
                                 {% endif %}
@@ -111,21 +111,24 @@
                 <div class="cosmetic-combine text-right">
                     <input type="hidden" name="kind" value="{{ kind }}">
                     <button type="submit" class="btn btn-danger disabled" value="delete">목록에서 제거</button>
-
-
-                    <form action="{% url 'beauty:cosmetic_reset' %}" method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="kind" value="{{ kind }}">
-                        <button type="submit" class="btn btn-danger disabled" value="reset">초기화</button>
-                    </form>
-                </div>
-                <div class="cosmetic-combine text-right">
-                    <form action="{% url 'beauty:combine_result' %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger disabled" value="result">결과 보기</button>
-                    </form>
                 </div>
             </form>
+
+            <div class="cosmetic-combine text-right">
+                <form action="{% url 'beauty:cosmetic_reset' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="kind" value="{{ kind }}">
+                    <button type="submit" class="btn btn-danger disabled" value="reset">초기화</button>
+                </form>
+            </div>
+
+            <div class="cosmetic-combine text-right">
+                <form action="{% url 'beauty:combine_result' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger disabled" value="result">결과 보기</button>
+                </form>
+            </div>
+
         </div>
     </div>
 {% endblock %}
