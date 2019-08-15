@@ -14,7 +14,7 @@ def filtering(self):
 '''
 
 def input_csv():
-	df = pd.read_csv('pony.csv', sep=',', encoding='EUC-KR') 
+	df = pd.read_csv('ssin.csv', sep=',', encoding='CP949') 
 	column_df = df['description'] 
 	return column_df
 
@@ -28,26 +28,40 @@ def making_list(self):
 	for i in range(len(self)):
 		str(self[i]).replace("'","")
 		str(self[i]).replace('"',"")
-		filter1=str(self[i]).split('-')
-		filter2=str(self[i]).split('?')
+		filter1=str(self[i]).split('[')
+		filter2=str(self[i]).split('-')
+		'''
+
 		filter3=str(self[i]).split('ㅡ')
+		#filter4=str(self[i]).split('#')
+		
+		'''
 
 		while '' in filter1:
 			filter1.remove('')
-
 		while '' in filter2:
 			filter2.remove('')
-
+		'''
 		while '' in filter3:
 			filter3.remove('')
 
+		#while '' in filter4:
+		#	filter4.remove('')
+		'''
+		
 		if len(filter1)>=len(filter2):
 			a=filter1
 		else:
 			a=filter2
+		'''
 		if len(filter3)>len(a):
 			a=filter3
+		'''
+		#if len(filter4)>len(a):
+		#	a=filter4
+
 		del a[len(a)-1]
+		print(a)
 		b.append(a)
 	return b
 
@@ -105,14 +119,32 @@ def csv_out(d):
 		csvf = csv.writer(csv_file, delimiter=',')
 		csvf.writerow(headers)
 		for y in range(len(d)):
-			line = [d[y]['스킨/토너/토닉'], d[y]['로션/에멀젼'], 
-					d[y]['미스트'], d[y]['기타'], d[y]['쿠션'],
-					d[y]['파운데이션'], d[y]['컨실러'],d[y]['파우더'], d[y]['블러쉬/블러셔/브론징'],
-					d[y]['컨투어링/하이라이터'], d[y]['프라이머'], d[y]['UV프로텍터'],
-					d[y]['아이브로우'],d[y]['아이라이너'], d[y]['마스카라'], d[y]['섀도우/글리터'],
-					d[y]['립/립스틱/틴트'], d[y]['립케어/립밤/립글로스/립 오일'], d[y]['zzz']
-			]
+			for z in range(len(d[y])):
+				'''
+				line = [d[y]['스킨/토너/토닉'], d[y]['로션/에멀젼'], 
+						d[y]['미스트'], d[y]['기타'], d[y]['쿠션'],
+						d[y]['파운데이션'], d[y]['컨실러'],d[y]['파우더'], d[y]['블러쉬/블러셔/브론징'],
+						d[y]['컨투어링/하이라이터'], d[y]['프라이머'], d[y]['UV프로텍터'],
+						d[y]['아이브로우'],d[y]['아이라이너'], d[y]['마스카라'], d[y]['섀도우/글리터'],
+						d[y]['립/립스틱/틴트'], d[y]['립케어/립밤/립글로스/립 오일'], d[y]['zzz']]
+				'''
+
+				line.append(d[y][z])
 			csvf.writerow(line)
+			line=[]
+
+def refined(self):
+	global t
+	for y in range(len(d)):
+		for z in range(len(d[y])):
+			for p in range(len(list(d[y].values())[z])):
+			#print(len((list(d[y].keys())[z].values())))
+			#for p in range(len((list(d[y].keys)[z].values()))):
+				q=str(list(d[y].keys())[z])+':'+str((list(d[y].values())[z])[p])
+				t.append(q)
+		d[y]=t
+		t=[]
+	return d
 
 if __name__ == '__main__':
 
@@ -129,6 +161,8 @@ if __name__ == '__main__':
 	g=[]
 	dic = {'스킨/토너/토닉': [], '로션/에멀젼':[], '미스트':[], '기타':[], '쿠션':[], '파운데이션':[], '컨실러':[], '파우더':[], '블러쉬/블러셔/브론징':[], '컨투어링/하이라이터':[], '프라이머':[], 'UV프로텍터':[], '아이브로우':[], '아이라이너':[], '마스카라':[], '섀도우/글리터':[], '립/립스틱/틴트':[], '립케어/립밤/립글로스/립 오일':[], 'zzz':[]}
 	line=[]
+	li=[]
+	t=[]
 
 	description=input_csv()
 	des_list=one_description(description)
@@ -136,7 +170,7 @@ if __name__ == '__main__':
 	c=strip(one_des)
 	#e=copy.deepcopy(c)
 	d=category_filtering(c)
-	print(d)
+	refined(d)
 	csv_out(d)
 
 '''
