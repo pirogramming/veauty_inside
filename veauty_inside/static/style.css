@@ -38,7 +38,7 @@ a.nav-link:visited {
 
 
 body > div > ul {
-    margin-top: 15px;
+    margin-top: 5px;
 }
 
 table > tbody > tr:hover {
@@ -70,11 +70,11 @@ body > div > div > div > form > div.text-right {
 /*    justify-content: space-between;*/
 /*}*/
 
-.cosmetic-combine {
-    display: inline-flex;
-    width: 100%;
-    justify-content: space-around;
-}
+/*.cosmetic-combine {*/
+/*    display: inline-flex;*/
+/*    width: 100%;*/
+/*    justify-content: space-around;*/
+/*}*/
 
 .nav-item > .active {
 
@@ -97,12 +97,13 @@ tbody > .vid-select > input {
     margin-right: 5px;
 }
 
-.nav-item {
-    padding-right: 10px;
-}
+/*.nav-item {*/
+/*    padding-right: 10px;*/
+/*}*/
 
 .btn {
-    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom : 10px;
 }
 
 .pagination *,

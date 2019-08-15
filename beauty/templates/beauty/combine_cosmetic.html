@@ -108,21 +108,23 @@
                     {% endfor %}
                     </tbody>
                 </table>
-                <div class="cosmetic-combine">
+                <div class="cosmetic-combine text-right">
                     <input type="hidden" name="kind" value="{{ kind }}">
                     <button type="submit" class="btn btn-danger disabled" value="delete">목록에서 제거</button>
+
+
+                    <form action="{% url 'beauty:cosmetic_reset' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="kind" value="{{ kind }}">
+                        <button type="submit" class="btn btn-danger disabled" value="reset">초기화</button>
+                    </form>
                 </div>
-            </form>
-
-            <form action="{% url 'beauty:cosmetic_reset' %}" method="post">
-                {% csrf_token %}
-                <input type="hidden" name="kind" value="{{ kind }}">
-                <button type="submit" class="btn btn-danger disabled" value="reset">초기화</button>
-            </form>
-
-            <form action="{% url 'beauty:combine_result' %}" method="post">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger disabled" value="result">결과 보기</button>
+                <div class="cosmetic-combine text-right">
+                    <form action="{% url 'beauty:combine_result' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger disabled" value="result">결과 보기</button>
+                    </form>
+                </div>
             </form>
         </div>
     </div>
