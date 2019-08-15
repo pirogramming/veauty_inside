@@ -3,7 +3,7 @@
 {% block content %}
     <form action="" method="post">
         {% csrf_token %}
-        <div style="border:1px solid; padding:10px; width:400px; height:250px; margin:50px auto 0; color:pink;">
+        <div style="border:1px solid; padding:10px; width:400px; height:250px; margin:50px auto 0; color:#F6648C;">
             <h1>Veuty Inside</h1>
             <p>스타 유튜버들의 잇템을 공유하세요!</p>
             <table>
@@ -11,11 +11,10 @@
             </table>
             <input style="margin:0 0 0 30%;" type="submit"/>
         </div>
-        <div style="border:1px solid; padding:10px; width:400px; height:120px; margin:10px auto; color:pink;">
+        <div style="border:1px solid; padding:10px; width:400px; height:120px; margin:10px auto; color:#F6648C;">
             계정이 없으신가요?
             <button onclick="location.href='{% url 'signup' %}'">회원가입</button><hr/>
             <p onclick="location.href='{% url 'root' %}'">둘러보기</p>
         </div>
     </form>
-</form>
 {% endblock %}
