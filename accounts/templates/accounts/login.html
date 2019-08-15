@@ -3,17 +3,25 @@
 {% block content %}
     <form action="" method="post">
         {% csrf_token %}
-        <div style="border:1px solid; padding:10px; width:400px; height:250px; margin:50px auto 0; color:#F6648C;">
-            <h1>Veuty Inside</h1>
+        <div id="top">
+            <h1><a onclick="location.href='{% url 'root' %}'">Veuty Inside</a></h1>
             <p>스타 유튜버들의 잇템을 공유하세요!</p>
             <table>
                 {{ form.as_table }}
             </table>
-            <input style="margin:0 0 0 30%;" type="submit"/>
+            <input type="submit" id="submit" class="submit_L"/>
+            <p>또는</p>
+            <button>
+                <a href="">
+                    <img src="https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg" width="20px">
+                    구글로 로그인하기
+                </a>
+            </button>
         </div>
-        <div style="border:1px solid; padding:10px; width:400px; height:120px; margin:10px auto; color:#F6648C;">
+        <div id="bottom">
             계정이 없으신가요?
-            <button onclick="location.href='{% url 'signup' %}'">회원가입</button><hr/>
+            <button onclick="location.href='{% url 'signup' %}'">회원가입</button>
+            <hr/>
             <p onclick="location.href='{% url 'root' %}'">둘러보기</p>
         </div>
     </form>

@@ -1,25 +1,24 @@
 {% extends "accounts/base.html" %}
 
 {% block content %}
-    <form action="" method="post">
+    <form action="" method="post" id="signupA">
         {% csrf_token %}
-        <div class="d-flex justify-content-center">
-{#            <div>#}
+        <div class="container">
+        <div class="d-flex justify-content-center row">
+            <div class=".d-none .d-sm-block ">
                 <img src="https://pds.joins.com/news/component/htmlphoto_mmdata/201508/04/htm_20150804173259c010c021.jpg"
-                     width=500 height=600 style="float:left;">
-{#            </div>#}
-            <div style="color:#F6648C;">
-                <h1>Veauty Inside Sign Up</h1>
-                {#                {% for field in form %}#}
-                {#                    <p>#}
-                {#                        {{ field.label_tag }}<br>#}
-                {#                        {{ field }}#}
-                {#                        {% for error in field.errors %}#}
-                {#                            <p style="color: red">{{ error }}</p>#}
-                {#                        {% endfor %}#}
-                {#                    </p>#}
-                {#                {% endfor %}#}
-                {#                                                    <input type="submit"/>#}
+                     width=454 height=618>
+            </div>
+            <div id="Signup">
+                <h1><a onclick="location.href='{% url 'root' %}'">Veauty Inside</a></h1>
+                <h4>Sign up</h4>
+                {% for field in form %}
+                    <p>
+                        {% for error in field.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </p>
+                {% endfor %}
                 <p>
                     <input type="text" name="username" class="form-control" maxlength="150" autofocus required
                            id="id_username" placeholder="User name">
@@ -51,8 +50,8 @@
                 </p>
 
                 <p>
-                    <input type="text" name="birth" value="2019-08-15" class="form-control" required id="id_birth"
-                           placeholder="Birth">
+                    <input type="text" name="birth" class="form-control" required id="id_birth"
+                           placeholder="Birth ex)2019-08-15">
                 </p>
 
                 <p>
@@ -61,12 +60,15 @@
                         <option value="">---------</option>
                         <option value="m">남성</option>
                         <option value="f">여성</option>
-                        <option value="o" selected>기타</option>
+                        <option value="o" selected="selected">기타</option>
                     </select>
                 </p>
-                <p>가입 시 Veauty Inside의 약관, 데이터 <hr/>정책 및 쿠키 정책에 동의하게 됩니다.</p>
-                <input type="submit"/>
+                <p>가입 시 Veauty Inside의 약관, 데이터
+                    정책 및 쿠키 정책에 동의하게 됩니다.
+                    <input type="submit" id="submit"/></p>
             </div>
         </div>
+    </div>
     </form>
 {% endblock %}
+
