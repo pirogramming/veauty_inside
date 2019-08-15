@@ -80,7 +80,7 @@ Cosmetic List
                     </tbody>
                 </table>
 
-                <div class="scrap-wrap">
+
                     {% if user.is_authenticated %}
                     <input type="hidden" name="kind" value="{{ kind }}">
                     <input type="hidden" name="pageNum" value="{{ pageNum }}">
@@ -92,8 +92,8 @@ Cosmetic List
                     </div>
                     {% endif %}
 
-                    {% include 'beauty/pagination.html' %}
-                </div>
+               {% include 'beauty/pagination.html' %}
+
                 {% if user.is_authenticated %}
             </form>
             {% endif %}

@@ -58,7 +58,7 @@ def home(request):
         bigcate.eng_name = 'eng_bigcate'+str(i)
         bigcate.save()
     bigcates = Bigcate.objects.all()
-    
+
     for i in range(1, 20+1):
         smallcate = Smallcate()
         smallcate.bigcate = bigcates[randint(0, len(bigcates)-1)]
@@ -79,17 +79,17 @@ def home(request):
         youtuber.name = 'youtuber'+str(i)
         youtuber.save()
     youtubers = Youtuber.objects.all()
-    
+
     #youtubers = Youtuber.objects.all()
     #cosmetics = Cosmetic.objects.all()
-    
+
     for i in range(1, 150+1):
         video = Video()
         video.title = 'video'+str(i)
         video.yt_url = 'http://www.youtube.com'
         video.youtuber = youtubers[randint(0, len(youtubers)-1)]
         video.hits = randint(1, 1000000)
-        
+
         dt = datetime.datetime.now()
         year = randint(dt.year-2, dt.year)
         if year < dt.year:

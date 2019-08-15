@@ -1,11 +1,72 @@
 {% extends "accounts/base.html" %}
 
 {% block content %}
-<form action="" method="post">
-    {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-    </table>
-    <input type="submit"/>
-</form>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="d-flex justify-content-center">
+{#            <div>#}
+                <img src="https://pds.joins.com/news/component/htmlphoto_mmdata/201508/04/htm_20150804173259c010c021.jpg"
+                     width=500 height=600 style="float:left;">
+{#            </div>#}
+            <div style="color:#F6648C;">
+                <h1>Veauty Inside Sign Up</h1>
+                {#                {% for field in form %}#}
+                {#                    <p>#}
+                {#                        {{ field.label_tag }}<br>#}
+                {#                        {{ field }}#}
+                {#                        {% for error in field.errors %}#}
+                {#                            <p style="color: red">{{ error }}</p>#}
+                {#                        {% endfor %}#}
+                {#                    </p>#}
+                {#                {% endfor %}#}
+                {#                                                    <input type="submit"/>#}
+                <p>
+                    <input type="text" name="username" class="form-control" maxlength="150" autofocus required
+                           id="id_username" placeholder="User name">
+                </p>
+
+                <p>
+                    <input type="text" name="first_name" class="form-control" maxlength="30" id="id_first_name"
+                           placeholder="First name">
+                </p>
+
+                <p>
+                    <input type="text" name="last_name" class="form-control" maxlength="150" id="id_last_name"
+                           placeholder="Last name">
+                </p>
+
+                <p>
+                    <input type="text" name="nickname" class="form-control" maxlength="50" required id="id_nickname"
+                           placeholder="NickName">
+                </p>
+
+                <p>
+                    <input type="password" name="password1" class="form-control" required id="id_password1"
+                           placeholder="Password">
+                </p>
+
+                <p>
+                    <input type="password" name="password2" class="form-control" required id="id_password2"
+                           placeholder="Password Confirmation">
+                </p>
+
+                <p>
+                    <input type="text" name="birth" value="2019-08-15" class="form-control" required id="id_birth"
+                           placeholder="Birth">
+                </p>
+
+                <p>
+                    <label for="id_gender">Gender:</label><br>
+                    <select name="gender" class="form-control" required id="id_gender">
+                        <option value="">---------</option>
+                        <option value="m">남성</option>
+                        <option value="f">여성</option>
+                        <option value="o" selected>기타</option>
+                    </select>
+                </p>
+                <p>가입 시 Veauty Inside의 약관, 데이터 <hr/>정책 및 쿠키 정책에 동의하게 됩니다.</p>
+                <input type="submit"/>
+            </div>
+        </div>
+    </form>
 {% endblock %}
