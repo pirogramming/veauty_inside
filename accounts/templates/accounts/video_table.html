@@ -1,7 +1,7 @@
 {% extends "accounts/profile.html" %}
 
 {% block table %}
-<form action="{% url 'video_scrap_cancel' %}" method="post">
+<form action="{% url 'video_scrap_processing' %}" method="post">
     {% csrf_token %}
     <table class="table">
         <thead>

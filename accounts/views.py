@@ -6,7 +6,7 @@ from django.views.generic import CreateView
 from django.contrib.auth import get_user_model
 from .forms import SignupForm
 from .models import User
-from beauty.models import Bigcate, Video
+from beauty.models import Bigcate, Video, Cosmetic
 
 User = get_user_model()
 
@@ -43,15 +43,19 @@ def profile(request, kind=""):
 
     elif kind == contexts['taps'][1]:
         contexts['cosmetics'] = request.user.cosmetic.all()
+
+        return render(request, 'accounts/cosmetic_table.html', contexts)
     elif kind == contexts['taps'][2]:
         contexts['cosmetics'] = request.user.my_cosmetic.all()
+
+        return render(request, 'accounts/cosmetic_table.html', contexts)
     else:
         return redirect("profile", contexts['taps'][0])
         
     return render(request, 'accounts/profile.html', contexts)
 
 @login_required
-def video_scrap_cancel(request):
+def video_scrap_processing(request):
     if request.method == 'POST':
         for num in request.POST:
             try:
@@ -60,3 +64,16 @@ def video_scrap_cancel(request):
             except:
                 pass
     return redirect("profile", 'video')
+
+@login_required
+def cosmetic_scrap_processing(request):
+    if request.method == 'POST':
+        if request.POST['selection'] == 'cancel':
+            if request.POST['kind'] == 'interested':
+                for num in request.POST:
+                    try:
+                        cosmetic = get_object_or_404(Cosmetic, pk=num)
+                        request.user.cosmetic.remove(cosmetic)
+                    except:
+                        pass
+    return redirect("profile", request.POST['kind'])

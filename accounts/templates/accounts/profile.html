@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container">
-    <h2>{{ user }}'s Profile</h2>
+    <h2>{{ user }}</h2>
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a class="nav-link {% if kind == taps.0 %} active {% endif %}" href="{% url 'profile' taps.0 %}">Videos</a>
@@ -14,11 +14,9 @@
             <a class="nav-link {% if kind == taps.2 %} active {% endif %}" href="{% url 'profile' taps.2 %}">MY Cosmetics</a>
         </li>
     </ul>
+
     {% block table %}
     {% endblock %}
 
-    {% for cosmetic in cosmetics %}
-    <div>{{ cosmetic }}</div>
-    {% endfor %}
 </div>
 {% endblock %}
