@@ -128,4 +128,5 @@ dmypy.json
 
 #data files
 output.csv
+encoded_output.csv
 real_output.csv
