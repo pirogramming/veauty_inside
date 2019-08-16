@@ -8,7 +8,6 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('profile/', views.profile, name='profile'),
     path('profile/<str:kind>', views.profile, name='profile'),
-    path('profile/combine/result/', views.combine_result, name='combine_result'),
     path('video_scrap_processing', views.video_scrap_processing, name='video_scrap_processing'),
     path('cosmetic_scrap_processing', views.cosmetic_scrap_processing, name='cosmetic_scrap_processing'),
 ]

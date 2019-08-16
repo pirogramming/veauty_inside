@@ -219,47 +219,60 @@ def combine_cosmetic(request, kind=""):
     if contexts == 0:
         return redirect("beauty:home")
     else:
-        contexts['selected'] = selected
+        contexts['selected'] = [get_object_or_404(Cosmetic, pk=pk) for pk in request.GET.getlist('c')]
+        contexts['curr_cos'] = request.GET.getlist('c')
+        querystring = '?'
+        for c in request.GET.getlist('c'):
+            querystring = querystring + "c=" + c + "&"
+        contexts['query_cos'] = querystring[:-1]
         return render(request, 'beauty/combine_cosmetic.html', contexts)
 
 def cosmetic_pick(request):
     if request.method == "POST":
-        for num in request.POST:
-            try:
-                selection = get_object_or_404(Cosmetic, pk=num)
-                if not selection in selected:
-                    selected.append(selection)
-            except:
-                pass
-        return redirect("beauty:combine_cosmetic", request.POST['kind'])
+        querystring = '?'
+        for c in request.POST.getlist('curr_cos'):
+            querystring = querystring + "c=" + c + "&"
+
+        for c in request.POST.getlist('cosmetics'):
+            if not c in request.POST.getlist('curr_cos'):
+                querystring = querystring + "c=" + c + "&"
+
+        response = redirect("beauty:combine_cosmetic", request.POST['kind'])
+        response['Location'] += (querystring + "pageNum=" + request.POST['pageNum'])
+        return response
     else:
         return redirect("beauty:combine_cosmetic", 'all')
 
 def cosmetic_delete(request):
     if request.method == "POST":
-        nums = []
-        for num in request.POST:
-            try:
-                nums.append(int(num)-1)
-            except:
-                pass
-        for num in sorted(nums, reverse=True):
-            del selected[num]
+        querystring = '?'
+        for c in request.POST.getlist('curr_cos'):
+            if not c in request.POST.getlist('del_cos'):
+                querystring = querystring + "c=" + c + "&"
 
-        return redirect("beauty:combine_cosmetic", request.POST['kind'])
+        response = redirect("beauty:combine_cosmetic", request.POST['kind'])
+        response['Location'] += (querystring + "pageNum=" + request.POST['pageNum'])
+        return response
     else:
         return redirect("beauty:combine_cosmetic", 'all')
 
 def cosmetic_reset(request):
     if request.method == "POST":
-        selected.clear()
-        return redirect("beauty:combine_cosmetic", request.POST['kind'])
+        response = redirect("beauty:combine_cosmetic", request.POST['kind'])
+        response['Location'] += "?pageNum=" + request.POST['pageNum']
+        return response
     else:
         return redirect("beauty:combine_cosmetic", 'all')
 
 def combine_processing(request):
     if request.method == 'POST':
-        return redirect("beauty:combine_result")
+        querystring = '?'
+        for c in request.POST.getlist('curr_cos'):
+            querystring = querystring + "c=" + c + "&"
+
+        response = redirect("beauty:combine_result")
+        response['Location'] += querystring
+        return response
     else:
         return redirect("beauty:combine_cosmetic", 'all')
 
@@ -282,6 +295,7 @@ def create_recomend(selected=selected):
     return videos
 
 def combine_result(request):
+    selected = [get_object_or_404(Cosmetic, pk=pk) for pk in request.GET.getlist('c')]
     videos = create_recomend(selected=selected)
 
     return render(request, "beauty/combine_result.html", {
@@ -293,35 +307,36 @@ def combine_result(request):
 def cosmetic_save(request):
     if request.method == "POST" and request.user.is_authenticated:
         if request.POST['selection'] == 'interest':
-            for num in request.POST:
-                try:
-                    cosmetic = get_object_or_404(Cosmetic, pk=num)
-                    request.user.cosmetic.add(cosmetic)
-                except:
-                    pass
+            cosmetics = Cosmetic.objects.filter(pk__in=request.POST.getlist('cosmetics_id'))
+            request.user.cosmetic.add(*cosmetics)
         elif request.POST['selection'] == 'my':
-            for num in request.POST:
-                try:
-                    my_cosmetic = get_object_or_404(Cosmetic, pk=num)
-                    request.user.my_cosmetic.add(my_cosmetic)
-                except:
-                    pass
-    if request.POST['type'] == "general":
-        return redirect("beauty:combine_result")
+            my_cosmetics = Cosmetic.objects.filter(pk__in=request.POST.getlist('cosmetics_id'))
+            request.user.my_cosmetic.add(*my_cosmetics)
+
+    querystring = '?'
+    for c in request.POST.getlist('cosmetics_id'):
+        querystring = querystring + "c=" + c + "&"
+
+    if request.POST['type'] == "general":   
+        response = redirect("beauty:combine_result")
+        response['Location'] += querystring 
+        return response
     elif request.POST['type'] == "user":
         return redirect("combine_result")
 
 def recommend_scrap(request):
     if request.method == "POST" and request.user.is_authenticated:
-        for num in request.POST:
-            try:
-                video = get_object_or_404(Video, pk=num)
-                request.user.video.add(video)
-            except:
-                pass
+        videos = Video.objects.filter(pk__in=request.POST.getlist('videos_id'))
+        request.user.video.add(*videos)
+
+    querystring = '?'
+    for c in request.POST.getlist('cosmetics_id'):
+        querystring = querystring + "c=" + c + "&"
     
-    if request.POST['type'] == "general":
-        return redirect("beauty:combine_result")
+    if request.POST['type'] == "general":   
+        response = redirect("beauty:combine_result")
+        response['Location'] += querystring 
+        return response
     elif request.POST['type'] == "user":
         return redirect("combine_result")
         

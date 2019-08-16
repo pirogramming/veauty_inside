@@ -11,8 +11,6 @@ from beauty.views import create_recomend
 import copy
 
 User = get_user_model()
-user_selected = []
-temp_user_selected = []
 
 # Create your views here.
 class SignupView(CreateView):
@@ -70,41 +68,19 @@ def video_scrap_processing(request):
 def cosmetic_scrap_processing(request):
     if request.method == 'POST':
         if request.POST['selection'] == 'cancel':
+            cosmetics = Cosmetic.objects.filter(pk__in=request.POST.getlist('cosmetics_id'))
             if request.POST['kind'] == 'interested':
-                for num in request.POST:
-                    try:
-                        cosmetic = get_object_or_404(Cosmetic, pk=num)
-                        request.user.cosmetic.remove(cosmetic)
-                    except:
-                        pass
+                request.user.cosmetic.remove(*cosmetics)
             elif request.POST['kind'] == 'mycosmetic':
-                for num in request.POST:
-                    try:
-                        my_cosmetic = get_object_or_404(Cosmetic, pk=num)
-                        request.user.my_cosmetic.remove(my_cosmetic)
-                    except:
-                        pass
+                request.user.my_cosmetic.remove(*cosmetics)
         elif request.POST['selection'] == 'combine':
-            for num in request.POST:
-                try:
-                    cosmetic = get_object_or_404(Cosmetic, pk=num)
-                    user_selected.append(cosmetic)
-                except:
-                    pass
-            temp_user_selected.clear()
-            temp_user_selected.extend(copy.deepcopy(user_selected))
-            
-            return redirect("combine_result")
+            querystring = '?'
+            for c in request.POST.getlist('cosmetics_id'):
+                querystring = querystring + "c=" + c + "&"
+
+            response = redirect("beauty:combine_result")
+            response['Location'] += querystring
+            return response
             
     return redirect("profile", request.POST['kind'])
 
-@login_required
-def combine_result(request):
-    videos = create_recomend(selected=temp_user_selected)
-    user_selected.clear()
-    
-    return render(request, "beauty/combine_result.html", {
-        'cosmetics': temp_user_selected,
-        'videos': videos,
-        'type' : 'user',
-    })
