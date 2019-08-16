@@ -1,7 +1,9 @@
+from django.contrib.auth.forms import UserChangeForm
 from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.conf import settings
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.contrib.auth import get_user_model
 from .forms import SignupForm
@@ -9,6 +11,8 @@ from .models import User
 from beauty.models import Bigcate, Video, Cosmetic
 from beauty.views import create_recomend
 import copy
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib import messages
 
 User = get_user_model()
 
@@ -77,3 +81,18 @@ def cosmetic_scrap_processing(request):
             return response
             
     return redirect("profile", request.POST['kind'])
+
+
+class MyPasswordChangeView(PasswordChangeView):
+    success_url = reverse_lazy('profile')
+    template_name = 'accounts/password_change.html'
+
+    def form_valid(self, form):
+        messages.info(self.request, '암호 변경을 완료했습니다.')
+        return super().form_valid(form)
+
+
+# class MyNicknameChangeView(User):
+#     class Meta:
+#         model = get_user_model()
+#         fields = ['nickname']

@@ -20,6 +20,10 @@ div>div>p>p{
     color: red;
 }
 
+#Signup>p{
+    width:80%;
+    margin:10px auto;
+}
 
 #Signup> p> input{
     box-shadow: none !important;
@@ -38,6 +42,8 @@ div>div>p>p{
     width:335px;
     height: 615px;
 }
+
+
 
 #Signup> p> input:active{
     outline: pink solid 2px;
@@ -72,7 +78,7 @@ input::placeholder {
 
 #top{
     border:1px solid;
-    padding:10px;
+    /*padding:10px;*/
     width:400px;
     height:300px;
     color:#F6648C;
@@ -82,13 +88,24 @@ input::placeholder {
     cursor:pointer;
 }
 
+
+
+.loginA table input:active{
+    outline: pink solid 2px;
+}
+.loginA table input:focus{
+    outline: pink solid 2px;
+}
+
 #submit{
     background-color: #F6648C;
     color:white;
 }
 
+
 #top>input{
 }
+
 #top>button{
     background-color: #F6648C;
 }
@@ -98,13 +115,27 @@ input::placeholder {
 }
 
 #bottom{
-    border:1px solid; padding:10px; width:400px; height:120px;
+    border:1px solid; width:400px; height:120px;
     color:#F6648C;
 }
 
 #bottom>button{
     background-color: #F6648C; color:white;
 }
-#Signup>p{
-    width:80%;
+
+
+
+
+#PasswordReset{
+    border:1px solid;
+    padding:10px;
+    width:400px;
+    height:400px;
+    color:#F6648C;
+}
+
+#PasswordR> p> input{
+    box-shadow: none !important;
+    width:258px;
+    height:36px;
 }

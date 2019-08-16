@@ -35,6 +35,9 @@
 <div class="container">
     <div class="row d-flex justify-content-center">
         <h2>{{ user }}</h2>
+        <hr/>
+        <a href="{% url "password_change" %}">비밀번호 변경하기</a>
+{#        <a href="{% url "nickname_change" %}">닉네임 변경하기</a>#}
     </div>
 
     <ul class="nav nav-tabs">
