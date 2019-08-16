@@ -75,7 +75,7 @@ def video_scrap_processing(request):
 def cosmetic_scrap_processing(request):
     if request.method == 'POST':
         if request.POST['selection'] == 'cancel':
-            cosmetics = Cosmetic.objects.filter(pk__in=request.POST.getlist('cosmetics_id'))
+            cosmetics = Cosmetic.objects.filter(pk__in=request.POST.getlist('cosmetic_id'))
             if request.POST['kind'] == 'interest':
                 request.user.cosmetic.remove(*cosmetics)
             elif request.POST['kind'] == 'my':
