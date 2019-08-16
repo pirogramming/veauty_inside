@@ -26,7 +26,7 @@
         </ul>
         <ul class="nav navbar-nav">
             <li class="nav-item">
-                <a class="nav-link text-white" href="{% url 'logout' %}?next={{ request.path }}">
+                <a class="nav-link text-white" href="{% url 'logout' %}?next={{ request.get_full_path|urlencode }}">
                     <i class="fa fa-sign-in" aria-hidden="true"></i>Logout</a>
             </li>
         </ul>
