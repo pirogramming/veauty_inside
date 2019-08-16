@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.conf import settings
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import views as auth_views
 from django.views.generic import CreateView
 from django.contrib.auth import get_user_model
 from .forms import SignupForm
@@ -12,7 +13,7 @@ import copy
 
 User = get_user_model()
 
-# Create your views here.
+
 class SignupView(CreateView):
     model = User
     form_class = SignupForm
@@ -28,6 +29,12 @@ class SignupView(CreateView):
         return redirect(self.get_success_url())
 
 signup = SignupView.as_view()
+
+class LoginView(auth_views.LoginView):
+    template_name="accounts/login.html"
+    redirect_authenticated_user = True
+
+login = LoginView.as_view()
 
 @login_required
 def profile(request, kind=""):
