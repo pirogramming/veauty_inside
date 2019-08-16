@@ -47,6 +47,7 @@ def pagination(request, contexts, contexts_name, PAGE_ROW_COUNT=10, PAGE_DISPLAY
 def create_test_DB(request):
     #test db 생성
     #Caution! These codes will delete all records!!!
+    '''
     if request.user.is_superuser:
         Bigcate.objects.all().delete()
         Youtuber.objects.all().delete()
@@ -115,7 +116,7 @@ def create_test_DB(request):
                 if not cos_id in id_set:
                     id_set.append(cos_id)
                     video.cosmetic.add(cosmetic)
-
+    '''
     return redirect("login")
 
 def home(request):
