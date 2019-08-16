@@ -40,14 +40,15 @@ Cosmetic List
                             {% if user.is_authenticated %}
                             <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
                             {% endif %}
-                            <th>Rank</th>
+
+                            <th width="20">Rank</th>
+
                             {% if kind == 'all' %}
                             <th>category</th>
                             {% endif %}
+
                             <th>cosmetic</th>
-                            {% for i in yt_range %}
-                            <th>youtube</th>
-                            {% endfor %}
+                            <th width="60%">youtube</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -56,7 +57,7 @@ Cosmetic List
                         <tr>
                             {% if user.is_authenticated %}
                             <td>
-                                <input type="checkbox" name="{{ cosmetic.id }}">
+                                <input type="checkbox" name="cosmetic_id" value="{{ cosmetic.id }}">
                             </td>
                             {% endif %}
                             <td>
@@ -70,34 +71,36 @@ Cosmetic List
                             <td>{{ cosmetic.category.bigcate }}</td>
                             {% endif %}
                             <td>{{ cosmetic.name }}</td>
-                            {% for video in cosmetic.video_set.all|slice:yt_num %}
                             <td>
-                                {{ video.title }}
+                                <ul>
+                                    {% for video in cosmetic.video_set.all|slice:yt_num %}
+                                    <li>
+                                        {{ video.title }}
+                                    </li>
+                                    {% endfor %}
+                                </ul>
                             </td>
-                            {% endfor %}
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
 
 
-                    {% if user.is_authenticated %}
-                    <input type="hidden" name="kind" value="{{ kind }}">
-                    <input type="hidden" name="pageNum" value="{{ pageNum }}">
-                    <div class="text-right">
-                        <button type="submit" class="btn btn-danger disabled" name="selection" value="interest">관심 화장품
-                            담기</button>
-
-                        <button type="submit" class="btn btn-danger disabled" name="selection" value="my">관심 화장품
-                            담기</button>
-                    </div>
-                    {% endif %}
-
-               {% include 'beauty/pagination.html' %}
-
                 {% if user.is_authenticated %}
+                <input type="hidden" name="kind" value="{{ kind }}">
+                <input type="hidden" name="pageNum" value="{{ pageNum }}">
+                <div class="text-right">
+                    <button type="submit" class="btn btn-danger disabled" name="selection" value="interest">관심 화장품
+                        담기
+                    </button>
+                    <button type="submit" class="btn btn-danger disabled" name="selection" value="my">내 화장품
+                        담기
+                    </button>
+                </div>
             </form>
             {% endif %}
+
+            {% include 'beauty/pagination.html' %}
         </div>
     </div>
 </div>

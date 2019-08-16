@@ -24,9 +24,11 @@ Combine Result
             </table>
             <form action="{% url 'beauty:cosmetic_save' %}" method="POST">
                 {% csrf_token %}
+
                 {% for cosmetic in cosmetics %}
-                <input type="hidden" name="{{ cosmetic.id }}">
+                <input type="hidden" name="cosmetic_id" value="{{ cosmetic.id }}">
                 {% endfor %}
+
                 <button type="submit" name="selection" value="interest">관심 화장품 등록</button>
                 <button type="submit" name="selection" value="my">내 화장품 등록</button>
             </form>
@@ -46,7 +48,7 @@ Combine Result
                     <tbody>
                         {% for video in videos %}
                         <tr>
-                            <td><input type="checkbox" name="{{ video.id }}"></td>
+                            <td><input type="checkbox" name="video_id" value="{{ video.id }}"></td>
                             <td><a href="http://{{ video.yt_url }}" target="_blank">{{ video.title }}</a></td>
                             <td>{{ video.hits }}</td>
                             <td>
@@ -60,6 +62,9 @@ Combine Result
                         {% endfor %}
                     </tbody>
                 </table>
+                {% for cosmetic in cosmetics %}
+                <input type="hidden" name="cosmetic_id" value="{{ cosmetic.id }}">
+                {% endfor %}
                 <input type="submit" value="동영상 스크랩">
             </form>
         </div>

@@ -6,6 +6,9 @@ from django.views.generic import CreateView
 from django.contrib.auth import get_user_model
 from .forms import SignupForm
 from .models import User
+from beauty.models import Bigcate, Video, Cosmetic
+from beauty.views import create_recomend
+import copy
 
 User = get_user_model()
 
@@ -28,4 +31,49 @@ signup = SignupView.as_view()
 
 @login_required
 def profile(request, kind=""):
-    return render(request, 'accounts/profile.html')
+    contexts = {}
+    contexts['taps'] = ['video', 'interest', 'my']
+    contexts['kind'] = kind
+
+    if kind == contexts['taps'][0] or kind == "":
+        kind = contexts['taps'][0]
+        contexts['kind'] = kind
+        contexts['videos'] = request.user.video.all()
+        contexts['big_categories'] = Bigcate.objects.all()
+
+        return render(request, 'accounts/video_table.html', contexts)
+    elif kind == contexts['taps'][1]:
+        contexts['cosmetics'] = request.user.cosmetic.all()
+
+        return render(request, 'accounts/cosmetic_table.html', contexts)
+    elif kind == contexts['taps'][2]:
+        contexts['cosmetics'] = request.user.my_cosmetic.all()
+
+        return render(request, 'accounts/cosmetic_table.html', contexts)
+    else:
+        return redirect("profile", contexts['taps'][0])
+
+@login_required
+def video_scrap_processing(request):
+    if request.method == 'POST':
+        videos = Video.objects.filter(pk__in=request.POST.getlist('video_id'))
+        request.user.video.remove(*videos)
+    return redirect("profile", 'video')
+
+@login_required
+def cosmetic_scrap_processing(request):
+    if request.method == 'POST':
+        if request.POST['selection'] == 'cancel':
+            cosmetics = Cosmetic.objects.filter(pk__in=request.POST.getlist('cosmetics_id'))
+            if request.POST['kind'] == 'interest':
+                request.user.cosmetic.remove(*cosmetics)
+            elif request.POST['kind'] == 'my':
+                request.user.my_cosmetic.remove(*cosmetics)
+        elif request.POST['selection'] == 'combine':
+            querystring = (lambda x: '?c=' + '&c='.join(x) if x else "?")(request.POST.getlist('cosmetic_id'))
+
+            response = redirect("beauty:combine_result")
+            response['Location'] += querystring
+            return response
+            
+    return redirect("profile", request.POST['kind'])
