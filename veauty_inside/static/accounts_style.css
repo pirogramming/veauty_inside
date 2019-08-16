@@ -1,6 +1,3 @@
-#signupA{
-    margin: 20px 0 0 0;
-}
 
 div>img{
     float:left;
@@ -11,8 +8,7 @@ div>div{
 
 div>div>h1{
     cursor:pointer;
-        text-align: center;
-
+    text-align: center;
 }
 
 
@@ -22,12 +18,6 @@ div>div>h4{
 
 div>div>p>p{
     color: red;
-}
-
-
-
-#Signup{
-    margin:0 0 0 20px;
 }
 
 
@@ -85,12 +75,12 @@ input::placeholder {
     padding:10px;
     width:400px;
     height:300px;
-    margin:50px auto 0;
     color:#F6648C;
-    /*text-align:center;*/
 }
 
-
+#top>h1{
+    cursor:pointer;
+}
 
 #submit{
     background-color: #F6648C;
@@ -98,7 +88,6 @@ input::placeholder {
 }
 
 #top>input{
-    margin:0 0 0 30%;
 }
 #top>button{
     background-color: #F6648C;
@@ -109,7 +98,8 @@ input::placeholder {
 }
 
 #bottom{
-    border:1px solid; padding:10px; width:400px; height:120px; margin:10px auto; color:#F6648C;
+    border:1px solid; padding:10px; width:400px; height:120px;
+    color:#F6648C;
 }
 
 #bottom>button{
@@ -117,5 +107,4 @@ input::placeholder {
 }
 #Signup>p{
     width:80%;
-    margin:10px auto;
 }
