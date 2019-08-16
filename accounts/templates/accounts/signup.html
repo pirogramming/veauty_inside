@@ -1,14 +1,15 @@
 {% extends "accounts/base.html" %}
 
 {% block content %}
-    <form action="" method="post" id="signupA">
+    <form action="" method="post">
         {% csrf_token %}
         <div class="container">
         <div class="d-flex justify-content-center row">
-            <div class=".d-none .d-sm-block ">
+            <div class="d-none d-xl-block d-lg-block">
                 <img src="https://pds.joins.com/news/component/htmlphoto_mmdata/201508/04/htm_20150804173259c010c021.jpg"
                      width=454 height=618>
             </div>
+        <div>
             <div id="Signup">
                 <h1><a onclick="location.href='{% url 'root' %}'">Veauty Inside</a></h1>
                 <h4>Sign up</h4>
@@ -67,6 +68,7 @@
                     정책 및 쿠키 정책에 동의하게 됩니다.
                     <input type="submit" id="submit"/></p>
             </div>
+        </div>
         </div>
     </div>
     </form>

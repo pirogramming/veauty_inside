@@ -1,0 +1,26 @@
+{% extends "accounts/base.html" %}
+
+{% block content %}
+    <form action="" method="post">
+        {% csrf_token %}
+        <table>
+
+        </table>
+        <div class="container" id="PasswordReset">
+            <div class="d-flex justify-content-center">
+                <div id="PasswordR">
+                    <h2>닉네임 변경</h2>
+                    <p>
+                        <input name="old_nickname" class="form-control" required id="nickname"
+                               placeholder="old nickname">
+                    </p>
+                    <p>
+                        <input name="new_nickname" class="form-control" required id="nickname"
+                               placeholder="new nickname">
+                    </p>
+                    <input type="submit"/>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
