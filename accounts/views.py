@@ -32,7 +32,7 @@ signup = SignupView.as_view()
 @login_required
 def profile(request, kind=""):
     contexts = {}
-    contexts['taps'] = ['video', 'interested', 'mycosmetic']
+    contexts['taps'] = ['video', 'interest', 'my']
     contexts['kind'] = kind
 
     if kind == contexts['taps'][0] or kind == "":
@@ -56,12 +56,8 @@ def profile(request, kind=""):
 @login_required
 def video_scrap_processing(request):
     if request.method == 'POST':
-        for num in request.POST:
-            try:
-                video = get_object_or_404(Video, pk=num)
-                request.user.video.remove(video)
-            except:
-                pass
+        videos = Video.objects.filter(pk__in=request.POST.getlist('video_id'))
+        request.user.video.remove(*videos)
     return redirect("profile", 'video')
 
 @login_required
@@ -69,18 +65,15 @@ def cosmetic_scrap_processing(request):
     if request.method == 'POST':
         if request.POST['selection'] == 'cancel':
             cosmetics = Cosmetic.objects.filter(pk__in=request.POST.getlist('cosmetics_id'))
-            if request.POST['kind'] == 'interested':
+            if request.POST['kind'] == 'interest':
                 request.user.cosmetic.remove(*cosmetics)
-            elif request.POST['kind'] == 'mycosmetic':
+            elif request.POST['kind'] == 'my':
                 request.user.my_cosmetic.remove(*cosmetics)
         elif request.POST['selection'] == 'combine':
-            querystring = '?'
-            for c in request.POST.getlist('cosmetics_id'):
-                querystring = querystring + "c=" + c + "&"
+            querystring = (lambda x: '?c=' + '&c='.join(x) if x else "?")(request.POST.getlist('cosmetic_id'))
 
             response = redirect("beauty:combine_result")
             response['Location'] += querystring
             return response
             
     return redirect("profile", request.POST['kind'])
-

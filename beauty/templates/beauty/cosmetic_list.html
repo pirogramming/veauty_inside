@@ -1,109 +1,107 @@
 {% extends 'beauty/base.html' %}
 
 {% block title %}
-    Cosmetic List
+Cosmetic List
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link {% if kind == 'all' %} active {% endif %}"
-                   href="{% url 'beauty:cosmetic_list' 'all' %}">all</a>
-            </li>
-            {% for big_category in big_categories %}
-                <li class="nav-item">
-                    <a class="nav-link {% if big_category == curr_big %} active {% endif %}"
-                       href="{% url 'beauty:cosmetic_list' big_category.smallcate_set.all.0.eng_name %}">{{ big_category }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-        {% if kind != 'all' %}
-            <ul class="nav nav-tabs">
-                {% for small_category in small_categories %}
-                    <li class="nav-item">
-                        <a class="nav-link {% if small_category == curr_small %} active {% endif %}"
-                           href="{% url 'beauty:cosmetic_list' small_category.eng_name %}">{{ small_category }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-        <div class="tab-content">
-            <div class="tab-pane fade show active">
-                {% if user.is_authenticated %}
-                    <form action="{% url 'beauty:cosmetic_scrap' %}" method="post">
-                    {% csrf_token %}
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link {% if kind == 'all' %} active {% endif %}"
+                href="{% url 'beauty:cosmetic_list' 'all' %}">all</a>
+        </li>
+        {% for big_category in big_categories %}
+        <li class="nav-item">
+            <a class="nav-link {% if big_category == curr_big %} active {% endif %}"
+                href="{% url 'beauty:cosmetic_list' big_category.smallcate_set.all.0.eng_name %}">{{ big_category }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% if kind != 'all' %}
+    <ul class="nav nav-tabs">
+        {% for small_category in small_categories %}
+        <li class="nav-item">
+            <a class="nav-link {% if small_category == curr_small %} active {% endif %}"
+                href="{% url 'beauty:cosmetic_list' small_category.eng_name %}">{{ small_category }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="tab-content">
+        <div class="tab-pane fade show active">
+            {% if user.is_authenticated %}
+            <form action="{% url 'beauty:cosmetic_scrap' %}" method="post">
+                {% csrf_token %}
                 {% endif %}
                 <table class="table">
                     <thead>
-                    <tr>
-                        {% if user.is_authenticated %}
+                        <tr>
+                            {% if user.is_authenticated %}
                             <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
-                        {% endif %}
-                        <th width="20">Rank</th>
-                        {% if kind == 'all' %}
+                            {% endif %}
+
+                            <th width="20">Rank</th>
+
+                            {% if kind == 'all' %}
                             <th>category</th>
-                        {% endif %}
-                        <th>cosmetic</th>
+                            {% endif %}
 
+                            <th>cosmetic</th>
                             <th width="60%">youtube</th>
-
-                    </tr>
+                        </tr>
                     </thead>
                     <tbody>
-                    {% for cosmetic in cosmetics %}
+                        {% for cosmetic in cosmetics %}
                         {% load mathfilters %}
                         <tr>
                             {% if user.is_authenticated %}
-                                <td>
-                                    <input type="checkbox" name="{{ cosmetic.id }}">
-                                </td>
+                            <td>
+                                <input type="checkbox" name="cosmetic_id" value="{{ cosmetic.id }}">
+                            </td>
                             {% endif %}
                             <td>
                                 {% if pageNum %}
-                                    {{ pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
+                                {{ pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
                                 {% else %}
-                                    {{ forloop.counter }}
+                                {{ forloop.counter }}
                                 {% endif %}
                             </td>
                             {% if kind == 'all' %}
-                                <td>{{ cosmetic.category.bigcate }}</td>
+                            <td>{{ cosmetic.category.bigcate }}</td>
                             {% endif %}
                             <td>{{ cosmetic.name }}</td>
                             <td>
                                 <ul>
-                                {% for video in cosmetic.video_set.all|slice:yt_num %}
+                                    {% for video in cosmetic.video_set.all|slice:yt_num %}
                                     <li>
-                                    {{ video.title }}
+                                        {{ video.title }}
                                     </li>
-                                {% endfor %}
+                                    {% endfor %}
                                 </ul>
                             </td>
                         </tr>
-                    {% endfor %}
+                        {% endfor %}
                     </tbody>
                 </table>
 
 
                 {% if user.is_authenticated %}
-                    <input type="hidden" name="kind" value="{{ kind }}">
-                    <input type="hidden" name="pageNum" value="{{ pageNum }}">
-                    <div class="text-right">
-                        <button type="submit" class="btn btn-danger disabled" name="selection" value="interest">관심 화장품
-                            담기
-                        </button>
-                        <button type="submit" class="btn btn-danger disabled" name="selection" value="my">관심 화장품
-                            담기
-                        </button>
-                    </div>
-                {% endif %}
+                <input type="hidden" name="kind" value="{{ kind }}">
+                <input type="hidden" name="pageNum" value="{{ pageNum }}">
+                <div class="text-right">
+                    <button type="submit" class="btn btn-danger disabled" name="selection" value="interest">관심 화장품
+                        담기
+                    </button>
+                    <button type="submit" class="btn btn-danger disabled" name="selection" value="my">내 화장품
+                        담기
+                    </button>
+                </div>
+            </form>
+            {% endif %}
 
-                {% include 'beauty/pagination.html' %}
-
-                {% if user.is_authenticated %}
-                    </form>
-                {% endif %}
-            </div>
+            {% include 'beauty/pagination.html' %}
         </div>
     </div>
+</div>
 {% endblock %}

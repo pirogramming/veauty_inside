@@ -58,7 +58,7 @@ Combine Cosmetics
                             {% for cosmetic in cosmetics %}
                             {% load mathfilters %}
                             <tr>
-                                <td><input type="checkbox" name="cosmetics" value="{{ cosmetic.id }}" /></td>
+                                <td><input type="checkbox" name="cosmetic_id" value="{{ cosmetic.id }}" /></td>
                                 <td>
                                     {% if pageNum %}
                                     {{ pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
