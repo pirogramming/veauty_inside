@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'mathfilters',
     'beauty',
     'accounts',
-
 ]
 
 

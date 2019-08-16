@@ -1,10 +1,11 @@
 from django.urls import path
-from . import views
+from . import views, views_data
 
 app_name = 'beauty'
 
 urlpatterns = [
-    path('create_test_DB', views.create_test_DB, name="create_test_DB"),
+    path('create_test_DB', views_data.create_test_DB, name="create_test_DB"),
+    path('create_test_csv', views_data.create_test_csv, name="creat_test_csv"),
 
     path('', views.home, name="home"),
     path('video/', views.video_list, name="video_list"),
