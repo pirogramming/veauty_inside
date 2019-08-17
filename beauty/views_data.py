@@ -89,61 +89,34 @@ def create_category_csv(request):
         except:
             pass
 
-        with open("temp_category.csv", 'w', encoding='utf-8', newline='') as f_out:
+        with open("category.csv", 'w', encoding='euc_kr', newline='') as f_out:
             wr = csv.writer(f_out)
 
             i = 0
             while True:
-                temp_cate = []
                 try:
-                    if request.POST[str(i)+","+str(0)] != "" and request.POST[str(i)+","+str(1)] != "":
-                        temp_cate.append(request.POST[str(i)+","+str(0)])
-                        temp_cate.append(request.POST[str(i)+","+str(1)])
-
-                        wr.writerow(temp_cate)
+                    if request.POST[str(i)+","+str(0)] != "" and request.POST[str(i)+","+str(1)] != "" and request.POST[str(i)+","+str(2)] != "" and request.POST[str(i)+","+str(3)] != "":
+                        wr.writerow([request.POST[str(i)+","+str(0)], request.POST[str(i)+","+str(1)], request.POST[str(i)+","+str(2)], request.POST[str(i)+","+str(3)]])
                 except:
                     break
                 i = i + 1
+
             try:
                 if request.POST['add']:
-                    wr.writerow(["-", "-"])
+                    wr.writerow(["-", "-", "-", "-"])
             except:
                 pass
-        
-        infile = codecs.open('temp_category.csv', 'r', encoding='utf-8')
-        outfile = codecs.open('category.csv', 'w', encoding='euc_kr')
-        
-        for line in infile:
-            line = line.replace(u'\xa0', ' ')    # 가끔 \xa0 문자열로 인해 오류가 발생하므로 변환
-            outfile.write(line)
-
-        infile.close()
-        outfile.close()
-
-        os.remove('temp_category.csv')
-
+    
     try:
         with open("category.csv", "r") as f:
             pass
     except:
-        with open("temp_category.csv", "w", encoding='utf-8', newline='') as f:
+        with open("category.csv", "w", encoding='euc_kr', newline='') as f:
             wr = csv.writer(f)
 
             for i in range(1, 5+1):
                 for j in range(i*4-3, i*4+1):
-                    wr.writerow(["b_cate"+str(i), "eng_b_cate"+str(i),"s_cate"+str(j),"eng_s_cate"+str(i)])
-
-        infile = codecs.open('temp_category.csv', 'r', encoding='utf-8')
-        outfile = codecs.open('category.csv', 'w', encoding='euc_kr')
-        
-        for line in infile:
-            line = line.replace(u'\xa0', ' ')    # 가끔 \xa0 문자열로 인해 오류가 발생하므로 변환
-            outfile.write(line)
-
-        infile.close()
-        outfile.close()
-
-        os.remove('temp_category.csv')
+                    wr.writerow(["b_cate"+str(i), "eng_b_cate"+str(i),"s_카테고리"+str(j),"eng_s_cate"+str(i)])
 
     contexts = {}
     row_cate = []
@@ -161,6 +134,7 @@ def create_category_csv(request):
 
     Bigcate.objects.all().delete()
     Smallcate.objects.all().delete()
+
     with open("category.csv", 'r') as f:
         reader = csv.reader(f, delimiter=",")
 
@@ -185,6 +159,7 @@ def create_category_csv(request):
             smallcate.eng_name = row_dict['smallcate_eng']
             smallcate.bigcate = get_object_or_404(Bigcate, name=row_dict['bigcate'])
             smallcate.save()
+            print(smallcate)
 
     return render(request, "beauty/category_edit.html", contexts)
 
@@ -195,12 +170,8 @@ def create_test_csv(request):
         os.remove('output.csv')
     except:
         pass
-    try:
-        os.remove('original_output.csv')
-    except:
-        pass
 
-    with open('original_output.csv', 'w', encoding='utf-8', newline='') as f:
+    with open('output.csv', 'w', encoding='euc_kr', newline='') as f:
         wr = csv.writer(f)
         
         cosmetics = []        
@@ -242,21 +213,11 @@ def create_test_csv(request):
                 upload
             ]+cos_set)        
 
-    infile = codecs.open('original_output.csv', 'r', encoding='utf-8')
-    outfile = codecs.open('output.csv', 'w', encoding='euc_kr')
-    
-    for line in infile:
-        line = line.replace(u'\xa0', ' ')    # 가끔 \xa0 문자열로 인해 오류가 발생하므로 변환
-        outfile.write(line)
-
-    infile.close()
-    outfile.close()
-
     return render(request, "beauty/base.html")
 
 def cosmetic_edit(request):
     if request.method =="POST":
-        with open("output.csv") as f_in, open("temp_output.csv", 'w', encoding='utf-8', newline='') as f_out:
+        with open("output.csv") as f_in, open("temp_output.csv", 'w', encoding='euc_kr', newline='') as f_out:
             reader = csv.reader(f_in, delimiter=",")
             wr = csv.writer(f_out)
 
@@ -271,23 +232,16 @@ def cosmetic_edit(request):
                         break
                 wr.writerow(row[:6]+temp_cos)
         os.remove('output.csv')
-    
-        infile = codecs.open('temp_output.csv', 'r', encoding='utf-8')
-        outfile = codecs.open('output.csv', 'w', encoding='euc_kr')
-        
-        for line in infile:
-            line = line.replace(u'\xa0', ' ')    # 가끔 \xa0 문자열로 인해 오류가 발생하므로 변환
-            outfile.write(line)
 
-        infile.close()
-        outfile.close()
-
+        with open('temp_output.csv', 'r') as infile, open('output.csv', 'w', encoding='euc_kr', newline='') as outfile:
+            for line in infile:   # 가끔 \xa0 문자열로 인해 오류가 발생하므로 변환
+                outfile.write(line)
         os.remove('temp_output.csv')
 
     contexts = {}
     row_cos = []
 
-    with open("output.csv", 'r') as f:
+    with open("output.csv", 'r', encoding='euc_kr') as f:
         reader = csv.reader(f, delimiter=",")
         for i, row in enumerate(reader):
             row_cos.append(row[6:])
