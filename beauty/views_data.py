@@ -82,25 +82,131 @@ def create_test_DB(request):
     '''
     return redirect("login")
 
+def create_category_csv(request):
+    if request.method =="POST":
+        try:
+            os.remove('category.csv')
+        except:
+            pass
+
+        with open("temp_category.csv", 'w', encoding='utf-8', newline='') as f_out:
+            wr = csv.writer(f_out)
+
+            i = 0
+            while True:
+                temp_cate = []
+                try:
+                    if request.POST[str(i)+","+str(0)] != "" and request.POST[str(i)+","+str(1)] != "":
+                        temp_cate.append(request.POST[str(i)+","+str(0)])
+                        temp_cate.append(request.POST[str(i)+","+str(1)])
+
+                        wr.writerow(temp_cate)
+                except:
+                    break
+                i = i + 1
+            try:
+                if request.POST['add']:
+                    wr.writerow(["-", "-"])
+            except:
+                pass
+        
+        infile = codecs.open('temp_category.csv', 'r', encoding='utf-8')
+        outfile = codecs.open('category.csv', 'w', encoding='euc_kr')
+        
+        for line in infile:
+            line = line.replace(u'\xa0', ' ')    # 가끔 \xa0 문자열로 인해 오류가 발생하므로 변환
+            outfile.write(line)
+
+        infile.close()
+        outfile.close()
+
+        os.remove('temp_category.csv')
+
+    try:
+        with open("category.csv", "r") as f:
+            pass
+    except:
+        with open("temp_category.csv", "w", encoding='utf-8', newline='') as f:
+            wr = csv.writer(f)
+
+            for i in range(1, 5+1):
+                for j in range(i*4-3, i*4+1):
+                    wr.writerow(["b_cate"+str(i), "eng_b_cate"+str(i),"s_cate"+str(j),"eng_s_cate"+str(i)])
+
+        infile = codecs.open('temp_category.csv', 'r', encoding='utf-8')
+        outfile = codecs.open('category.csv', 'w', encoding='euc_kr')
+        
+        for line in infile:
+            line = line.replace(u'\xa0', ' ')    # 가끔 \xa0 문자열로 인해 오류가 발생하므로 변환
+            outfile.write(line)
+
+        infile.close()
+        outfile.close()
+
+        os.remove('temp_category.csv')
+
+    contexts = {}
+    row_cate = []
+
+    with open("category.csv", "r") as f:
+        reader = csv.reader(f, delimiter=",")
+
+        for i, row in enumerate(reader):
+            row_cate.append(row)
+            contexts['range'] = range(0, i+1)
+
+        contexts.update({
+                "row_cate" : row_cate
+            })
+
+    Bigcate.objects.all().delete()
+    Smallcate.objects.all().delete()
+    with open("category.csv", 'r') as f:
+        reader = csv.reader(f, delimiter=",")
+
+        for row in reader:
+            row_dict = {
+                'bigcate' : row[0],
+                'bigcate_eng' : row[1],
+                'smallcate' : row[2],
+                'smallcate_eng' : row[3],
+            }
+            try:
+                Bigcate.objects.get(name=row_dict['bigcate'])
+            except Bigcate.DoesNotExist:
+                bigcate = Bigcate()
+                bigcate.name = row_dict['bigcate']
+                bigcate.eng_name = row_dict['bigcate_eng']
+                bigcate.save()
+                print(bigcate)
+
+            smallcate = Smallcate()
+            smallcate.name = row_dict['smallcate']
+            smallcate.eng_name = row_dict['smallcate_eng']
+            smallcate.bigcate = get_object_or_404(Bigcate, name=row_dict['bigcate'])
+            smallcate.save()
+
+    return render(request, "beauty/category_edit.html", contexts)
+
 def create_test_csv(request):
+    bigcates = Bigcate.objects.all()
+    smallcates = Smallcate.objects.all()
     try:
         os.remove('output.csv')
     except:
         pass
     try:
-        os.remove('encoded_output.csv')
+        os.remove('original_output.csv')
     except:
         pass
 
-    with open('output.csv', 'w', encoding='utf-8', newline='') as f:
+    with open('original_output.csv', 'w', encoding='utf-8', newline='') as f:
         wr = csv.writer(f)
-
-        cosmetics = []
-        s_cate_cnt = 15
+        
+        cosmetics = []        
         for i in range(0, 50):
-            s_cate = randint(1, s_cate_cnt)
-            cosmetics.append({"s_cate"+str(s_cate):"cos"+str(i)})
-        print(cosmetics)
+            s_cate = smallcates[randint(0, len(bigcates)-1)].name
+            cosmetics.append({s_cate:"코스메틱"+str(i)})
 
         for i in range(1, 100+1):
             dt = datetime.datetime.now()
@@ -136,13 +242,13 @@ def create_test_csv(request):
                 upload
             ]+cos_set)        
 
-    infile = codecs.open('output.csv', 'r', encoding='utf-8')
-    outfile = codecs.open('encoded_output.csv', 'w', encoding='euc_kr')
+    infile = codecs.open('original_output.csv', 'r', encoding='utf-8')
+    outfile = codecs.open('output.csv', 'w', encoding='euc_kr')
     
     for line in infile:
         line = line.replace(u'\xa0', ' ')    # 가끔 \xa0 문자열로 인해 오류가 발생하므로 변환
         outfile.write(line)
-    
+
     infile.close()
     outfile.close()
 
@@ -150,12 +256,7 @@ def create_test_csv(request):
 
 def cosmetic_edit(request):
     if request.method =="POST":
-        try:
-            os.remove('real_output.csv')
-        except:
-            pass
-
-        with open("encoded_output.csv") as f_in, open("real_output.csv", 'w', encoding='utf-8', newline='') as f_out:
+        with open("output.csv") as f_in, open("temp_output.csv", 'w', encoding='utf-8', newline='') as f_out:
             reader = csv.reader(f_in, delimiter=",")
             wr = csv.writer(f_out)
 
@@ -169,49 +270,41 @@ def cosmetic_edit(request):
                     except:
                         break
                 wr.writerow(row[:6]+temp_cos)
+        os.remove('output.csv')
+    
+        infile = codecs.open('temp_output.csv', 'r', encoding='utf-8')
+        outfile = codecs.open('output.csv', 'w', encoding='euc_kr')
+        
+        for line in infile:
+            line = line.replace(u'\xa0', ' ')    # 가끔 \xa0 문자열로 인해 오류가 발생하므로 변환
+            outfile.write(line)
+
+        infile.close()
+        outfile.close()
+
+        os.remove('temp_output.csv')
 
     contexts = {}
     row_cos = []
-    try:
-        with open("real_output.csv", 'r') as f:
-            reader = csv.reader(f, delimiter=",")
-            for i, row in enumerate(reader):
-                row_cos.append(row[6:])
-                contexts['range'] = range(0, i+1)
-            contexts.update({
-                    "row_cos" : row_cos
-                })
-    except:
-        with open("encoded_output.csv", 'r') as f:
-            reader = csv.reader(f, delimiter=",")
-            for i, row in enumerate(reader):
-                row_cos.append(row[6:])
-                contexts['range'] = range(0, i+1)
-            contexts.update({
-                    "row_cos" : row_cos
-                })
+
+    with open("output.csv", 'r') as f:
+        reader = csv.reader(f, delimiter=",")
+        for i, row in enumerate(reader):
+            row_cos.append(row[6:])
+            contexts['range'] = range(0, i+1)
+        contexts.update({
+                "row_cos" : row_cos
+            })
+
     return render(request, "beauty/cosmetic_edit.html", contexts)
 
 def processing_csv(request):
-    Bigcate.objects.all().delete()
+    #Caution!! these codes will delete all DB
     Youtuber.objects.all().delete()
     Video.objects.all().delete()
     Cosmetic.objects.all().delete()
-    Smallcate.objects.all().delete()
-
-    for i in range(1, 5+1):
-        bigcate = Bigcate()
-        bigcate.name = 'b_cate'+str(i)
-        bigcate.eng_name = 'eng_b_cate'+str(i)
-        bigcate.save()
-
-    small_cates = {}
-    for i in range(1, 15+1):
-        small_cates.update({
-            's_cate'+str(i) : 'b_cate'+str(randint(1, 5))
-        })
-
-    with open("real_output.csv", 'r') as f:
+    #################################
+    with open("output.csv", 'r') as f:
         reader = csv.reader(f, delimiter=",")
 
         for row in reader:
@@ -228,19 +321,10 @@ def processing_csv(request):
                 print(temp_cos[-1].strip().replace("{", "").replace("}", "").replace("'", ""))
 
                 small_cate = temp_cos[0].strip().replace("{", "").replace("}", "").replace("'", "")
-                try:
-                    get_object_or_404(Smallcate, name=small_cate)
-                except:
-                    smallcate = Smallcate()
-                    smallcate.name = small_cate
-                    smallcate.eng_name = 'eng_'+small_cate
-                    smallcate.bigcate = get_object_or_404(Bigcate, name=small_cates[small_cate])
-                    smallcate.save()
-
                 cosmetic_name = temp_cos[-1].strip().replace("{", "").replace("}", "").replace("'", "")
                 try:
-                    get_object_or_404(Cosmetic, name=cosmetic_name)
-                except:
+                    Cosmetic.objects.get(name=cosmetic_name)
+                except Cosmetic.DoesNotExist:
                     cosmetic = Cosmetic()
                     cosmetic.name = cosmetic_name
                     cosmetic.category = get_object_or_404(Smallcate, name=small_cate)

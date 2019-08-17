@@ -128,5 +128,6 @@ dmypy.json
 
 #data files
 output.csv
-encoded_output.csv
-real_output.csv
+category.csv
+original_output.csv
+pony_final.xlsx

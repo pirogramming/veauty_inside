@@ -5,11 +5,12 @@
     {% for i in range %}
     {{ i }}
     <br>
-    {% for cos in row_cos|index:i  %}
-    <input type="text" name="{{i}},{{forloop.counter0}}" value="{{cos}}">
+    {% for cate in row_cate|index:i  %}
+    <input type="text" name="{{i}},{{forloop.counter0}}" value="{{cate}}">
     {% endfor %}
     <br>
     <input type="submit">
     <hr />
     {% endfor %}
+    <input type="submit" name="add" value="add">
 </form>
