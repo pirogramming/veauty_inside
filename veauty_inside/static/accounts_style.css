@@ -1,4 +1,8 @@
 
+body{
+ font-family: "Nanum Gothic", sans-serif !important
+
+}
 div>img{
     float:left;
 }
@@ -139,3 +143,4 @@ input::placeholder {
     width:258px;
     height:36px;
 }
+
