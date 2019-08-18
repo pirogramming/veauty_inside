@@ -6,8 +6,8 @@ Combine Result
 
 {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col-6">
+    <div class="row p-1">
+        <div class="col-4">
             <table class='table'>
                 <thead>
                     <tr>
@@ -33,7 +33,7 @@ Combine Result
                 <button type="submit" name="selection" value="my">내 화장품 등록</button>
             </form>
         </div>
-        <div class="col-6">
+        <div class="col-8">
             <form action="{% url 'beauty:recommend_scrap' %}" method="POST">
                 {% csrf_token %}
                 <table class='table'>

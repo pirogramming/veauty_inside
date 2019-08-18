@@ -29,11 +29,11 @@ Cosmetic List
     </ul>
     {% endif %}
     <div class="tab-content">
-        <div class="tab-pane fade show active">
-            {% if user.is_authenticated %}
-            <form action="{% url 'beauty:cosmetic_scrap' %}" method="post">
-                {% csrf_token %}
-                {% endif %}
+        {% if user.is_authenticated %}
+        <form action="{% url 'beauty:cosmetic_scrap' %}" method="post">
+            {% csrf_token %}
+            {% endif %}
+            <div class="show scrolling table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
@@ -57,7 +57,11 @@ Cosmetic List
                         <tr>
                             {% if user.is_authenticated %}
                             <td>
-                                <input type="checkbox" name="cosmetic_id" value="{{ cosmetic.id }}">
+                                <div class="custom-control custom-checkbox d-inline">
+                                    <input type="checkbox" class="custom-control-input" name="cosmetic_id"
+                                        id="customCheck{{ cosmetic.id }}" value="{{ cosmetic.id }}">
+                                    <label class="custom-control-label" for="customCheck{{ cosmetic.id }}"></label>
+                                </div>
                             </td>
                             {% endif %}
                             <td>
@@ -84,24 +88,19 @@ Cosmetic List
                         {% endfor %}
                     </tbody>
                 </table>
-
-
-                {% if user.is_authenticated %}
-                <input type="hidden" name="kind" value="{{ kind }}">
-                <input type="hidden" name="pageNum" value="{{ pageNum }}">
-                <div class="text-right">
-                    <button type="submit" class="btn btn-danger disabled" name="selection" value="interest">관심 화장품
-                        담기
-                    </button>
-                    <button type="submit" class="btn btn-danger disabled" name="selection" value="my">내 화장품
-                        담기
-                    </button>
-                </div>
-            </form>
-            {% endif %}
-
-            {% include 'beauty/pagination.html' %}
-        </div>
+            </div>
+            {% if user.is_authenticated %}
+            <input type="hidden" name="kind" value="{{ kind }}">
+            <input type="hidden" name="pageNum" value="{{ pageNum }}">
+            <div class="text-right">
+                <button type="submit" class="btn btn-primary mt-auto" name="selection" value="interest">관심 화장품
+                    담기</button>
+                <button type="submit" class="btn btn-primary mt-auto" name="selection" value="my">내 화장품
+                    담기</button>
+            </div>
+        </form>
+        {% endif %}
+        {% include 'beauty/pagination.html' %}
     </div>
 </div>
 {% endblock %}

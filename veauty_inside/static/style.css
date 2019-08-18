@@ -17,19 +17,10 @@ body{
     box-shadow: none;
 }
 
-.container {
 
-}
-
-a.nav-link:active {
+/* a.nav-link:active {
     background-color: #F6648C;
     color: black;
-}
-
-a.nav-link:hover {
-    background-color: #F6648C;
-    color: blue;
-    text-decoration: none;
 }
 
 a.nav-link:link {
@@ -39,7 +30,7 @@ a.nav-link:link {
 a.nav-link:visited {
     color: black;
     background-color: #F6648C;
-}
+} */
 
 
 body > div > ul {
@@ -52,7 +43,11 @@ table > tbody > tr:hover {
 
 table > thead > tr {
     background-color: #FABCCD;
-    font-size: 20px
+}
+
+td a.nav-link:hover {
+    background-color: rgb(230, 230, 230);
+    text-decoration: none;
 }
 
 body > div > div > div > form > div.text-right {
@@ -83,7 +78,7 @@ body > div > div > div > form > div.text-right {
 
 .nav-item > .active {
 
-    background-color: #F6648C !important;
+    font-weight: bold;
 }
 
 
@@ -128,6 +123,33 @@ tbody > .vid-select > input {
     white-space: nowrap;
     table-layout: fixed
 }
+
+.scrolltbody{
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.scrolltbody tbody{
+  display:block;
+  width: 100%;
+  overflow: auto;
+  height: 65vh;
+}
+
+.scrolltbody thead tr {
+   display: block;
+}
+
+.scrolltbody th, .scrolltbody td {
+  text-align: left;
+}
+
+
+.scrolltbody th:nth-of-type(1), .scrolltbody td:nth-of-type(1) { width: 50px; }
+.scrolltbody th:nth-of-type(2), .scrolltbody td:nth-of-type(2) { width: 500px; }
+.scrolltbody th:nth-of-type(3), .scrolltbody td:nth-of-type(3) { width: 500px; }
+
 /*.big-cate{*/
 
 /*    width: 200px;*/
@@ -141,4 +163,8 @@ li{
 
 table, td{
   border:1px solid #EEEEEE
+}
+
+.footer {
+    font-family: 'Raleway', sans-serif;
 }

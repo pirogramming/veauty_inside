@@ -1,16 +1,15 @@
 {% extends "base.html" %}
 {% load static %}
 {% block style %}
-
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-    <link rel="stylesheet" href="{% static 'hello_kiddie.css' %}">
-   {% endblock %}
-
+<link rel="stylesheet" href="{% static 'style.css' %}">
+<link rel="stylesheet" href="{% static 'hello_kiddie.css' %}">
+{% endblock %}
 
 
-    {% block body %}
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-custom">
+{% block body %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+    <div class="container">
         <a class="navbar-brand text-white" href="{% url 'beauty:home' %}">Veauty Inside</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,45 +19,51 @@
 
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'beauty:video_list' %}">비디오 랭킹</a>
+                    <a class="nav-link" href="{% url 'beauty:video_list' %}">비디오 랭킹</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'beauty:cosmetic_list' %}">화장품 목록</a>
+                    <a class="nav-link" href="{% url 'beauty:cosmetic_list' %}">화장품 목록</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'beauty:combine_cosmetic' %}">화장품 조합</a>
+                    <a class="nav-link" href="{% url 'beauty:combine_cosmetic' %}">화장품 조합</a>
                 </li>
             </ul>
-
-
 
             <ul class="nav navbar-nav">
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'profile' %}">
+                    <a class="nav-link" href="{% url 'profile' %}">
                         <i class="fa fa-user-o" aria-hidden="true"></i>My Page</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'logout' %}?next={{ request.get_full_path|urlencode }}">
+                    <a class="nav-link" href="{% url 'logout' %}?next={{ request.get_full_path|urlencode }}">
                         <i class="fa fa-sign-in" aria-hidden="true"></i>Logout</a>
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}">
+                    <a class="nav-link" href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}">
                         <i class="fa fa-user-o" aria-hidden="true"></i>Sign in</a></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'signup' %}?next={{ request.get_full_path|urlencode }}">
+                    <a class="nav-link" href="{% url 'signup' %}?next={{ request.get_full_path|urlencode }}">
                         <i class="fa fa-sign-in" aria-hidden="true"></i>Sign Up</a>
                 </li>
                 {% endif %}
             </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
 
 
-    {% block content %}
-    {% endblock %}
+{% block content %}
+{% endblock %}
 
-    {% endblock %}
+
+<footer id="footer" class="bg-dark text-light py-5">
+    <div class="container">
+        &copy;Veauty Inside Team
+    </div>
+</footer>
+
+{% endblock %}
