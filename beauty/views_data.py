@@ -167,7 +167,6 @@ def create_category_csv(request):
 
 def create_test_csv(request):
     if request.user.is_superuser:
-        bigcates = Bigcate.objects.all()
         smallcates = Smallcate.objects.all()
         try:
             os.remove('output.csv')
@@ -179,7 +178,7 @@ def create_test_csv(request):
             
             cosmetics = []        
             for i in range(0, 50):
-                s_cate = smallcates[randint(0, len(bigcates)-1)].name
+                s_cate = smallcates[randint(0, len(smallcates)-1)].name
                 cosmetics.append({s_cate:"코스메틱"+str(i)})
 
             for i in range(1, 100+1):
@@ -320,7 +319,7 @@ def processing_csv(request):
 
                     temp_cos = list(cos.split(":"))
                     small_cate = temp_cos[0].strip().replace("{", "").replace("}", "").replace("'", "")
-                    cosmetic_name = temp_cos[-1].strip().replace("{", "").replace("}", "")
+                    cosmetic_name = temp_cos[-1].strip().replace("{", "").replace("}", "").replace("'", "")
 
                     print(small_cate)
                     print(cosmetic_name)
@@ -345,17 +344,12 @@ def processing_csv(request):
                 video.save()
                 for cos in row[6:]: 
                     temp_cos = list(cos.split(":"))
-                    cos_name = temp_cos[-1].strip().replace("{", "").replace("}", "")
+                    cos_name = temp_cos[-1].strip().replace("{", "").replace("}", "").replace("'", "")
                     cosmetics = Cosmetic.objects.all()
 
-                    cnt = 0
                     for cosmetic in cosmetics:
                         if cosmetic.name.replace(" ", "") == cos_name.replace(" ", ""):
-                            cnt = 1
-                            break
-                    if cnt == 0:
-                        video.cosmetic.add(get_object_or_404(Cosmetic, name=cos_name))
-
+                            video.cosmetic.add(cosmetic)
 
     return render(request, "beauty/base.html")
     
