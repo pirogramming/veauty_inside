@@ -67,7 +67,7 @@ Video List
                             <td>{{ video.youtuber }}</td>
                             {% for big_category in big_categories %}
                             <td class="big-cate">
-                                <ul>
+                                <ul class="m-0">
                                     {% for cosmetic in video.cosmetic.all %}
 
                                     {% if cosmetic.category.bigcate == big_category %}

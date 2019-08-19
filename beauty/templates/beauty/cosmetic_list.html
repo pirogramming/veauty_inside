@@ -76,7 +76,7 @@ Cosmetic List
                             {% endif %}
                             <td>{{ cosmetic.name }}</td>
                             <td>
-                                <ul>
+                                <ul class="m-0">
                                     {% for video in cosmetic.video_set.all|slice:yt_num %}
                                     <li>
                                         {{ video.title }}
