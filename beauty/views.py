@@ -120,7 +120,8 @@ def create_test_DB(request):
     return redirect("login")
 
 def home(request):
-    return redirect("beauty:video_list")
+     # return redirect("beauty:video_list")
+    return render(request, 'beauty/home.html')
 
 def video_list(request, period=""):
     if period == "all" or period == "":
