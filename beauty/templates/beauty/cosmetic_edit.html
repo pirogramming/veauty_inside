@@ -1,0 +1,15 @@
+{% load custom_tags %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    {% for i in range %}
+    {{ i }}
+    <br>
+    {% for cos in row_cos|index:i  %}
+    <textarea name="{{i}},{{forloop.counter0}}" id="" cols="180" rows="2">{{cos}}</textarea>
+    <br>
+    {% endfor %}
+    <input type="submit">
+    <hr />
+    {% endfor %}
+</form>

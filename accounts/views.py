@@ -17,7 +17,6 @@ from django.contrib import messages
 
 User = get_user_model()
 
-
 class SignupView(CreateView):
     model = User
     form_class = SignupForm

@@ -26,23 +26,21 @@ Video List
         <form action="{% url 'beauty:video_scrap' %}" method="post">
             {% csrf_token %}
             {% endif %}
-            <div class="tab-pane fade show active scrolling">
+            <div class="tab-pane fade show active scrolling table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
                             {% if user.is_authenticated %}
                             <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
                             {% endif %}
-                            <th>Rank</th>
-                            <th>title</th>
-
+                            <th>랭킹</th>
+                            <th>제목</th>
+                            <th>유튜버</th>
                             {% for big_category in big_categories %}
                             <th class="big-cate" width="100">
                                 {{ big_category }}
                             </th>
                             {% endfor %}
-
-                            <th>upload</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,11 +49,14 @@ Video List
                         <tr>
                             {% if user.is_authenticated %}
                             <td class="big-cate">
-                               <div class="custom-control custom-checkbox d-inline">
-                                  <input type="checkbox" class="custom-control-input" name="video_id" id="customCheck{{ video.id }}"
-                                  value="{{ video.id }}">
-                                  <label class="custom-control-label" for="customCheck{{ video.id }}" ></label>
+
+                                <input type="checkbox" name="video_id" value="{{ video.id }}">
+                                <div class="custom-control custom-checkbox d-inline">
+                                    <input type="checkbox" class="custom-control-input" name="video_id" id="customCheck{{ video.id }}"
+                                        value="{{ video.id }}">
+                                    <label class="custom-control-label" for="customCheck{{ video.id }}"></label>
                                 </div>
+
                             </td>
                             {% endif %}
                             <td>
@@ -66,10 +67,10 @@ Video List
                                 {% endif %}
                             </td>
                             <td><a href="{{ video.yt_url }}" target="_blank">{{ video.title }}</a></td>
-
+                            <td>{{ video.youtuber }}</td>
                             {% for big_category in big_categories %}
                             <td class="big-cate">
-                                <ul>
+                                <ul class="m-0">
                                     {% for cosmetic in video.cosmetic.all %}
 
                                     {% if cosmetic.category.bigcate == big_category %}
@@ -81,8 +82,6 @@ Video List
                                 </ul>
                             </td>
                             {% endfor %}
-
-                            <td>{{ video.upload_at }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -92,7 +91,7 @@ Video List
             <input type="hidden" name="period" value="{{ period }}">
             <input type="hidden" name="pageNum" value="{{ pageNum }}">
             <div class="text-right">
-                <button type="submit" class="btn btn-danger disabled">비디오 스크랩하기</button>
+                <button type="submit" class="btn btn-primary mt-auto">비디오 스크랩하기</button>
             </div>
         </form>
         {% endif %}

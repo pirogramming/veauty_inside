@@ -125,3 +125,9 @@ dmypy.json
 .pyre/
 
 .idea
+
+#data files
+output.csv
+original_output.csv
+result.xlsx
+pony.csv
