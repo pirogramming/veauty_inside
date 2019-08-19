@@ -1,17 +1,15 @@
-{% extends 'base.html' %}
+{% extends 'beauty/base.html' %}
 {% load static %}
 
-{% block style %}
 
-    <link rel="stylesheet" href="{% static 'hello_kiddie.css' %}">
-      <link rel="stylesheet" href="{% static 'style.css' %}">
-{% endblock %}
 
 {% block title %}
     HOME
 {% endblock %}
 
-{% block body %}
+
+{% block content %}
+
     <script>
         AOS.init();
     </script>
@@ -36,27 +34,27 @@
                                 <div class="input-group mb-3 d-flex justify-content-center">
                                     {% if user.is_authenticated %}
                                         <div class="input-group-append">
-                                          <button class="btn btn-outline-dark btn-lg rounded" type="button"
-                                             onclick="location.href='{% url 'profile' %}' ">
-                                               프로필
+                                            <button class="btn btn-outline-dark btn-lg rounded" type="button"
+                                                    onclick="location.href='{% url 'profile' %}' ">
+                                                프로필
                                             </button>
                                         </div>
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-dark btn-lg rounded" type="button"
-                                            onclick="location.href='{% url 'logout' %}?next={{ request.path }}' ">
+                                                    onclick="location.href='{% url 'logout' %}?next={{ request.path }}' ">
                                                 로그아웃
                                             </button>
                                         </div>
                                     {% else %}
                                         <div class="input-group-append">
-                                             <button class="btn btn-outline-dark btn-lg rounded" type="button"
-                                            onclick="location.href='{% url 'login' %}?next={{ request.path }}' ">
+                                            <button class="btn btn-outline-dark btn-lg rounded" type="button"
+                                                    onclick="location.href='{% url 'login' %}?next={{ request.path }}' ">
                                                 로그인
                                             </button>
                                         </div>
                                         <div class="input-group-append">
-                                           <button class="btn btn-outline-dark btn-lg rounded" type="button"
-                                            onclick="location.href='{% url 'signup' %}?next={{ request.path }}' ">
+                                            <button class="btn btn-outline-dark btn-lg rounded" type="button"
+                                                    onclick="location.href='{% url 'signup' %}?next={{ request.path }}' ">
                                                 회원가입
                                             </button>
                                         </div>
@@ -93,7 +91,7 @@
                                 <h1 class="display-2 text-primary"><i class="fa fa-eyedropper" aria-hidden="true"></i>
                                 </h1>
                                 <h4 class="card-title text-primary">화장품</h4>
-                                <p class="card-text">화장품  화장품 화장품 화장품 화장품 화장품 화장품 화장품 화장품 화장품 화장품 화장품 화장품</p>
+                                <p class="card-text">화장품 화장품 화장품 화장품 화장품 화장품 화장품 화장품 화장품 화장품 화장품 화장품 화장품</p>
                                 <a href="cosmetic/" class="btn btn-primary mt-auto">보러 가기</a>
                             </div>
                         </div>
