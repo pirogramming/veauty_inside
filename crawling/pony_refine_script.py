@@ -26,8 +26,9 @@ def one_description(self):
 def making_list(self):
 	global b
 	for i in range(len(self)):
-		str(self[i]).replace("'","")
-		str(self[i]).replace('"',"")
+		str(self[i])=str(self[i]).replace("'","")
+		str(self[i])=str(self[i]).replace('"',"")
+		str(self[i])=str(self[i]).replace('#',"=")
 		filter1=str(self[i]).split('-')
 		filter2=str(self[i]).split('?')
 		filter3=str(self[i]).split('ㅡ')
@@ -111,7 +112,7 @@ def csv_out(d):
 	file for import into a spreadsheet or DB"""
 	headers = ('쿠션, 파운데이션, 컨실러, 파우더, 블러쉬/블러셔/브론징, 컨투어링/하이라이터, 프라이머, UV프로텍터, 아이브로우, 아이라이너, 마스카라, 섀도우/글리터, 립/립스틱/틴트, 립케어/립밤/립글로스/립 오일, 스킨/토너/토닉, 로션/에멀젼, 미스트, 기타, zzz').split(',')
 	global line
-	with open('pony_refined3.csv', 'w', encoding='EUC-KR') as csv_file:
+	with open('pony_refinedddd.csv', 'w', encoding='EUC-KR') as csv_file:
 		csvf = csv.writer(csv_file, delimiter=',')
 		csvf.writerow(headers)
 		for y in range(len(d)):
