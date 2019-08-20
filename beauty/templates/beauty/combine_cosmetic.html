@@ -66,9 +66,10 @@ Combine Cosmetics
                                 <tr>
                                     <td>
                                         <div class="custom-control custom-checkbox d-inline">
-                                            <input type="checkbox" class="custom-control-input" name="cosmetic_id" id="customCheck{{ cosmetic.id }}"
-                                                value="{{ cosmetic.id }}">
-                                            <label class="custom-control-label" for="customCheck{{ cosmetic.id }}"></label>
+                                            <input type="checkbox" class="custom-control-input" name="cosmetic_id"
+                                                id="customCheck{{ cosmetic.id }}" value="{{ cosmetic.id }}">
+                                            <label class="custom-control-label"
+                                                for="customCheck{{ cosmetic.id }}"></label>
                                         </div>
                                     </td>
                                     <td>
@@ -94,7 +95,8 @@ Combine Cosmetics
                 <input type="hidden" name="curr_cos" value="{{ cos }}">
                 {% endfor %}
                 <div class="text-right">
-                    <button type="submit" class="btn btn-primary mt-auto col-4 col-sm-3 col-md-4 col-lg-3">화장품 담기</button>
+                    <button type="submit" class="btn btn-primary mt-auto col-4 col-sm-3 col-md-4 col-lg-3">화장품
+                        담기</button>
                 </div>
                 {% include 'beauty/pagination.html' %}
             </form>
@@ -116,9 +118,10 @@ Combine Cosmetics
                             <tr>
                                 <td>
                                     <div class="custom-control custom-checkbox d-inline">
-                                        <input type="checkbox" class="custom-control-input" name="del_cos" id="customCheck{{ selection.id }}"
-                                            value="{{ selection.id }}">
-                                        <label class="custom-control-label" for="customCheck{{ selection.id }}"></label>
+                                        <input type="checkbox" class="custom-control-input" name="del_cos"
+                                            id="customCheck1{{ selection.id }}" value="{{ selection.id }}">
+                                        <label class="custom-control-label"
+                                            for="customCheck1{{ selection.id }}"></label>
                                     </div>
                                 </td>
                                 <td>{{ selection.category }}</td>
@@ -134,7 +137,8 @@ Combine Cosmetics
                     {% for cos in curr_cos %}
                     <input type="hidden" name="curr_cos" value="{{ cos }}">
                     {% endfor %}
-                    <button type="submit" class="btn btn-primary mt-auto col-4 col-sm-3 col-md-5 col-lg-5">목록에서 제거</button>
+                    <button type="submit" class="btn btn-primary mt-auto col-4 col-sm-3 col-md-5 col-lg-5">목록에서
+                        제거</button>
                 </div>
             </form>
 
@@ -143,7 +147,8 @@ Combine Cosmetics
                     {% csrf_token %}
                     <input type="hidden" name="kind" value="{{ kind }}">
                     <input type="hidden" name="pageNum" value="{{ pageNum }}">
-                    <button type="submit" class="btn btn-primary mt-auto col-4 col-sm-3 col-md-5 col-lg-5">목록 초기화</button>
+                    <button type="submit" class="btn btn-primary mt-auto col-4 col-sm-3 col-md-5 col-lg-5">목록
+                        초기화</button>
                 </form>
             </div>
 
@@ -153,7 +158,8 @@ Combine Cosmetics
                     {% for cos in curr_cos %}
                     <input type="hidden" name="curr_cos" value="{{ cos }}">
                     {% endfor %}
-                    <button type="submit" class="btn btn-primary mt-auto col-4 col-sm-3 col-md-5 col-lg-5">결과 보기</button>
+                    <button type="submit" class="btn btn-primary mt-auto col-4 col-sm-3 col-md-5 col-lg-5">결과
+                        보기</button>
                 </form>
             </div>
         </div>

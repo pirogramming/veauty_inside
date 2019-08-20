@@ -129,7 +129,7 @@ tbody > .vid-select > input {
   overflow: auto;
 }
 
-.scrolltbody thead tr {
+.scrolltbody thead tr, .scrolltbody thead {
    display: block;
 }
 
@@ -156,6 +156,7 @@ tbody > .vid-select > input {
     white-space: nowrap;
     table-layout: fixed;
 }
+
 
 /*.big-cate{*/
 

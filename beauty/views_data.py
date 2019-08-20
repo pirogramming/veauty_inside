@@ -298,9 +298,11 @@ def cosmetic_edit(request):
 def processing_csv(request):
     if request.user.is_superuser:
         #Caution!! these codes will delete all DB
+        
         Youtuber.objects.all().delete()
         Video.objects.all().delete()
         Cosmetic.objects.all().delete()
+        
         #################################
         with open("output.csv", 'r') as f:
             reader = csv.reader(f, delimiter=",")

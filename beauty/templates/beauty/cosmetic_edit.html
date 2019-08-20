@@ -6,8 +6,10 @@
     {{ i }}
     <br>
     {% for cos in row_cos|index:i  %}
+    {% if cos != "" %}
     <textarea name="{{i}},{{forloop.counter0}}" id="" cols="180" rows="2">{{cos}}</textarea>
     <br>
+    {% endif %}
     {% endfor %}
     <input type="submit">
     <hr />
