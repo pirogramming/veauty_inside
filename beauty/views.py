@@ -40,7 +40,8 @@ def pagination(request, contexts, contexts_name, PAGE_ROW_COUNT=10, PAGE_DISPLAY
     }
 
 def home(request):
-    return redirect("beauty:video_list")
+     # return redirect("beauty:video_list")
+    return render(request, 'beauty/home.html')
 
 def video_list(request, period=""):
     if period == "all" or period == "":
