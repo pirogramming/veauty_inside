@@ -9,7 +9,6 @@ body{
 
 .fa.fa-navicon {
     color: white;
-
 }
 
 .navbar-toggler:focus, .navbar-toggler:active {
@@ -17,19 +16,10 @@ body{
     box-shadow: none;
 }
 
-.container {
 
-}
-
-a.nav-link:active {
+/* a.nav-link:active {
     background-color: #F6648C;
     color: black;
-}
-
-a.nav-link:hover {
-    background-color: #F6648C;
-    color: blue;
-    text-decoration: none;
 }
 
 a.nav-link:link {
@@ -39,7 +29,7 @@ a.nav-link:link {
 a.nav-link:visited {
     color: black;
     background-color: #F6648C;
-}
+} */
 
 
 body > div > ul {
@@ -52,7 +42,11 @@ table > tbody > tr:hover {
 
 table > thead > tr {
     background-color: #FABCCD;
-    font-size: 20px
+}
+
+td a.nav-link:hover {
+    background-color: rgb(230, 230, 230);
+    text-decoration: none;
 }
 
 body > div > div > div > form > div.text-right {
@@ -82,8 +76,7 @@ body > div > div > div > form > div.text-right {
 /*}*/
 
 .nav-item > .active {
-
-    background-color: #F6648C !important;
+    font-weight: bold;
 }
 
 
@@ -123,11 +116,47 @@ tbody > .vid-select > input {
 .pagination *:hover {
     color: #F6648C;
 }
+
+.scrolltbody{
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.scrolltbody tbody{
+  display:block;
+  width: 100%;
+  overflow: auto;
+}
+
+.scrolltbody thead tr {
+   display: block;
+}
+
+.scrolltbody th, .scrolltbody td {
+  text-align: left;
+}
+
+.combine-table tbody { height: 65vh; }
+.combine-table th:nth-of-type(1), .combine-table td:nth-of-type(1) { width: 30px; }
+.combine-table th:nth-of-type(2), .combine-table td:nth-of-type(2) { width: 1000px; }
+.combine-table th:nth-of-type(3), .combine-table td:nth-of-type(3) { width: 1000px; }
+
+.result-cos tbody, .result-video tbody { height : 75vh;}
+.result-cos th:nth-of-type(1), .result-cos td:nth-of-type(1) { width: 900px; }
+
+.result-video th:nth-of-type(1), .result-video td:nth-of-type(1) { width: 30px; }
+.result-video th:nth-of-type(2), .result-video td:nth-of-type(2) { width: 900px; }
+.result-video th:nth-of-type(3), .result-video td:nth-of-type(3) { width: 220px; }
+.result-video th:nth-of-type(4), .result-video td:nth-of-type(4) { width: 900px; }
+
+
 .scrolling{
     overflow: auto;
     white-space: nowrap;
-    table-layout: fixed
+    table-layout: fixed;
 }
+
 /*.big-cate{*/
 
 /*    width: 200px;*/
@@ -142,3 +171,19 @@ li{
 table, td{
   border:1px solid #EEEEEE
 }
+
+.footer {
+    font-family: 'Raleway', sans-serif;
+}
+
+@media (max-width: 768px) {
+    .container-fluid {
+      margin-left: 14%;
+      margin-right: 14%;
+      width : 72%;
+    }
+
+    .result-cos tbody {
+        height : 40vh;
+    }
+ }

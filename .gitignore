@@ -129,5 +129,5 @@ dmypy.json
 #data files
 output.csv
 original_output.csv
-pony_final.xlsx
+result.xlsx
 pony.csv
