@@ -29,7 +29,6 @@ def making_list(self):
 		self[i]=str(self[i]).replace("'","")
 		self[i]=str(self[i]).replace('"',"")
 		self[i]=str(self[i]).replace(':','')
-		self[i]=str(self[i]).replace('#',"=")
 		filter1=str(self[i]).split('[')
 		filter2=str(self[i]).split('-')
 		'''
@@ -82,14 +81,18 @@ def category_filtering(self):
 					break
 				elif '/' in list(dic.keys())[i]:
 					ww=list(dic.keys())[i].split('/')
+					cnt=0
 					for p in range(len(ww)):
 						if ww[p] in c[y][z]:
 							dic[list(dic.keys())[i]].append(c[y][z])
+							cnt = 1
 							break
+					if cnt == 1:
+						break
 				else:
 					if list(dic.keys())[i]=='zzz':
 						dic['zzz'].append(c[y][z])
-					pass
+						break
 		c[y]=dic
 		dic = {'립/립스틱/틴트':[], '립케어/립밤/립글로스/립 오일':[], '메이크업 베이스':[], '프라이머':[], '비비크림/씨씨크림/BB/CC/비비/씨씨':[], '파운데이션':[], '쿠션':[], '파우더/팩트':[], '컨실러/톤실러':[], '블러셔/블러쉬/치크':[], '하이라이터':[], '메이크업픽서':[], '셰이딩/쉐딩/컨투어/컨투어링/컨투어러/쉐이딩/쉐이드/셰이드/셰딩/섀딩/브론징':[], '톤업크림':[], '선케어':[], '아이라이너/라이너':[], '아이브로우/브로우':[], '마스카라':[], '아이섀도/섀도우/쉐도우':[], '에센스/앰플/세럼':[], '로션/에멀젼':[], '페이스 오일':[], '아이케어/아이크림':[], '미스트':[], '젤':[], '크림':[], '스킨/토너/토닉/워터':[], '브러쉬':[], '아이래쉬/속눈썹':[], 'zzz':[]}
 	return c
