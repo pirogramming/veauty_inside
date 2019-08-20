@@ -26,8 +26,9 @@ def one_description(self):
 def making_list(self):
 	global b
 	for i in range(len(self)):
-		str(self[i]).replace("'","")
-		str(self[i]).replace('"',"")
+		self[i]=str(self[i]).replace("'","")
+		self[i]=str(self[i]).replace('"',"")
+		self[i]=str(self[i]).replace('#',"=")
 		filter1=str(self[i]).split('-')
 		filter2=str(self[i]).split('?')
 		filter3=str(self[i]).split('ㅡ')
@@ -75,7 +76,7 @@ def category_filtering(self):
 				if list(dic.keys())[i] in c[y][z]:
 					dic[list(dic.keys())[i]].append(c[y][z])
 					break
-				if '/' in list(dic.keys())[i]:
+				elif '/' in list(dic.keys())[i]:
 					ww=list(dic.keys())[i].split('/')
 					for p in range(len(ww)):
 						if ww[p] in c[y][z]:
@@ -86,7 +87,7 @@ def category_filtering(self):
 						dic['zzz'].append(c[y][z])
 					pass
 		c[y]=dic
-		dic = {'로션/에멀젼':[], '페이스 오일':[], '아이케어':[], '미스트':[], '젤':[], '메이크업 베이스':[], '프라이머':[], '비비크림/씨씨크림':[], '파운데이션':[], '쿠션':[], '파우더/팩트':[], '컨실러':[], '블러셔':[], '하이라이터':[], '메이크업픽서':[], '셰이딩':[], '톤업크림':[], '선케어':[], '아이라이너':[], '아이브로우':[], '립/립스틱/틴트':[], '립케어/립밤/립글로스/립 오일':[], '마스카라/픽서':[], '아이섀도':[], '에센스/앰플/세럼':[], '크림':[], '스킨/토너':[], 'zzz':[]}
+		dic = {'립/립스틱/틴트':[], '립케어/립밤/립글로스/립 오일':[], '메이크업 베이스':[], '프라이머':[], '비비크림/씨씨크림/BB/CC/비비/씨씨':[], '파운데이션':[], '쿠션':[], '파우더/팩트':[], '컨실러/톤실러':[], '블러셔/블러쉬/치크':[], '하이라이터':[], '메이크업픽서':[], '셰이딩/쉐딩/컨투어/컨투어링/컨투어러/쉐이딩/쉐이드/셰이드/셰딩/섀딩/브론징':[], '톤업크림':[], '선케어':[], '아이라이너/라이너':[], '아이브로우/브로우':[], '마스카라':[], '아이섀도/섀도우/쉐도우':[], '에센스/앰플/세럼':[], '로션/에멀젼':[], '페이스 오일':[], '아이케어/아이크림':[], '미스트':[], '젤':[], '크림':[], '스킨/토너/토닉/워터':[], '브러쉬':[], '아이래쉬/속눈썹':[], 'zzz':[]}
 	return c
 		#print(dic)
 	#for i in range(len(c)):
@@ -111,7 +112,7 @@ def csv_out(d):
 	file for import into a spreadsheet or DB"""
 	#headers = ('로션/에멀젼, 페이스 오일, 아이케어, 미스트, 젤, 메이크업 베이스, 프라이머, 비비크림/씨씨크림, 파운데이션, 쿠션, 파우더/팩트, 컨실러, 블러셔, 하이라이터, 메이크업픽서, 셰이딩, 톤업크림, 선케어, 아이라이너, 아이브로우, 마스카라/픽서, 아이섀도, 에센스/앰플/세럼, 크림, 스킨/토너, zzz').split(',')
 	global line
-	with open('pony_refined3.csv', 'w', encoding='EUC-KR') as csv_file:
+	with open('pony_refinedddd.csv', 'w', encoding='EUC-KR') as csv_file:
 		csvf = csv.writer(csv_file, delimiter=',')
 		#csvf.writerow(headers)
 		for y in range(len(d)):
@@ -140,9 +141,15 @@ def refined(self):
 				t.append(q)
 		d[y]=t
 		t=[]
-	print(d)
 	return d
-
+'''
+def ff(self):
+	global p
+	for y in range(len(d)):
+		for z in range(len(d[y])):
+			if d[y]
+			OrderedDict((newkey if k == oldkey else k, v) for k, v in _.viewitems())
+'''
 if __name__ == '__main__':
 
 	filter1=[]
@@ -156,10 +163,11 @@ if __name__ == '__main__':
 	h={}
 	e=[[]]
 	g=[]
-	dic = {'로션/에멀젼':[], '페이스 오일':[], '아이케어':[], '미스트':[], '젤':[], '메이크업 베이스':[], '프라이머':[], '비비크림/씨씨크림':[], '파운데이션':[], '쿠션':[], '파우더/팩트':[], '컨실러':[], '블러셔':[], '하이라이터':[], '메이크업픽서':[], '셰이딩':[], '톤업크림':[], '선케어':[], '아이라이너':[], '아이브로우':[], '립/립스틱/틴트':[], '립케어/립밤/립글로스/립 오일':[], '마스카라/픽서':[], '아이섀도':[], '에센스/앰플/세럼':[], '크림':[], '스킨/토너':[], 'zzz':[]}
+	dic = {'립/립스틱/틴트':[], '립케어/립밤/립글로스/립 오일':[], '메이크업 베이스':[], '프라이머':[], '비비크림/씨씨크림/BB/CC/비비/씨씨':[], '파운데이션':[], '쿠션':[], '파우더/팩트':[], '컨실러/톤실러':[], '블러셔/블러쉬/치크':[], '하이라이터':[], '메이크업픽서':[], '셰이딩/쉐딩/컨투어/컨투어링/컨투어러/쉐이딩/쉐이드/셰이드/셰딩/섀딩/브론징':[], '톤업크림':[], '선케어':[], '아이라이너/라이너':[], '아이브로우/브로우':[], '마스카라':[], '아이섀도/섀도우/쉐도우':[], '에센스/앰플/세럼':[], '로션/에멀젼':[], '페이스 오일':[], '아이케어/아이크림':[], '미스트':[], '젤':[], '크림':[], '스킨/토너/토닉/워터':[], '브러쉬':[], '아이래쉬/속눈썹':[], 'zzz':[]}
 	line=[]
 	li=[]
 	t=[]
+	p=[]
 
 	description=input_csv()
 	des_list=one_description(description)
