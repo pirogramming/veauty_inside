@@ -5,9 +5,8 @@
 <link rel="stylesheet" href="{% static 'hello_kiddie.css' %}">
 {% endblock %}
 
-
-
 {% block body %}
+{% block nav %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
     <div class="container">
         <a class="navbar-brand text-white" href="{% url 'beauty:home' %}">Veauty Inside</a>
@@ -19,7 +18,7 @@
 
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'beauty:video_list' %}">비디오 랭킹</a>
+                    <a class="nav-link" href="{% url 'beauty:video_list' %}">동영상 랭킹</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'beauty:cosmetic_list' %}">화장품 목록</a>
@@ -53,6 +52,8 @@
         </div>
     </div>
 </nav>
+{% endblock %}
+
 {% block content %}
 {% endblock %}
 

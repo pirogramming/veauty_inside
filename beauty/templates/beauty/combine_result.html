@@ -5,9 +5,35 @@ Combine Result
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid">
-    <div class="row p-1">
-        <div class="col-md-4">
+<div class="container-fluid mt-1">
+    <div class="row">
+        <div class="col-sm-12 col-md-4">
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                {% if 'cosmetic' in message.tags %}
+                <li {% if message.tags %} class="alert alert-{{ message_tags }}" {% endif %} role="alert">{{ message }}
+                </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        <div class="col-sm-12 col-md-8">
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                {% if 'video' in message.tags %}
+                <li {% if message.tags %} class="alert alert-{{ message_tags }}" {% endif %} role="alert">{{ message }}
+                </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-4">
             <div class="scroll-wrap mb-1 result-table">
                 <div class="scrolling table-responsive scrollbar-lady-lips thin square">
                     <table class="table">
@@ -40,7 +66,7 @@ Combine Result
                 </div>
             </form>
         </div>
-        <div class="col-md-8">
+        <div class="col-sm-12 col-md-8">
             <form action="{% url 'beauty:recommend_scrap' %}" method="POST">
                 {% csrf_token %}
                 <div class="scroll-wrap mb-1 result-table">

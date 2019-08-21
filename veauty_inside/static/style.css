@@ -75,6 +75,10 @@ body > div > div > div > form > div.text-right {
 /*    justify-content: space-around;*/
 /*}*/
 
+.home-btn {
+    width : 100px;
+}
+
 .nav-item > .active {
     font-weight: bold;
 }

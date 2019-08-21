@@ -8,14 +8,26 @@ Combine Cosmetics
 <div class="container-fluid mt-1">
     <div class="row">
         <div class="col-sm-12 col-md-7 col-lg-8">
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %} role="alert">{{ message }}</li>
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                {% if 'pick' in message.tags %}
+                <li {% if message.tags %} class="alert alert-{{ message_tags }}" {% endif %} role="alert">{{ message }}</li>
+                {% endif %}
                 {% endfor %}
-        </ul>
-        {% endif %}
-            
+            </ul>
+            {% endif %}
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                {% if 'basket' in message.tags %}
+                <li {% if message.tags %} class="alert alert-{{ message_tags }}" {% endif %} role="alert">{{ message }}</li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
         </div>
     </div>
 
@@ -24,16 +36,16 @@ Combine Cosmetics
                 <ul class="nav nav-tabs">
                         <li class="nav-item">
                             <a class="nav-link {% if kind == 'all' %} active {% endif %}"
-                                href="{% url 'beauty:combine_cosmetic' 'all' %}{{ query_cos }}">All</a>
+                                href="{% url 'beauty:combine_cosmetic' 'all' %}{{ query_cos }}">전체 화장품</a>
                         </li>
                         {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link {% if kind == 'interest' %} active {% endif %}"
-                                href="{% url 'beauty:combine_cosmetic' 'interest' %}{{ query_cos }}">interest</a>
+                                href="{% url 'beauty:combine_cosmetic' 'interest' %}{{ query_cos }}">관심 화장품</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {% if kind == 'my' %} active {% endif %}"
-                                href="{% url 'beauty:combine_cosmetic' 'my' %}{{ query_cos }}">my</a>
+                                href="{% url 'beauty:combine_cosmetic' 'my' %}{{ query_cos }}">내 화장품</a>
                         </li>
                         {% endif %}
                         {% for big_category in big_categories %}
@@ -160,6 +172,7 @@ Combine Cosmetics
                     {% csrf_token %}
                     <input type="hidden" name="kind" value="{{ kind }}">
                     <input type="hidden" name="pageNum" value="{{ pageNum }}">
+                    <input type="hidden" name="distinction" value="{% if curr_cos %}y{% else %}n{% endif %}">
                     <button type="submit" class="btn btn-primary mt-auto col-4 col-sm-3 col-md-5 col-lg-5">목록
                         초기화</button>
                 </form>

@@ -16,7 +16,7 @@ Cosmetic List
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a class="nav-link {% if kind == 'all' %} active {% endif %}"
-                href="{% url 'beauty:cosmetic_list' 'all' %}">All</a>
+                href="{% url 'beauty:cosmetic_list' 'all' %}">전체 화장품</a>
         </li>
         {% for big_category in big_categories %}
         <li class="nav-item">

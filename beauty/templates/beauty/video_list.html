@@ -17,15 +17,15 @@ Video List
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a class="nav-link {% if period == 'all' %} active {% endif %}"
-                href="{% url 'beauty:video_list' 'all' %}">All-time Best</a>
+                href="{% url 'beauty:video_list' 'all' %}">전체 랭킹</a>
         </li>
         <li class="nav-item">
             <a class="nav-link {% if period == 'month' %} active {% endif %}"
-                href="{% url 'beauty:video_list' 'month' %}">Monthly Best</a>
+                href="{% url 'beauty:video_list' 'month' %}">월간 랭킹</a>
         </li>
         <li class="nav-item">
             <a class="nav-link {% if period == 'week' %} active {% endif %}"
-                href="{% url 'beauty:video_list' 'week' %}">Weekly Best</a>
+                href="{% url 'beauty:video_list' 'week' %}">주간 랭킹</a>
         </li>
     </ul>
     <div class="tab-content">
