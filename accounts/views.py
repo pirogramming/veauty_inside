@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserChangeForm
 from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import views as auth_views
@@ -66,21 +67,30 @@ def profile(request, kind=""):
 @login_required
 def video_scrap_processing(request):
     if request.method == 'POST':
-        videos = Video.objects.filter(pk__in=request.POST.getlist('video_id'))
+        videos = Video.objects.filter(pk__in=request.POST.getlist('video_id')) or ''
         request.user.video.remove(*videos)
+        if videos:
+            messages.success(request, '선택하신 동영상들이 스크랩 취소되었습니다.')
+        else:
+            messages.warning(request, '스크랩을 취소할 동영상을 선택해주세요.')
     return redirect("profile", 'video')
 
 @login_required
 def cosmetic_scrap_processing(request):
     if request.method == 'POST':
-        if request.POST['selection'] == 'cancel':
-            cosmetics = Cosmetic.objects.filter(pk__in=request.POST.getlist('cosmetic_id'))
+        cosmetics_list = request.POST.getlist('cosmetic_id') or ''
+        if not cosmetics_list:
+            messages.warning(request, '화장품을 선택해주세요.')
+            return redirect("profile", request.POST['kind'])
+
+        elif request.POST['selection'] == 'cancel':
+            cosmetics = Cosmetic.objects.filter(pk__in=cosmetics_list)
             if request.POST['kind'] == 'interest':
                 request.user.cosmetic.remove(*cosmetics)
             elif request.POST['kind'] == 'my':
                 request.user.my_cosmetic.remove(*cosmetics)
         elif request.POST['selection'] == 'combine':
-            querystring = (lambda x: '?c=' + '&c='.join(x) if x else "?")(request.POST.getlist('cosmetic_id'))
+            querystring = (lambda x: '?c=' + '&c='.join(x) if x else "?")(cosmetics_list)
 
             response = redirect("beauty:combine_result")
             response['Location'] += querystring

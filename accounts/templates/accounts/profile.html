@@ -8,6 +8,15 @@
         <a href="{% url "password_change" %}">비밀번호 변경하기</a>
 {#        <a href="{% url "nickname_change" %}">닉네임 변경하기</a>#}
     </div>
+    
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %} role="alert">{{ message }}</li>
+            {% endfor %}
+    </ul>
+    {% endif %}
+            
 
     <ul class="nav nav-tabs">
         <li class="nav-item">

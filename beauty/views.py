@@ -135,14 +135,14 @@ def cosmetic_scrap(request):
             if cosmetics:
                 messages.success(request, '선택하신 화장품들이 관심 화장품에 등록되었습니다.')
             else:
-                messages.warning(request, '화장품을 선택해주세요.')
+                messages.warning(request, '관심 화장품에 등록할 화장품을 선택해주세요.')
 
         elif request.POST['selection'] == 'my':
             request.user.my_cosmetic.add(*cosmetics)
             if cosmetics:
                 messages.success(request, '선택하신 화장품들이 내 화장품에 등록되었습니다.')
             else:
-                messages.warning(request, '화장품을 선택해주세요.')
+                messages.warning(request, '내 화장품에 등록할 화장품을 선택해주세요.')
    
     response = redirect("beauty:cosmetic_list", request.POST['kind'])
     response['Location'] += '?pageNum=' + request.POST['pageNum']
@@ -167,9 +167,9 @@ def cosmetic_pick(request):
 
         cosmetics_list = request.POST.getlist('cosmetic_id')
         if cosmetics_list:
-            messages.success(request, '선택하신 화장품들이 바구니에 등록되었습니다.')
+            messages.success(request, '바구니에 선택하신 화장품들을 담았습니다.')
         else:
-            messages.warning(request, '화장품을 선택해주세요.')
+            messages.warning(request, '바구니에 담을 화장품을 선택해주세요.')
 
         for c in cosmetics_list:
             if not c in request.POST.getlist('curr_cos'):
