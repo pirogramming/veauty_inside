@@ -6,10 +6,17 @@ Cosmetic List
 
 {% block content %}
 <div class="container">
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %} role="alert">{{ message }}</li>
+            {% endfor %}
+    </ul>
+    {% endif %}
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a class="nav-link {% if kind == 'all' %} active {% endif %}"
-                href="{% url 'beauty:cosmetic_list' 'all' %}">all</a>
+                href="{% url 'beauty:cosmetic_list' 'all' %}">All</a>
         </li>
         {% for big_category in big_categories %}
         <li class="nav-item">
@@ -42,14 +49,14 @@ Cosmetic List
                                 <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
                                 {% endif %}
 
-                                <th width="20">Rank</th>
+                                <th width="20">랭킹</th>
 
                                 {% if kind == 'all' %}
-                                <th>category</th>
+                                <th>분류</th>
                                 {% endif %}
 
-                                <th>cosmetic</th>
-                                <th width="60%">youtube</th>
+                                <th>제품</th>
+                                <th width="60%">유튜브 영상</th>
                             </tr>
                         </thead>
                         <tbody>

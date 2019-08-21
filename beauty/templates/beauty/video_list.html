@@ -6,6 +6,14 @@ Video List
 
 {% block content %}
 <div class="container">
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %} role="alert">{{ message }}</li>
+            {% endfor %}
+    </ul>
+    {% endif %}
+
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a class="nav-link {% if period == 'all' %} active {% endif %}"

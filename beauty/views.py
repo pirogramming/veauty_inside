@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
 from .models import Youtuber, Video, Cosmetic, Bigcate, Smallcate
@@ -72,6 +73,10 @@ def video_scrap(request):
     if request.method == 'POST':
         videos = Video.objects.filter(pk__in=request.POST.getlist("video_id"))
         request.user.video.add(*videos)
+        if videos:
+            messages.success(request, '선택하신 동영상들이 스크랩되었습니다.')
+        else:
+            messages.warning(request, '동영상을 선택해주세요.')
 
     response = redirect("beauty:video_list", request.POST['period'])
     response['Location'] += '?pageNum='+request.POST['pageNum']
@@ -124,10 +129,20 @@ def cosmetic_list(request, kind=""):
 def cosmetic_scrap(request):
     if request.method == 'POST':
         cosmetics = Cosmetic.objects.filter(pk__in=request.POST.getlist("cosmetic_id"))
+
         if request.POST['selection'] == 'interest':
             request.user.cosmetic.add(*cosmetics)
+            if cosmetics:
+                messages.success(request, '선택하신 화장품들이 관심 화장품에 등록되었습니다.')
+            else:
+                messages.warning(request, '화장품을 선택해주세요.')
+
         elif request.POST['selection'] == 'my':
             request.user.my_cosmetic.add(*cosmetics)
+            if cosmetics:
+                messages.success(request, '선택하신 화장품들이 내 화장품에 등록되었습니다.')
+            else:
+                messages.warning(request, '화장품을 선택해주세요.')
    
     response = redirect("beauty:cosmetic_list", request.POST['kind'])
     response['Location'] += '?pageNum=' + request.POST['pageNum']
@@ -150,7 +165,13 @@ def cosmetic_pick(request):
     if request.method == "POST":
         querystring = (lambda x: '?c=' + '&c='.join(x) + "&" if x else "?")(request.POST.getlist('curr_cos'))
 
-        for c in request.POST.getlist('cosmetic_id'):
+        cosmetics_list = request.POST.getlist('cosmetic_id')
+        if cosmetics_list:
+            messages.success(request, '선택하신 화장품들이 바구니에 등록되었습니다.')
+        else:
+            messages.warning(request, '화장품을 선택해주세요.')
+
+        for c in cosmetics_list:
             if not c in request.POST.getlist('curr_cos'):
                 querystring = querystring + "c=" + c + "&"
 

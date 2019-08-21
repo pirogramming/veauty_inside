@@ -11,15 +11,13 @@
 
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link {% if kind == taps.0 %} active {% endif %}" href="{% url 'profile' taps.0 %}">Videos</a>
+            <a class="nav-link {% if kind == taps.0 %} active {% endif %}" href="{% url 'profile' taps.0 %}">스크랩한 비디오</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {% if kind == taps.1 %} active {% endif %}" href="{% url 'profile' taps.1 %}">Interested
-                Cosmetics</a>
+            <a class="nav-link {% if kind == taps.1 %} active {% endif %}" href="{% url 'profile' taps.1 %}">관심 화장품</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {% if kind == taps.2 %} active {% endif %}" href="{% url 'profile' taps.2 %}">MY
-                Cosmetics</a>
+            <a class="nav-link {% if kind == taps.2 %} active {% endif %}" href="{% url 'profile' taps.2 %}">내 화장품</a>
         </li>
     </ul>
     {% block table %}

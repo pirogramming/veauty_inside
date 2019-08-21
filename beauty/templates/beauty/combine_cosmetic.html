@@ -8,43 +8,51 @@ Combine Cosmetics
 <div class="container-fluid mt-1">
     <div class="row">
         <div class="col-sm-12 col-md-7 col-lg-8">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link {% if kind == 'all' %} active {% endif %}"
-                        href="{% url 'beauty:combine_cosmetic' 'all' %}{{ query_cos }}">all</a>
-                </li>
-                {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link {% if kind == 'interest' %} active {% endif %}"
-                        href="{% url 'beauty:combine_cosmetic' 'interest' %}{{ query_cos }}">interest</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if kind == 'my' %} active {% endif %}"
-                        href="{% url 'beauty:combine_cosmetic' 'my' %}{{ query_cos }}">my</a>
-                </li>
-                {% endif %}
-                {% for big_category in big_categories %}
-                <li class="nav-item">
-                    <a class="nav-link {% if big_category == curr_big %} active {% endif %}"
-                        href="{% url 'beauty:combine_cosmetic' big_category.smallcate_set.all.0.eng_name %}{{ query_cos }}">{{ big_category }}</a>
-                </li>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %} role="alert">{{ message }}</li>
                 {% endfor %}
-            </ul>
-            {% if kind != 'all' %}
-            <ul class="nav nav-tabs mt-1">
-                {% for small_category in small_categories %}
-                <li class="nav-item">
-                    <a class="nav-link {% if small_category == curr_small %} active {% endif %}"
-                        href="{% url 'beauty:combine_cosmetic' small_category.eng_name %}{{ query_cos }}">{{ small_category }}</a>
-                </li>
-                {% endfor %}
-            </ul>
-            {% endif %}
+        </ul>
+        {% endif %}
+            
         </div>
     </div>
 
     <div class="row">
         <div class="col-sm-12 col-md-7 col-lg-8">
+                <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link {% if kind == 'all' %} active {% endif %}"
+                                href="{% url 'beauty:combine_cosmetic' 'all' %}{{ query_cos }}">All</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if kind == 'interest' %} active {% endif %}"
+                                href="{% url 'beauty:combine_cosmetic' 'interest' %}{{ query_cos }}">interest</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if kind == 'my' %} active {% endif %}"
+                                href="{% url 'beauty:combine_cosmetic' 'my' %}{{ query_cos }}">my</a>
+                        </li>
+                        {% endif %}
+                        {% for big_category in big_categories %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if big_category == curr_big %} active {% endif %}"
+                                href="{% url 'beauty:combine_cosmetic' big_category.smallcate_set.all.0.eng_name %}{{ query_cos }}">{{ big_category }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% if kind != 'all' %}
+                    <ul class="nav nav-tabs mt-1">
+                        {% for small_category in small_categories %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if small_category == curr_small %} active {% endif %}"
+                                href="{% url 'beauty:combine_cosmetic' small_category.eng_name %}{{ query_cos }}">{{ small_category }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
             <form action="{% url 'beauty:cosmetic_pick' %}" method="post">
                 {% csrf_token %}
                 <div class="scroll-wrap  mb-1 combine-table">
@@ -53,11 +61,11 @@ Combine Cosmetics
                             <thead>
                                 <tr>
                                     <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
-                                    <th width="20">Rank</th>
+                                    <th width="20">랭킹</th>
                                     {% if kind == 'all' %}
-                                    <th>category</th>
+                                    <th>분류</th>
                                     {% endif %}
-                                    <th>cosmetic</th>
+                                    <th>제품</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -102,6 +110,9 @@ Combine Cosmetics
             </form>
         </div>
         <div class="col-sm-12 col-md-5 col-lg-4">
+            <div class="d-flex justify-content-center align-items-center border border-primary rounded mb-1">
+                <h5 class="m-2 font-weight-normal text-primary">Basket</h5>
+            </div>
             <form action="{% url 'beauty:cosmetic_delete' %}" method="post">
                 {% csrf_token %}
                 <div class="scroll-wrap mb-1 combine-list-table">
@@ -110,8 +121,8 @@ Combine Cosmetics
                             <thead>
                                 <tr>
                                     <th><span><i class="fa fa-check"></i></span></th>
-                                    <th>category</th>
-                                    <th>cosmetic</th>
+                                    <th>분류</th>
+                                    <th>제품</th>
                                 </tr>
                             </thead>
                             <tbody>
