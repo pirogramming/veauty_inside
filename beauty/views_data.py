@@ -259,7 +259,7 @@ def convert_xlsx_to_csv(request):
 def cosmetic_edit(request, num):
     if request.user.is_superuser:
         if request.method =="POST":
-            with open("output.csv") as f_in, open("temp_output.csv", 'w', encoding='euc_kr', newline='') as f_out:
+            with open("output.csv", encoding='euc_kr') as f_in, open("temp_output.csv", 'w', encoding='euc_kr', newline='') as f_out:
                 reader = csv.reader(f_in, delimiter=",")
                 wr = csv.writer(f_out)
 
@@ -287,7 +287,7 @@ def cosmetic_edit(request, num):
 
             os.remove('output.csv')
 
-            with open('temp_output.csv', 'r') as infile, open('output.csv', 'w', encoding='euc_kr', newline='') as outfile:
+            with open('temp_output.csv', 'r', encoding='euc_kr') as infile, open('output.csv', 'w', encoding='euc_kr', newline='') as outfile:
                 for line in infile:   # 가끔 \xa0 문자열로 인해 오류가 발생하므로 변환
                     outfile.write(line)
             os.remove('temp_output.csv')
@@ -326,7 +326,7 @@ def processing_csv(request):
         Cosmetic.objects.all().delete()
         
         #################################
-        with open("output.csv", 'r') as f:
+        with open("output.csv", 'r', ) as f:
             reader = csv.reader(f, delimiter=",")
 
             for row in reader:
