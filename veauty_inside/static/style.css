@@ -117,39 +117,6 @@ tbody > .vid-select > input {
     color: #F6648C;
 }
 
-.scrolltbody{
-    width: 100%;
-    table-layout: fixed;
-    border-collapse: collapse;
-}
-
-.scrolltbody tbody{
-  display:block;
-  width: 100%;
-  overflow: auto;
-}
-
-.scrolltbody thead tr, .scrolltbody thead {
-   display: block;
-}
-
-.scrolltbody th, .scrolltbody td {
-  text-align: left;
-}
-
-.combine-table tbody { height: 65vh; }
-.combine-table th:nth-of-type(1), .combine-table td:nth-of-type(1) { width: 30px; }
-.combine-table th:nth-of-type(2), .combine-table td:nth-of-type(2) { width: 1000px; }
-.combine-table th:nth-of-type(3), .combine-table td:nth-of-type(3) { width: 1000px; }
-
-.result-cos tbody, .result-video tbody { height : 75vh;}
-.result-cos th:nth-of-type(1), .result-cos td:nth-of-type(1) { width: 900px; }
-
-.result-video th:nth-of-type(1), .result-video td:nth-of-type(1) { width: 30px; }
-.result-video th:nth-of-type(2), .result-video td:nth-of-type(2) { width: 900px; }
-.result-video th:nth-of-type(3), .result-video td:nth-of-type(3) { width: 220px; }
-.result-video th:nth-of-type(4), .result-video td:nth-of-type(4) { width: 900px; }
-
 /*
 .scrolling{
     overflow: auto;
@@ -177,34 +144,14 @@ tbody > .vid-select > input {
     height : 80vh;
 }
 
-.over-wrap {
-    width : 100%;
-    overflow-x: auto;
-    white-space: nowrap;
-    table-layout: fixed;
+.scroll-wrap {
+    white-space: nowrap; 
     box-shadow: 0 0 0 0.5px #EEEEEE inset; 
 }
 
-.scroll-wrap {
-    position: relative;
-    overflow: hidden;
-}
-
 .scrolling {
-    overflow-y: auto;
-    margin-left:2.5em;
-}
-
-.headcol {
-    position:absolute;
-    width:2.5em;
-    left:0;
-    border : 0px;
-    padding-bottom : 10px;
-    border : 0px;
-}
-th.headcol {
-    background-color : #fabccd;
+    overflow: auto;
+    white-space: nowrap; 
 }
 
 .scrollbar-lady-lips::-webkit-scrollbar-track {

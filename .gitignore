@@ -129,6 +129,7 @@ dmypy.json
 #data files
 output.csv
 original_output.csv
+original_category.csv
 result.xlsx
 pony.csv
 category.csv
