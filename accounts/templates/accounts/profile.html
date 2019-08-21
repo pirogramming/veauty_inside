@@ -2,8 +2,8 @@
 
 {% block content %}
 <div class="container">
-    <div class="row d-flex justify-content-center">
-        <h2>{{ user }}</h2>
+    <div class="row d-flex justify-content-center align-items-center" style="height:15vh;">
+        <h2>{{ user.nickname }}</h2>
 
         <a href="{% url "password_change" %}">비밀번호 변경하기</a>
 {#        <a href="{% url "nickname_change" %}">닉네임 변경하기</a>#}

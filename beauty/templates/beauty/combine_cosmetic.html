@@ -47,46 +47,48 @@ Combine Cosmetics
         <div class="col-sm-12 col-md-7 col-lg-8">
             <form action="{% url 'beauty:cosmetic_pick' %}" method="post">
                 {% csrf_token %}
-                <div class="tab-content">
-                    <div class="show scrolling table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
-                                    <th width="20">Rank</th>
-                                    {% if kind == 'all' %}
-                                    <th>category</th>
-                                    {% endif %}
-                                    <th>cosmetic</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for cosmetic in cosmetics %}
-                                {% load mathfilters %}
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox d-inline">
-                                            <input type="checkbox" class="custom-control-input" name="cosmetic_id"
-                                                id="customCheck{{ cosmetic.id }}" value="{{ cosmetic.id }}">
-                                            <label class="custom-control-label"
-                                                for="customCheck{{ cosmetic.id }}"></label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        {% if pageNum %}
-                                        {{ pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
-                                        {% else %}
-                                        {{ forloop.counter }}
+                <div class="over-wrap mb-1 combine-table">
+                    <div class="scroll-wrap">
+                        <div class="scrolling table-responsive scrollbar-lady-lips thin square">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
+                                        <th width="20">Rank</th>
+                                        {% if kind == 'all' %}
+                                        <th>category</th>
                                         {% endif %}
-                                    </td>
-                                    {% if kind == 'all' %}
-                                    <td>{{ cosmetic.category }}</td>
-                                    {% endif %}
-                                    <td>{{ cosmetic.name }}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                                        <th>cosmetic</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for cosmetic in cosmetics %}
+                                    {% load mathfilters %}
+                                    <tr>
+                                        <td>
+                                            <div class="custom-control custom-checkbox d-inline">
+                                                <input type="checkbox" class="custom-control-input" name="cosmetic_id"
+                                                    id="customCheck{{ cosmetic.id }}" value="{{ cosmetic.id }}">
+                                                <label class="custom-control-label"
+                                                    for="customCheck{{ cosmetic.id }}"></label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {% if pageNum %}
+                                            {{ pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
+                                            {% else %}
+                                            {{ forloop.counter }}
+                                            {% endif %}
+                                        </td>
+                                        {% if kind == 'all' %}
+                                        <td>{{ cosmetic.category }}</td>
+                                        {% endif %}
+                                        <td>{{ cosmetic.name }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <input type="hidden" name="kind" value="{{ kind }}">
@@ -104,32 +106,36 @@ Combine Cosmetics
         <div class="col-sm-12 col-md-5 col-lg-4">
             <form action="{% url 'beauty:cosmetic_delete' %}" method="post">
                 {% csrf_token %}
-                <div class="show table-responsive scrolling">
-                    <table class="table scrolltbody combine-table">
-                        <thead>
-                            <tr>
-                                <th><span><i class="fa fa-check"></i></span></th>
-                                <th>category</th>
-                                <th>cosmetic</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for selection in selected %}
-                            <tr>
-                                <td>
-                                    <div class="custom-control custom-checkbox d-inline">
-                                        <input type="checkbox" class="custom-control-input" name="del_cos"
-                                            id="customCheck1{{ selection.id }}" value="{{ selection.id }}">
-                                        <label class="custom-control-label"
-                                            for="customCheck1{{ selection.id }}"></label>
-                                    </div>
-                                </td>
-                                <td>{{ selection.category }}</td>
-                                <td>{{ selection.name }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                <div class="over-wrap mb-1 combine-list-table">
+                    <div class="scroll-wrap">
+                        <div class="scrolling table-responsive scrollbar-lady-lips thin square">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="headcol"><span><i class="fa fa-check"></i></span></th>
+                                        <th>category</th>
+                                        <th>cosmetic</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for selection in selected %}
+                                    <tr>
+                                        <td class="headcol">
+                                            <div class="custom-control custom-checkbox d-inline">
+                                                <input type="checkbox" class="custom-control-input" name="del_cos"
+                                                    id="customCheck1{{ selection.id }}" value="{{ selection.id }}">
+                                                <label class="custom-control-label"
+                                                    for="customCheck1{{ selection.id }}"></label>
+                                            </div>
+                                        </td>
+                                        <td>{{ selection.category }}</td>
+                                        <td>{{ selection.name }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div class="cosmetic-combine text-right">
                     <input type="hidden" name="kind" value="{{ kind }}">
