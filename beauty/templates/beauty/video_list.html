@@ -49,11 +49,13 @@ Video List
                         <tr>
                             {% if user.is_authenticated %}
                             <td class="big-cate">
+
                                 <div class="custom-control custom-checkbox d-inline">
                                     <input type="checkbox" class="custom-control-input" name="video_id" id="customCheck{{ video.id }}"
                                         value="{{ video.id }}">
                                     <label class="custom-control-label" for="customCheck{{ video.id }}"></label>
                                 </div>
+
                             </td>
                             {% endif %}
                             <td>

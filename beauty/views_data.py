@@ -256,7 +256,7 @@ def convert_xlsx_to_csv(request):
 
     return render(request, "beauty/base.html")
 
-def cosmetic_edit(request):
+def cosmetic_edit(request, num):
     if request.user.is_superuser:
         if request.method =="POST":
             with open("output.csv") as f_in, open("temp_output.csv", 'w', encoding='euc_kr', newline='') as f_out:
@@ -264,16 +264,27 @@ def cosmetic_edit(request):
                 wr = csv.writer(f_out)
 
                 for i, row in enumerate(reader):
-                    temp_cos = []
-                    j = 0
-                    while True:
+                    if i != num:
+                        wr.writerow(row)
+                    else:
+                        temp_cos = []
+                        j = 0
+                        while True:
+                            try:
+                                if request.POST[str(num)+","+str(j)] != "":
+                                    temp_cos.append(request.POST[str(i)+","+str(j)])
+                                j = j + 1
+                            except:
+                                break
+
                         try:
-                            if request.POST[str(i)+","+str(j)] != "":
-                                temp_cos.append(request.POST[str(i)+","+str(j)])
-                            j = j + 1
+                            if request.POST['add']:
+                                temp_cos.append("-")
                         except:
-                            break
-                    wr.writerow(row[:6]+temp_cos)
+                            pass
+                        wr.writerow(row[:6]+temp_cos)
+               
+
             os.remove('output.csv')
 
             with open('temp_output.csv', 'r') as infile, open('output.csv', 'w', encoding='euc_kr', newline='') as outfile:
@@ -282,25 +293,38 @@ def cosmetic_edit(request):
             os.remove('temp_output.csv')
 
         contexts = {}
-        row_cos = []
 
         with open("output.csv", 'r', encoding='euc_kr') as f:
             reader = csv.reader(f, delimiter=",")
             for i, row in enumerate(reader):
-                row_cos.append(row[6:])
-                contexts['range'] = range(0, i+1)
-            contexts.update({
-                    "row_cos" : row_cos
-                })
+                if i == num:
+                    row_cos = []
+                    j = 6
+                    while True:
+                        try:
+                            if row[j] != "":
+                                row_cos.append(row[j])
+                                j = j + 1
+                            else:
+                                break
+                        except:
+                            break
+                                
+                    contexts.update({
+                    "row_cos" : row_cos,
+                    "num":num
+                    })
 
     return render(request, "beauty/cosmetic_edit.html", contexts)
 
 def processing_csv(request):
     if request.user.is_superuser:
         #Caution!! these codes will delete all DB
+        
         Youtuber.objects.all().delete()
         Video.objects.all().delete()
         Cosmetic.objects.all().delete()
+        
         #################################
         with open("output.csv", 'r') as f:
             reader = csv.reader(f, delimiter=",")

@@ -2,14 +2,18 @@
 
 <form action="" method="post">
     {% csrf_token %}
-    {% for i in range %}
-    {{ i }}
+    {{ num }}번 비디오
     <br>
-    {% for cos in row_cos|index:i  %}
-    <textarea name="{{i}},{{forloop.counter0}}" id="" cols="180" rows="2">{{cos}}</textarea>
+    {% for cos in row_cos %}
+    {% if cos != "" %}
+    <textarea name="{{num}},{{forloop.counter0}}" id="" cols="180" rows="2">{{cos}}</textarea>
     <br>
+    {% endif %}
     {% endfor %}
     <input type="submit">
+    <input type="submit" name="add" value="add">
+
+    {% load mathfilters %}
+    <a href="{% url 'beauty:cosmetic_edit' num|add:1 %}">다음 동영상 편집</a>
     <hr />
-    {% endfor %}
 </form>

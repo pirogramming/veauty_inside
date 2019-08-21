@@ -8,7 +8,7 @@ urlpatterns = [
     path('create_test_csv', views_data.create_test_csv, name="creat_test_csv"),
     path('convert_xlsx_to_csv', views_data.convert_xlsx_to_csv, name="convert_xlsx_to_csv"),
     path('create_category_csv', views_data.create_category_csv, name="create_category_csv"),
-    path('cosmetic_edit', views_data.cosmetic_edit, name="cosmetic_edit"),
+    path('cosmetic_edit/<int:num>', views_data.cosmetic_edit, name="cosmetic_edit"),
     path('processing_csv', views_data.processing_csv, name="processing_csv"),
 
     path('', views.home, name="home"),
