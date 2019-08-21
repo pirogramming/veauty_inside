@@ -1,0 +1,25 @@
+{% extends 'beauty/base.html' %}
+
+{% block title %}
+Search Result
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h5>Videos</h5>
+    {% for video in videos %}
+        <p>{{ video }}</p>
+    {% endfor %}
+    <hr>
+    <h5>Cosmetics</h5>
+    {% for cosmetic in cosmetics %}
+        <p>{{ cosmetic }}</p>
+    {% endfor %}
+    <hr>
+    <h5>Youtubers</h5>
+    {% for youtuber in youtubers %}
+        <p>{{ youtuber }}</p>
+    {% endfor %}
+    <hr>
+</div>
+{% endblock %}

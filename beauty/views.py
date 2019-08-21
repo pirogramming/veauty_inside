@@ -83,7 +83,7 @@ def video_scrap(request):
     response['Location'] += '?pageNum='+request.POST['pageNum']
     return response
 
-def list_for_cosmetic(request, kind, combinate=False):
+def list_for_cosmetic(request, kind, combinate=False, PAGE_ROW_COUNT=10):
     addtional_cate = (lambda x : ['interest', 'my'] if x else [])(combinate)
     contexts = {}
 
@@ -105,7 +105,7 @@ def list_for_cosmetic(request, kind, combinate=False):
         else:
             return 0
 
-    contexts.update(pagination(request, cosmetics, 'cosmetics'))
+    contexts.update(pagination(request, cosmetics, 'cosmetics', PAGE_ROW_COUNT))
     contexts.update({
         'kind' : kind,
         'big_categories' : Bigcate.objects.all(),
@@ -150,7 +150,7 @@ def cosmetic_scrap(request):
     return response
 
 def combine_cosmetic(request, kind=""):
-    contexts = list_for_cosmetic(request, kind, combinate=True)
+    contexts = list_for_cosmetic(request, kind, combinate=True, PAGE_ROW_COUNT=15)
     storage = get_messages(request)
     for message in storage:
         contexts.update({
@@ -310,4 +310,17 @@ def recommend_scrap(request):
     response = redirect("beauty:combine_result")
     response['Location'] += querystring 
     return response
+
+def search(request):
+    q = request.GET['q']
+    videos = Video.objects.filter(title__contains=q)
+    cosmetics = Cosmetic.objects.filter(name__contains=q)
+    youtubers = Youtuber.objects.filter(name__contains=q)
+
+    return render(request, "beauty/search_result.html", {
+        'videos' : videos,
+        'cosmetics' : cosmetics,
+        'youtubers' : youtubers,
+        'q' : q,
+    })
         

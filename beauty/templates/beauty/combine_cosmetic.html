@@ -9,62 +9,68 @@ Combine Cosmetics
     <div class="row">
         <div class="col-sm-12 col-md-7 col-lg-8">
             {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                {% if 'pick' in message.tags %}
-                <li {% if message.tags %} class="alert alert-{{ message_tags }}" {% endif %} role="alert">{{ message }}</li>
-                {% endif %}
-                {% endfor %}
-            </ul>
+            {% for message in messages %}
+            {% if 'pick' in message.tags %}
+            <div class="alert alert-{{ message_tags }} alert-dismissable show fade mt-1" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                {{ message }}
+            </div>
+            {% endif %}
+            {% endfor %}
             {% endif %}
         </div>
         <div class="col-sm-12 col-md-5 col-lg-4">
             {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                {% if 'basket' in message.tags %}
-                <li {% if message.tags %} class="alert alert-{{ message_tags }}" {% endif %} role="alert">{{ message }}</li>
-                {% endif %}
-                {% endfor %}
-            </ul>
+            {% for message in messages %}
+            {% if 'basket' in message.tags %}
+            <div class="alert alert-{{ message_tags }} alert-dismissable show fade mt-1" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                {{ message }}
+            </div>
+            {% endif %}
+            {% endfor %}
             {% endif %}
         </div>
     </div>
 
     <div class="row">
         <div class="col-sm-12 col-md-7 col-lg-8">
-                <ul class="nav nav-tabs">
-                        <li class="nav-item">
-                            <a class="nav-link {% if kind == 'all' %} active {% endif %}"
-                                href="{% url 'beauty:combine_cosmetic' 'all' %}{{ query_cos }}">전체 화장품</a>
-                        </li>
-                        {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link {% if kind == 'interest' %} active {% endif %}"
-                                href="{% url 'beauty:combine_cosmetic' 'interest' %}{{ query_cos }}">관심 화장품</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if kind == 'my' %} active {% endif %}"
-                                href="{% url 'beauty:combine_cosmetic' 'my' %}{{ query_cos }}">내 화장품</a>
-                        </li>
-                        {% endif %}
-                        {% for big_category in big_categories %}
-                        <li class="nav-item">
-                            <a class="nav-link {% if big_category == curr_big %} active {% endif %}"
-                                href="{% url 'beauty:combine_cosmetic' big_category.smallcate_set.all.0.eng_name %}{{ query_cos }}">{{ big_category }}</a>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    {% if kind != 'all' %}
-                    <ul class="nav nav-tabs mt-1">
-                        {% for small_category in small_categories %}
-                        <li class="nav-item">
-                            <a class="nav-link {% if small_category == curr_small %} active {% endif %}"
-                                href="{% url 'beauty:combine_cosmetic' small_category.eng_name %}{{ query_cos }}">{{ small_category }}</a>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link {% if kind == 'all' %} active {% endif %}"
+                        href="{% url 'beauty:combine_cosmetic' 'all' %}{{ query_cos }}">전체 화장품</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link {% if kind == 'interest' %} active {% endif %}"
+                        href="{% url 'beauty:combine_cosmetic' 'interest' %}{{ query_cos }}">관심 화장품</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if kind == 'my' %} active {% endif %}"
+                        href="{% url 'beauty:combine_cosmetic' 'my' %}{{ query_cos }}">내 화장품</a>
+                </li>
+                {% endif %}
+                {% for big_category in big_categories %}
+                <li class="nav-item">
+                    <a class="nav-link {% if big_category == curr_big %} active {% endif %}"
+                        href="{% url 'beauty:combine_cosmetic' big_category.smallcate_set.all.0.eng_name %}{{ query_cos }}">{{ big_category }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% if kind != 'all' %}
+            <ul class="nav nav-tabs mt-1">
+                {% for small_category in small_categories %}
+                <li class="nav-item">
+                    <a class="nav-link {% if small_category == curr_small %} active {% endif %}"
+                        href="{% url 'beauty:combine_cosmetic' small_category.eng_name %}{{ query_cos }}">{{ small_category }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
             <form action="{% url 'beauty:cosmetic_pick' %}" method="post">
                 {% csrf_token %}
                 <div class="scroll-wrap  mb-1 combine-table">
@@ -102,7 +108,7 @@ Combine Cosmetics
                                     {% if kind == 'all' %}
                                     <td>{{ cosmetic.category }}</td>
                                     {% endif %}
-                                    <td>{{ cosmetic.name }}</td>
+                                    <td><span class="text-primary">{{ cosmetic.name }}</span></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -149,7 +155,7 @@ Combine Cosmetics
                                         </div>
                                     </td>
                                     <td>{{ selection.category }}</td>
-                                    <td>{{ selection.name }}</td>
+                                    <td><span class="text-primary">{{ selection.name }}</span></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>

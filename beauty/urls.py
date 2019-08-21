@@ -32,4 +32,6 @@ urlpatterns = [
 
     path('cosmetic_save', views.cosmetic_save, name="cosmetic_save"),
     path('recommend_scrap', views.recommend_scrap, name="recommend_scrap"),
+
+    path('search', views.search, name="search"),
 ]
