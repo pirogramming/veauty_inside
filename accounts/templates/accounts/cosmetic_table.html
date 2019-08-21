@@ -3,28 +3,26 @@
 {% block table %}
 <form action="{% url 'cosmetic_scrap_processing' %}" method="post">
     {% csrf_token %}
-    <div class="over-wrap mb-1 profile-table">
-        <div class="scroll-wrap profile-table">
-            <div class="scrolling table-responsive scrollbar-lady-lips thin square profile-table">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
-                            <th>cosmetic</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for cosmetic in cosmetics %}
-                        <tr>
-                            <td>
-                                <input type="checkbox" name="cosmetic_id" value="{{ cosmetic.id }}">
-                            </td>
-                            <td>{{ cosmetic.name }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+    <div class="scroll-wrap mb-1 profile-table">
+        <div class="scrolling table-responsive scrollbar-lady-lips thin square">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
+                        <th>cosmetic</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cosmetic in cosmetics %}
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="cosmetic_id" value="{{ cosmetic.id }}">
+                        </td>
+                        <td>{{ cosmetic.name }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
     <div class="scrap-wrap">

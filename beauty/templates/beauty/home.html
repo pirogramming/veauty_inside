@@ -7,6 +7,8 @@
     HOME
 {% endblock %}
 
+{% block nav %}
+{% endblock %}
 
 {% block content %}
 
@@ -16,7 +18,7 @@
 
     <style>
         header {
-            background-image: url('https://jw-webmagazine.com/wp-content/uploads/2019/07/jw-5d1b48ed789c29.07523610.jpeg');
+            background-image: url('{% static "main.jpeg" %}');
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center top;
@@ -28,32 +30,31 @@
                 <div class="col-12">
                     <div class="text-center m-0 vh-100 d-flex flex-column justify-content-center">
                         <h1 class="display-4">Veauty Inside</h1>
-                        <p class="lead">뷰티 유튜버~~~~~~가즈아~~~~~~~~</p>
                         <div class="row">
                             <div class="col-lg-4 col-sm-6 mx-auto">
                                 <div class="input-group mb-3 d-flex justify-content-center">
                                     {% if user.is_authenticated %}
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-dark btn-lg rounded" type="button"
+                                            <button class="btn btn-outline-dark rounded home-btn" type="button"
                                                     onclick="location.href='{% url 'profile' %}' ">
                                                 프로필
                                             </button>
                                         </div>
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-dark btn-lg rounded" type="button"
+                                            <button class="btn btn-outline-dark rounded home-btn" type="button"
                                                     onclick="location.href='{% url 'logout' %}?next={{ request.path }}' ">
                                                 로그아웃
                                             </button>
                                         </div>
                                     {% else %}
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-dark btn-lg rounded" type="button"
+                                            <button class="btn btn-outline-dark rounded home-btn" type="button"
                                                     onclick="location.href='{% url 'login' %}?next={{ request.path }}' ">
                                                 로그인
                                             </button>
                                         </div>
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-dark btn-lg rounded" type="button"
+                                            <button class="btn btn-outline-dark rounded home-btn" type="button"
                                                     onclick="location.href='{% url 'signup' %}?next={{ request.path }}' ">
                                                 회원가입
                                             </button>
@@ -80,7 +81,8 @@
                                 <h1 class="display-2 text-primary"><i class="fa fa-youtube-square"
                                                                       aria-hidden="true"></i></h1>
                                 <h4 class="card-title text-primary">비디오</h4>
-                                <p class="card-text">비디오 비디오 비디오 봅시다 유튜브영상보러갑시다 고고고고고고</p>
+                                <p class="card-text">뷰티유튜버 컨텐츠 내 화장품<br/>정보 공유 서비스<br/>뷰티유튜버 컨텐츠에서 사용된 모든 화장품 정보 제공</p>
+                                
                                 <a href="video/" class="btn btn-primary mt-auto">보러 가기</a>
                             </div>
                         </div>
@@ -91,7 +93,8 @@
                                 <h1 class="display-2 text-primary"><i class="fa fa-eyedropper" aria-hidden="true"></i>
                                 </h1>
                                 <h4 class="card-title text-primary">화장품</h4>
-                                <p class="card-text">화장품 화장품 화장품 화장품 화장품 화장품 화장품 화장품 화장품 화장품 화장품 화장품 화장품</p>
+                                <p class="card-text">뷰티유튜버 컨텐츠 기반 화장품 랭킹 공유 서비스<br/>
+                                        뷰티유튜버 컨텐츠에서 가장 많이 사용된 화장품 랭킹 정보 제공품</p>
                                 <a href="cosmetic/" class="btn btn-primary mt-auto">보러 가기</a>
                             </div>
                         </div>
@@ -102,7 +105,8 @@
                                 <h1 class="display-2 text-primary"><i class="fa fa-thumb-tack" aria-hidden="true"></i>
                                 </h1>
                                 <h4 class="card-title text-primary">조합</h4>
-                                <p class="card-text">조합 조합 조합 조합 조합 조합 조합 조합 조합 조합 조합 조합 조합 조합 조합 조합 조합 조합 조합</p>
+                                <p class="card-text">특정 화장품 사용 뷰티유튜버 컨텐츠 추천 서비스<br/>
+소유하고 있거나 관심있는 화장품을 등록하여 해당 제품들이 등장하는 뷰티유튜버 컨텐츠 추천</p>
                                 <a href="combine/" class="btn btn-primary mt-auto">보러 가기</a>
                             </div>
                         </div>

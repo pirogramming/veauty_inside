@@ -75,6 +75,10 @@ body > div > div > div > form > div.text-right {
 /*    justify-content: space-around;*/
 /*}*/
 
+.home-btn {
+    width : 100px;
+}
+
 .nav-item > .active {
     font-weight: bold;
 }
@@ -117,39 +121,6 @@ tbody > .vid-select > input {
     color: #F6648C;
 }
 
-.scrolltbody{
-    width: 100%;
-    table-layout: fixed;
-    border-collapse: collapse;
-}
-
-.scrolltbody tbody{
-  display:block;
-  width: 100%;
-  overflow: auto;
-}
-
-.scrolltbody thead tr, .scrolltbody thead {
-   display: block;
-}
-
-.scrolltbody th, .scrolltbody td {
-  text-align: left;
-}
-
-.combine-table tbody { height: 65vh; }
-.combine-table th:nth-of-type(1), .combine-table td:nth-of-type(1) { width: 30px; }
-.combine-table th:nth-of-type(2), .combine-table td:nth-of-type(2) { width: 1000px; }
-.combine-table th:nth-of-type(3), .combine-table td:nth-of-type(3) { width: 1000px; }
-
-.result-cos tbody, .result-video tbody { height : 75vh;}
-.result-cos th:nth-of-type(1), .result-cos td:nth-of-type(1) { width: 900px; }
-
-.result-video th:nth-of-type(1), .result-video td:nth-of-type(1) { width: 30px; }
-.result-video th:nth-of-type(2), .result-video td:nth-of-type(2) { width: 900px; }
-.result-video th:nth-of-type(3), .result-video td:nth-of-type(3) { width: 220px; }
-.result-video th:nth-of-type(4), .result-video td:nth-of-type(4) { width: 900px; }
-
 /*
 .scrolling{
     overflow: auto;
@@ -158,53 +129,33 @@ tbody > .vid-select > input {
 }
 */
 .profile-table, .profile-table div {
-    height : 65vh;
+    height : 60vh;
 }
 
 .main-table, .main-table div {
-    height : 75vh;
-}
-
-.combine-table, .combine-table div {
     height : 70vh;
 }
 
-.combine-list-table, .combine-list-table div {
+.combine-table, .combine-table div {
     height : 65vh;
 }
 
-.result-table, .result-table div {
-    height : 80vh;
+.combine-list-table, .combine-list-table div {
+    height : 60vh;
 }
 
-.over-wrap {
-    width : 100%;
-    overflow-x: auto;
-    white-space: nowrap;
-    table-layout: fixed;
-    box-shadow: 0 0 0 0.5px #EEEEEE inset; 
+.result-table, .result-table div {
+    height : 75vh;
 }
 
 .scroll-wrap {
-    position: relative;
-    overflow: hidden;
+    white-space: nowrap; 
+    box-shadow: 0 0 0 0.5px #EEEEEE inset; 
 }
 
 .scrolling {
-    overflow-y: auto;
-    margin-left:2.5em;
-}
-
-.headcol {
-    position:absolute;
-    width:2.5em;
-    left:0;
-    border : 0px;
-    padding-bottom : 10px;
-    border : 0px;
-}
-th.headcol {
-    background-color : #fabccd;
+    overflow: auto;
+    white-space: nowrap; 
 }
 
 .scrollbar-lady-lips::-webkit-scrollbar-track {
@@ -246,8 +197,8 @@ li{
 }
 
 table, td{
-  border:1px solid #EEEEEE
-
+    border:1px solid #EEEEEE;
+    font-size : 0.85em;
 }
 
 
@@ -262,8 +213,22 @@ table, td{
       width : 72%;
     }
 
-    .result-cos tbody {
-        height : 40vh;
+    .combine-list-table, .combine-list-table div {
+        height : 45vh;
+    }
+    .combine-table, .combine-table div {
+        height : 45vh;
+    }
+    .result-table, .result-table div {
+        height : 55vh;
     }
  }
 
+ @media (max-width: 575px) {
+    .container-fluid {
+        padding-left : 15px;
+        padding-right : 15px;
+        margin : 0px;
+        width : 100%;
+    }
+ }

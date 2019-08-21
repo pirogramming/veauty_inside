@@ -8,35 +8,23 @@ Combine Cosmetics
 <div class="container-fluid mt-1">
     <div class="row">
         <div class="col-sm-12 col-md-7 col-lg-8">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link {% if kind == 'all' %} active {% endif %}"
-                        href="{% url 'beauty:combine_cosmetic' 'all' %}{{ query_cos }}">all</a>
-                </li>
-                {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link {% if kind == 'interest' %} active {% endif %}"
-                        href="{% url 'beauty:combine_cosmetic' 'interest' %}{{ query_cos }}">interest</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if kind == 'my' %} active {% endif %}"
-                        href="{% url 'beauty:combine_cosmetic' 'my' %}{{ query_cos }}">my</a>
-                </li>
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                {% if 'pick' in message.tags %}
+                <li {% if message.tags %} class="alert alert-{{ message_tags }}" {% endif %} role="alert">{{ message }}</li>
                 {% endif %}
-                {% for big_category in big_categories %}
-                <li class="nav-item">
-                    <a class="nav-link {% if big_category == curr_big %} active {% endif %}"
-                        href="{% url 'beauty:combine_cosmetic' big_category.smallcate_set.all.0.eng_name %}{{ query_cos }}">{{ big_category }}</a>
-                </li>
                 {% endfor %}
             </ul>
-            {% if kind != 'all' %}
-            <ul class="nav nav-tabs mt-1">
-                {% for small_category in small_categories %}
-                <li class="nav-item">
-                    <a class="nav-link {% if small_category == curr_small %} active {% endif %}"
-                        href="{% url 'beauty:combine_cosmetic' small_category.eng_name %}{{ query_cos }}">{{ small_category }}</a>
-                </li>
+            {% endif %}
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                {% if 'basket' in message.tags %}
+                <li {% if message.tags %} class="alert alert-{{ message_tags }}" {% endif %} role="alert">{{ message }}</li>
+                {% endif %}
                 {% endfor %}
             </ul>
             {% endif %}
@@ -45,50 +33,80 @@ Combine Cosmetics
 
     <div class="row">
         <div class="col-sm-12 col-md-7 col-lg-8">
+                <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link {% if kind == 'all' %} active {% endif %}"
+                                href="{% url 'beauty:combine_cosmetic' 'all' %}{{ query_cos }}">전체 화장품</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if kind == 'interest' %} active {% endif %}"
+                                href="{% url 'beauty:combine_cosmetic' 'interest' %}{{ query_cos }}">관심 화장품</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if kind == 'my' %} active {% endif %}"
+                                href="{% url 'beauty:combine_cosmetic' 'my' %}{{ query_cos }}">내 화장품</a>
+                        </li>
+                        {% endif %}
+                        {% for big_category in big_categories %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if big_category == curr_big %} active {% endif %}"
+                                href="{% url 'beauty:combine_cosmetic' big_category.smallcate_set.all.0.eng_name %}{{ query_cos }}">{{ big_category }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% if kind != 'all' %}
+                    <ul class="nav nav-tabs mt-1">
+                        {% for small_category in small_categories %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if small_category == curr_small %} active {% endif %}"
+                                href="{% url 'beauty:combine_cosmetic' small_category.eng_name %}{{ query_cos }}">{{ small_category }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
             <form action="{% url 'beauty:cosmetic_pick' %}" method="post">
                 {% csrf_token %}
-                <div class="over-wrap mb-1 combine-table">
-                    <div class="scroll-wrap">
-                        <div class="scrolling table-responsive scrollbar-lady-lips thin square">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
-                                        <th width="20">Rank</th>
-                                        {% if kind == 'all' %}
-                                        <th>category</th>
+                <div class="scroll-wrap  mb-1 combine-table">
+                    <div class="scrolling table-responsive scrollbar-lady-lips thin square">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
+                                    <th width="20">랭킹</th>
+                                    {% if kind == 'all' %}
+                                    <th>분류</th>
+                                    {% endif %}
+                                    <th>제품</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for cosmetic in cosmetics %}
+                                {% load mathfilters %}
+                                <tr>
+                                    <td>
+                                        <div class="custom-control custom-checkbox d-inline">
+                                            <input type="checkbox" class="custom-control-input" name="cosmetic_id"
+                                                id="customCheck{{ cosmetic.id }}" value="{{ cosmetic.id }}">
+                                            <label class="custom-control-label"
+                                                for="customCheck{{ cosmetic.id }}"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {% if pageNum %}
+                                        {{ pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
+                                        {% else %}
+                                        {{ forloop.counter }}
                                         {% endif %}
-                                        <th>cosmetic</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for cosmetic in cosmetics %}
-                                    {% load mathfilters %}
-                                    <tr>
-                                        <td>
-                                            <div class="custom-control custom-checkbox d-inline">
-                                                <input type="checkbox" class="custom-control-input" name="cosmetic_id"
-                                                    id="customCheck{{ cosmetic.id }}" value="{{ cosmetic.id }}">
-                                                <label class="custom-control-label"
-                                                    for="customCheck{{ cosmetic.id }}"></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {% if pageNum %}
-                                            {{ pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
-                                            {% else %}
-                                            {{ forloop.counter }}
-                                            {% endif %}
-                                        </td>
-                                        {% if kind == 'all' %}
-                                        <td>{{ cosmetic.category }}</td>
-                                        {% endif %}
-                                        <td>{{ cosmetic.name }}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
+                                    </td>
+                                    {% if kind == 'all' %}
+                                    <td>{{ cosmetic.category }}</td>
+                                    {% endif %}
+                                    <td>{{ cosmetic.name }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <input type="hidden" name="kind" value="{{ kind }}">
@@ -104,37 +122,38 @@ Combine Cosmetics
             </form>
         </div>
         <div class="col-sm-12 col-md-5 col-lg-4">
+            <div class="d-flex justify-content-center align-items-center border border-primary rounded mb-1">
+                <h5 class="m-2 font-weight-normal text-primary">Basket</h5>
+            </div>
             <form action="{% url 'beauty:cosmetic_delete' %}" method="post">
                 {% csrf_token %}
-                <div class="over-wrap mb-1 combine-list-table">
-                    <div class="scroll-wrap">
-                        <div class="scrolling table-responsive scrollbar-lady-lips thin square">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th class="headcol"><span><i class="fa fa-check"></i></span></th>
-                                        <th>category</th>
-                                        <th>cosmetic</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for selection in selected %}
-                                    <tr>
-                                        <td class="headcol">
-                                            <div class="custom-control custom-checkbox d-inline">
-                                                <input type="checkbox" class="custom-control-input" name="del_cos"
-                                                    id="customCheck1{{ selection.id }}" value="{{ selection.id }}">
-                                                <label class="custom-control-label"
-                                                    for="customCheck1{{ selection.id }}"></label>
-                                            </div>
-                                        </td>
-                                        <td>{{ selection.category }}</td>
-                                        <td>{{ selection.name }}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
+                <div class="scroll-wrap mb-1 combine-list-table">
+                    <div class="scrolling table-responsive scrollbar-lady-lips thin square">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th><span><i class="fa fa-check"></i></span></th>
+                                    <th>분류</th>
+                                    <th>제품</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for selection in selected %}
+                                <tr>
+                                    <td>
+                                        <div class="custom-control custom-checkbox d-inline">
+                                            <input type="checkbox" class="custom-control-input" name="del_cos"
+                                                id="customCheck1{{ selection.id }}" value="{{ selection.id }}">
+                                            <label class="custom-control-label"
+                                                for="customCheck1{{ selection.id }}"></label>
+                                        </div>
+                                    </td>
+                                    <td>{{ selection.category }}</td>
+                                    <td>{{ selection.name }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div class="cosmetic-combine text-right">
@@ -153,6 +172,7 @@ Combine Cosmetics
                     {% csrf_token %}
                     <input type="hidden" name="kind" value="{{ kind }}">
                     <input type="hidden" name="pageNum" value="{{ pageNum }}">
+                    <input type="hidden" name="distinction" value="{% if curr_cos %}y{% else %}n{% endif %}">
                     <button type="submit" class="btn btn-primary mt-auto col-4 col-sm-3 col-md-5 col-lg-5">목록
                         초기화</button>
                 </form>

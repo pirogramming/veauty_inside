@@ -353,7 +353,7 @@ def processing_csv(request):
         Cosmetic.objects.all().delete()
         
         #################################
-        with open("output.csv", 'r', ) as f:
+        with open("output.csv", 'r', encoding='euc_kr' ) as f:
             reader = csv.reader(f, delimiter=",")
 
             for row in reader:
