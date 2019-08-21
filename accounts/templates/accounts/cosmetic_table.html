@@ -2,33 +2,38 @@
 
 {% block table %}
 <form action="{% url 'cosmetic_scrap_processing' %}" method="post">
-        {% csrf_token %}
-        <table class="table">
-            <thead>
-                <tr>
-                    <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
-                    <th>cosmetic</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for cosmetic in cosmetics %}
-                <tr>
-                    <td>
-                        <input type="checkbox" name="cosmetic_id" value="{{ cosmetic.id }}">
-                    </td>
-                    <td>{{ cosmetic.name }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <div class="scrap-wrap">
-            <input type="hidden" name="kind" value="{{ kind }}">
-            <div class="text-right">
-                <button type="submit" class="btn btn-primary mt-auto" name="selection" value="combine">화장품
-                    조합하기</button>
-                <button type="submit" class="btn btn-primary mt-auto" name="selection" value="cancel">등록 취소하기</button>
+    {% csrf_token %}
+    <div class="over-wrap mb-1 profile-table">
+        <div class="scroll-wrap profile-table">
+            <div class="scrolling table-responsive scrollbar-lady-lips thin square profile-table">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
+                            <th>cosmetic</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cosmetic in cosmetics %}
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="cosmetic_id" value="{{ cosmetic.id }}">
+                            </td>
+                            <td>{{ cosmetic.name }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
-    </form>
+    </div>
+    <div class="scrap-wrap">
+        <input type="hidden" name="kind" value="{{ kind }}">
+        <div class="text-right">
+            <button type="submit" class="btn btn-primary mt-auto" name="selection" value="combine">화장품
+                조합하기</button>
+            <button type="submit" class="btn btn-primary mt-auto" name="selection" value="cancel">등록 취소하기</button>
+        </div>
+    </div>
+</form>
 {% endblock %}

@@ -229,9 +229,15 @@ def convert_xlsx_to_csv(request):
 
         your_csv_file.close()
 
+        try:
+            os.remove('output.csv')
+        except:
+            pass
+
         with open('temp_output.csv', 'r') as infile, open('output.csv', 'w', encoding='euc_kr', newline='') as outfile:
             reader = csv.reader(infile, delimiter=",")
             wr = csv.writer(outfile)
+            smallcates = Smallcate.objects.all()
 
             for row in reader:
                 try:
@@ -247,7 +253,28 @@ def convert_xlsx_to_csv(request):
                             break
                     except:
                         break
-                    temp_list.append(row[i])
+
+                    if i >= 6:
+                        temp_cos = list(row[i].split(":"))
+                        small_cate = temp_cos[0].strip().replace("{", "").replace("}", "").replace("'", "")
+                        cosmetic_name = temp_cos[-1].strip().replace("{", "").replace("}", "").replace("'", "")
+                        for smallcate in smallcates:
+                            cnt = 0
+                            for j in range(0,5+1):
+                                try:
+                                    if small_cate[j] != smallcate.name[j]:
+                                        cnt = 1
+                                        break
+                                except:
+                                    break
+                            if cnt == 0:
+                                real_small_cate = smallcate.name
+                                temp_list.append(real_small_cate+":"+cosmetic_name)
+                                break
+
+                    else:
+                        temp_list.append(row[i])
+
                     print(row[i])
                     i = i + 1
                 wr.writerow(temp_list)
