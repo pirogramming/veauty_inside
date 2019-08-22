@@ -399,7 +399,7 @@ def processing_csv(request):
 
                 print("here")
                 video = Video()
-                video.title = row[1].replace("??", "")
+                video.title = row[1].replace("♀", "").replace("?", "")
                 video.yt_url = row[2]
                 video.youtuber = get_object_or_404(Youtuber, name=row[3])
                 video.hits = int(row[4])

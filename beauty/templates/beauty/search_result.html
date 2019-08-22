@@ -16,10 +16,12 @@ Veauty Inside - {{q}}
     </div>
     {% endfor %}
     {% endif %}
-
-    <div class="jumbotron w-100 py-5 mx-auto mb-3">
-            <h3><strong>"{{q}}"</strong></h3><small> 검색결과</small></h3>
+    <form class="form-inline my-5" method="GET" action="{% url 'beauty:search' %}">
+        <div class="d-flex vw-100">
+            <input class="form-control mr-sm-1 w-100" type="search" placeholder="Search" name="q" {% if q %} value="{{q}}" {% endif %}>
+            <button type="submit" class="btn btn-primary align-bottom m-0">Search</button>
         </div>
+    </form>
 
     <div class="tab-content">
         <div class="d-flex justify-content-center align-items-center border border-primary rounded mb-1">
@@ -68,12 +70,12 @@ Veauty Inside - {{q}}
                                 <td>{{ video.youtuber }}</td>
                                 {% for big_category in big_categories %}
                                 <td class="big-cate">
-                                    <ul class="m-0">
+                                    <ul class="m-0 mt-1">
                                         {% for cosmetic in video.cosmetic.all %}
 
                                         {% if cosmetic.category.bigcate == big_category %}
-                                        <li>
-                                            {{ cosmetic.name }}
+                                        <li class="mb-1">
+                                            <i class="fa fa-smile-o mr-1" aria-hidden="true"></i>{{ cosmetic.name }}
                                         </li>
                                         {% endif %}
                                         {% endfor %}
