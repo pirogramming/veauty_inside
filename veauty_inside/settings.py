@@ -25,7 +25,7 @@ SECRET_KEY = 'g0_yo!l&aitzfm89hwy5kvunvtt&x&&etq@cv*-%6%)$1l(90^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['3.130.153.124']
 
 
 # Application definition
@@ -84,9 +84,13 @@ WSGI_APPLICATION = 'veauty_inside.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ['DB_NAME'],
+        'USER': os.environ['DB_USER'],
+        'PASSWORD': os.environ['DB_PW'],
+        'HOST': os.environ['DB_HOST'],
+        'PORT': '5432',
+    },
 }
 
 

@@ -201,14 +201,12 @@ li{
     list-style: none;
 }
 
-table, td, #footer{
-    border:1px solid #EEEEEE;
-    font-size : 0.9em;
-}
+
 
 
 .footer {
     font-family: 'Raleway', sans-serif;
+    font-weight: 400
 }
 
 @media (max-width: 768px) {
