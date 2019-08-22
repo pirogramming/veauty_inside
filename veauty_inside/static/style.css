@@ -16,6 +16,9 @@ body{
     box-shadow: none;
 }
 
+.text-bold {
+    font-weight: 700;
+}
 
 /* a.nav-link:active {
     background-color: #F6648C;
