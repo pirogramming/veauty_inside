@@ -76,16 +76,16 @@ Veauty Inside - Video
                                     {{ forloop.counter }}
                                     {% endif %}
                                 </td>
-                                <td><a href="{{ video.yt_url }}" target="_blank">{{ video.title }}</a></td>
+                                <td width="350em" nowrap><a href="{{ video.yt_url }}" target="_blank">{{ video.title }}</a></td>
                                 <td>{{ video.youtuber }}</td>
                                 {% for big_category in big_categories %}
                                 <td class="big-cate">
-                                    <ul class="m-0">
+                                    <ul class="m-0 mt-1">
                                         {% for cosmetic in video.cosmetic.all %}
 
                                         {% if cosmetic.category.bigcate == big_category %}
-                                        <li>
-                                            {{ cosmetic.name }}
+                                        <li class="mb-1">
+                                            <i class="fa fa-smile-o mr-1" aria-hidden="true"></i>{{ cosmetic.name }}
                                         </li>
                                         {% endif %}
                                         {% endfor %}
