@@ -4,9 +4,11 @@
 
 
 {% block title %}
-    HOME
+Veauty Inside
 {% endblock %}
 
+{% block nav %}
+{% endblock %}
 
 {% block content %}
 
@@ -16,7 +18,7 @@
 
     <style>
         header {
-            background-image: url('https://jw-webmagazine.com/wp-content/uploads/2019/07/jw-5d1b48ed789c29.07523610.jpeg');
+            background-image: url('{% static "main.jpeg" %}');
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center top;
@@ -28,32 +30,31 @@
                 <div class="col-12">
                     <div class="text-center m-0 vh-100 d-flex flex-column justify-content-center">
                         <h1 class="display-4">Veauty Inside</h1>
-                        <p class="lead">뷰티 유튜버~~~~~~가즈아~~~~~~~~</p>
                         <div class="row">
                             <div class="col-lg-4 col-sm-6 mx-auto">
                                 <div class="input-group mb-3 d-flex justify-content-center">
                                     {% if user.is_authenticated %}
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-dark btn-lg rounded" type="button"
+                                            <button class="btn btn-outline-dark rounded home-btn" type="button"
                                                     onclick="location.href='{% url 'profile' %}' ">
                                                 프로필
                                             </button>
                                         </div>
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-dark btn-lg rounded" type="button"
+                                            <button class="btn btn-outline-dark rounded home-btn" type="button"
                                                     onclick="location.href='{% url 'logout' %}?next={{ request.path }}' ">
                                                 로그아웃
                                             </button>
                                         </div>
                                     {% else %}
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-dark btn-lg rounded" type="button"
+                                            <button class="btn btn-outline-dark rounded home-btn" type="button"
                                                     onclick="location.href='{% url 'login' %}?next={{ request.path }}' ">
                                                 로그인
                                             </button>
                                         </div>
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-dark btn-lg rounded" type="button"
+                                            <button class="btn btn-outline-dark rounded home-btn" type="button"
                                                     onclick="location.href='{% url 'signup' %}?next={{ request.path }}' ">
                                                 회원가입
                                             </button>

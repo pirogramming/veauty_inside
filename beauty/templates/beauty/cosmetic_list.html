@@ -1,15 +1,25 @@
 {% extends 'beauty/base.html' %}
 
 {% block title %}
-Cosmetic List
+Veauty Inside - Cosmetic
 {% endblock %}
 
 {% block content %}
 <div class="container">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissable show fade mt-1" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a class="nav-link {% if kind == 'all' %} active {% endif %}"
-                href="{% url 'beauty:cosmetic_list' 'all' %}">all</a>
+                href="{% url 'beauty:cosmetic_list' 'all' %}">전체 화장품</a>
         </li>
         {% for big_category in big_categories %}
         <li class="nav-item">
@@ -33,61 +43,63 @@ Cosmetic List
         <form action="{% url 'beauty:cosmetic_scrap' %}" method="post">
             {% csrf_token %}
             {% endif %}
-            <div class="show scrolling table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            {% if user.is_authenticated %}
-                            <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
-                            {% endif %}
-
-                            <th width="20">Rank</th>
-
-                            {% if kind == 'all' %}
-                            <th>category</th>
-                            {% endif %}
-
-                            <th>cosmetic</th>
-                            <th width="60%">youtube</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for cosmetic in cosmetics %}
-                        {% load mathfilters %}
-                        <tr>
-                            {% if user.is_authenticated %}
-                            <td>
-                                <div class="custom-control custom-checkbox d-inline">
-                                    <input type="checkbox" class="custom-control-input" name="cosmetic_id"
-                                        id="customCheck{{ cosmetic.id }}" value="{{ cosmetic.id }}">
-                                    <label class="custom-control-label" for="customCheck{{ cosmetic.id }}"></label>
-                                </div>
-                            </td>
-                            {% endif %}
-                            <td>
-                                {% if pageNum %}
-                                {{ pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
-                                {% else %}
-                                {{ forloop.counter }}
+            <div class="scroll-wrap mb-1 main-table">
+                <div class="scrolling table-responsive scrollbar-lady-lips thin square">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                {% if user.is_authenticated %}
+                                <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
                                 {% endif %}
-                            </td>
-                            {% if kind == 'all' %}
-                            <td>{{ cosmetic.category.bigcate }}</td>
-                            {% endif %}
-                            <td>{{ cosmetic.name }}</td>
-                            <td>
-                                <ul class="m-0">
-                                    {% for video in cosmetic.video_set.all|slice:yt_num %}
-                                    <li>
-                                        {{ video.title }}
-                                    </li>
-                                    {% endfor %}
-                                </ul>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+
+                                <th width="20">랭킹</th>
+
+                                {% if kind == 'all' %}
+                                <th>분류</th>
+                                {% endif %}
+
+                                <th>제품</th>
+                                <th width="60%">유튜브 영상</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cosmetic in cosmetics %}
+                            {% load mathfilters %}
+                            <tr>
+                                {% if user.is_authenticated %}
+                                <td>
+                                    <div class="custom-control custom-checkbox d-inline">
+                                        <input type="checkbox" class="custom-control-input" name="cosmetic_id"
+                                            id="customCheck{{ cosmetic.id }}" value="{{ cosmetic.id }}">
+                                        <label class="custom-control-label" for="customCheck{{ cosmetic.id }}"></label>
+                                    </div>
+                                </td>
+                                {% endif %}
+                                <td>
+                                    {% if pageNum %}
+                                    {{ pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
+                                    {% else %}
+                                    {{ forloop.counter }}
+                                    {% endif %}
+                                </td>
+                                {% if kind == 'all' %}
+                                <td>{{ cosmetic.category.bigcate }}</td>
+                                {% endif %}
+                                <td><span class="text-primary">{{ cosmetic.name }}</span></td>
+                                <td>
+                                    <ul class="m-0">
+                                        {% for video in cosmetic.video_set.all|slice:yt_num %}
+                                        <li>
+                                            <a href="{{ video.yt_url }}" class="text-dark">{{ video.title }}</a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
             {% if user.is_authenticated %}
             <input type="hidden" name="kind" value="{{ kind }}">

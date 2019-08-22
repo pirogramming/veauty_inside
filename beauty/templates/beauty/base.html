@@ -5,9 +5,8 @@
 <link rel="stylesheet" href="{% static 'hello_kiddie.css' %}">
 {% endblock %}
 
-
-
 {% block body %}
+{% block nav %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
     <div class="container">
         <a class="navbar-brand text-white" href="{% url 'beauty:home' %}">Veauty Inside</a>
@@ -19,7 +18,7 @@
 
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'beauty:video_list' %}">비디오 랭킹</a>
+                    <a class="nav-link" href="{% url 'beauty:video_list' %}">동영상 랭킹</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'beauty:cosmetic_list' %}">화장품 목록</a>
@@ -28,41 +27,76 @@
                     <a class="nav-link" href="{% url 'beauty:combine_cosmetic' %}">화장품 조합</a>
                 </li>
             </ul>
-
             <ul class="nav navbar-nav">
+                <li class="nav-item d-flex align-items-center">
+                    <a class="nav-link" data-toggle="collapse" href="#search" aria-expanded="false"
+                        aria-controls="search">
+                        <i class="fa fa-search" aria-hidden="true"></i>Search
+                    </a>
+
+                    <div class="collapse" id="search">
+                        <form class="form-inline mx-2 my-lg-0" method="GET" action="{% url 'beauty:search' %}">
+                            <input class="form-control mr-sm-2 h-50" type="search" placeholder="Search"
+                                aria-label="Search" name="q" {% if q %} value="{{q}}" {% endif %}>
+                        </form>
+                    </div>
+                </li>
+
+
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'profile' %}">
-                        <i class="fa fa-user-o" aria-hidden="true"></i>My Page</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}?next={{ request.get_full_path|urlencode }}">
-                        <i class="fa fa-sign-in" aria-hidden="true"></i>Logout</a>
+                    <div class="dropdown ">
+                        <a class="dropdown-toggle nav-link" href="#" role="button" id="dropdownMenuLink"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Accounts
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="{% url 'profile' %}">
+                                <i class="fa fa-user-o" aria-hidden="true"></i>My Page
+                            </a>
+                            <a class="dropdown-item"
+                                href="{% url 'logout' %}?next={{ request.get_full_path|urlencode }}">
+                                <i class="fa fa-sign-in" aria-hidden="true"></i>Logout
+                            </a>
+                        </div>
+                    </div>
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}">
-                        <i class="fa fa-user-o" aria-hidden="true"></i>Sign in</a></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'signup' %}?next={{ request.get_full_path|urlencode }}">
-                        <i class="fa fa-sign-in" aria-hidden="true"></i>Sign Up</a>
+                    <div class="dropdown ">
+                        <a class="dropdown-toggle nav-link" href="#" role="button" id="dropdownMenuLink"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Accounts
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item"
+                                href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}">
+                                <i class="fa fa-user-o" aria-hidden="true"></i>Sign in
+                            </a>
+                            <a class="dropdown-item"
+                                href="{% url 'signup' %}?next={{ request.get_full_path|urlencode }}">
+                                <i class="fa fa-sign-in" aria-hidden="true"></i>Sign Up
+                            </a>
+                        </div>
+                    </div>
                 </li>
                 {% endif %}
             </ul>
         </div>
     </div>
 </nav>
-
-
-
+{% endblock %}
+<section>
 {% block content %}
 {% endblock %}
+</section>
 
 
 <footer id="footer" class="bg-dark text-light py-5 mt-5">
     <div class="container">
-        &copy;Veauty Inside Team
+        &copy; Veauty Inside Team
     </div>
 </footer>
 
