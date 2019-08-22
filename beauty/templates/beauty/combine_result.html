@@ -9,26 +9,30 @@ Combine Result
     <div class="row">
         <div class="col-sm-12 col-md-4">
             {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                {% if 'cosmetic' in message.tags %}
-                <li {% if message.tags %} class="alert alert-{{ message_tags }}" {% endif %} role="alert">{{ message }}
-                </li>
-                {% endif %}
-                {% endfor %}
-            </ul>
+            {% for message in messages %}
+            {% if 'cosmetic' in message.tags %}
+            <div class="alert alert-{{ message_tags }} alert-dismissable show fade mt-1" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                {{ message }}
+            </div>
+            {% endif %}
+            {% endfor %}
             {% endif %}
         </div>
         <div class="col-sm-12 col-md-8">
             {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                {% if 'video' in message.tags %}
-                <li {% if message.tags %} class="alert alert-{{ message_tags }}" {% endif %} role="alert">{{ message }}
-                </li>
-                {% endif %}
-                {% endfor %}
-            </ul>
+            {% for message in messages %}
+            {% if 'video' in message.tags %}
+            <div class="alert alert-{{ message_tags }} alert-dismissable show fade mt-1" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                {{ message }}
+            </div>
+            {% endif %}
+            {% endfor %}
             {% endif %}
         </div>
     </div>
@@ -92,7 +96,7 @@ Combine Result
                                     </td>
                                     <td><a href="http://{{ video.yt_url }}" target="_blank">{{ video.title }}</a>
                                     </td>
-                                    <td>{{ video.hits }}</td>
+                                    <td class="text-right">{{ video.hits }}</td>
                                     <td class="big-cate">
                                         <ul class="m-0">
                                             {% for cosmetic in video.cosmetic.all %}

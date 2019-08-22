@@ -1,17 +1,20 @@
 {% extends 'beauty/base.html' %}
 
 {% block title %}
-Cosmetic List
+Veauty Inside - Cosmetic
 {% endblock %}
 
 {% block content %}
 <div class="container">
     {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %} role="alert">{{ message }}</li>
-            {% endfor %}
-    </ul>
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissable show fade mt-1" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+        {{ message }}
+    </div>
+    {% endfor %}
     {% endif %}
     <ul class="nav nav-tabs">
         <li class="nav-item">
@@ -82,12 +85,12 @@ Cosmetic List
                                 {% if kind == 'all' %}
                                 <td>{{ cosmetic.category.bigcate }}</td>
                                 {% endif %}
-                                <td>{{ cosmetic.name }}</td>
+                                <td><span class="text-primary">{{ cosmetic.name }}</span></td>
                                 <td>
                                     <ul class="m-0">
                                         {% for video in cosmetic.video_set.all|slice:yt_num %}
                                         <li>
-                                            {{ video.title }}
+                                            <a href="{{ video.yt_url }}" class="text-dark">{{ video.title }}</a>
                                         </li>
                                         {% endfor %}
                                     </ul>
