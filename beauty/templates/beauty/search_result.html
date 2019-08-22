@@ -1,11 +1,11 @@
 {% extends 'beauty/base.html' %}
 
 {% block title %}
-Veauty Inside - Video
+Veauty Inside - {{q}}
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container mt-1">
     {% if messages %}
     {% for message in messages %}
     <div class="alert alert-{{ message.tags }} alert-dismissable show fade mt-1" role="alert">
@@ -17,26 +17,19 @@ Veauty Inside - Video
     {% endfor %}
     {% endif %}
 
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a class="nav-link {% if period == 'all' %} active {% endif %}"
-                href="{% url 'beauty:video_list' 'all' %}">전체 랭킹</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {% if period == 'month' %} active {% endif %}"
-                href="{% url 'beauty:video_list' 'month' %}">월간 랭킹</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {% if period == 'week' %} active {% endif %}"
-                href="{% url 'beauty:video_list' 'week' %}">주간 랭킹</a>
-        </li>
-    </ul>
+    <div class="jumbotron w-100 py-5 mx-auto mb-3">
+            <h3><strong>"{{q}}"</strong></h3><small> 검색결과</small></h3>
+        </div>
+
     <div class="tab-content">
+        <div class="d-flex justify-content-center align-items-center border border-primary rounded mb-1">
+            <p class="m-2 font-weight-normal text-primary">Video : {{ videos.all.count }}개의 검색결과</p>
+        </div>
         {% if user.is_authenticated %}
-        <form action="{% url 'beauty:video_scrap' %}" method="post">
+        <form action="{% url 'beauty:video_scrap' %}?q={{q}}" method="post">
             {% csrf_token %}
             {% endif %}
-            <div class="scroll-wrap mb-1 main-table">
+            <div class="scroll-wrap mb-1 search-table">
                 <div class="scrolling table-responsive scrollbar-lady-lips thin square">
                     <table class="table">
                         <thead>
@@ -56,7 +49,6 @@ Veauty Inside - Video
                         </thead>
                         <tbody>
                             {% for video in videos %}
-                            {% load mathfilters %}
                             <tr>
                                 {% if user.is_authenticated %}
                                 <td class="big-cate">
@@ -70,11 +62,7 @@ Veauty Inside - Video
                                 </td>
                                 {% endif %}
                                 <td>
-                                    {% if pageNum %}
-                                    {{ pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
-                                    {% else %}
                                     {{ forloop.counter }}
-                                    {% endif %}
                                 </td>
                                 <td><a href="{{ video.yt_url }}" target="_blank">{{ video.title }}</a></td>
                                 <td>{{ video.youtuber }}</td>
@@ -99,14 +87,69 @@ Veauty Inside - Video
                 </div>
             </div>
             {% if user.is_authenticated %}
-            <input type="hidden" name="period" value="{{ period }}">
-            <input type="hidden" name="pageNum" value="{{ pageNum }}">
             <div class="text-right">
                 <button type="submit" class="btn btn-primary mt-auto">비디오 스크랩하기</button>
             </div>
         </form>
         {% endif %}
-        {% include 'beauty/pagination.html' %}
     </div>
+    <hr>
+
+    <div class="tab-content">
+        <div class="d-flex justify-content-center align-items-center border border-primary rounded mb-1">
+            <p class="m-2 font-weight-normal text-primary">Cosmetic : {{ cosmetics.all.count }}개의 검색결과</p>
+        </div>
+        {% if user.is_authenticated %}
+        <form action="{% url 'beauty:cosmetic_scrap' %}?q={{q}}" method="post">
+            {% csrf_token %}
+            {% endif %}
+            <div class="scroll-wrap mb-1 search-table">
+                <div class="scrolling table-responsive scrollbar-lady-lips thin square">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                {% if user.is_authenticated %}
+                                <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
+                                {% endif %}
+                                <th>순서</th>
+                                <th>분류</th>
+                                <th>제품</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cosmetic in cosmetics %}
+                            {% load mathfilters %}
+                            <tr>
+                                {% if user.is_authenticated %}
+                                <td>
+                                    <div class="custom-control custom-checkbox d-inline">
+                                        <input type="checkbox" class="custom-control-input" name="cosmetic_id"
+                                            id="customCheck{{ cosmetic.id }}" value="{{ cosmetic.id }}">
+                                        <label class="custom-control-label" for="customCheck{{ cosmetic.id }}"></label>
+                                    </div>
+                                </td>
+                                {% endif %}
+                                <td>
+                                    {{ forloop.counter }}
+                                </td>
+                                <td>{{ cosmetic.category.bigcate }}</td>
+                                <td><span class="text-primary">{{ cosmetic.name }}</span></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% if user.is_authenticated %}
+            <div class="text-right">
+                <button type="submit" class="btn btn-primary mt-auto" name="selection" value="interest">관심 화장품
+                    담기</button>
+                <button type="submit" class="btn btn-primary mt-auto" name="selection" value="my">내 화장품
+                    담기</button>
+            </div>
+        </form>
+        {% endif %}
+    </div>
+    <hr>
 </div>
 {% endblock %}

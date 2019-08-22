@@ -1,5 +1,5 @@
 body{
- font-family: "Nanum Gothic", sans-serif !important
+ font-family: "Nanum Gothic", sans-serif !important;
 
 }
 
@@ -95,7 +95,8 @@ tbody > .vid-select > input {
 }
 
 .fa-sign-in,
-.fa-user-o {
+.fa-user-o,
+.fa-search {
     margin-right: 5px;
 }
 
@@ -148,6 +149,10 @@ tbody > .vid-select > input {
     height : 75vh;
 }
 
+.search-table, .search-table div {
+    height : 40vh;
+}
+
 .scroll-wrap {
     white-space: nowrap; 
     box-shadow: 0 0 0 0.5px #EEEEEE inset; 
@@ -184,7 +189,6 @@ border-radius: 0 !important; }
 .thin::-webkit-scrollbar {
 width: 6px; height:10px;}
 
-
 /*.big-cate{*/
 
 /*    width: 200px;*/
@@ -198,7 +202,7 @@ li{
 
 table, td{
     border:1px solid #EEEEEE;
-    font-size : 0.85em;
+    font-size : 0.9em;
 }
 
 

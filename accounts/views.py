@@ -87,8 +87,10 @@ def cosmetic_scrap_processing(request):
             cosmetics = Cosmetic.objects.filter(pk__in=cosmetics_list)
             if request.POST['kind'] == 'interest':
                 request.user.cosmetic.remove(*cosmetics)
+                messages.success(request, '선택하신 화장품을 관심 화장품에서 제거했습니다.')
             elif request.POST['kind'] == 'my':
                 request.user.my_cosmetic.remove(*cosmetics)
+                messages.success(request, '선택하신 화장품을 내 화장품에서 제거했습니다.')
         elif request.POST['selection'] == 'combine':
             querystring = (lambda x: '?c=' + '&c='.join(x) if x else "?")(cosmetics_list)
 
