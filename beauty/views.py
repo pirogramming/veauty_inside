@@ -4,6 +4,7 @@ from django.contrib.messages import get_messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
 from .models import Youtuber, Video, Cosmetic, Bigcate, Smallcate
+from urllib import parse
 import datetime
 
 def pagination(request, contexts, contexts_name, PAGE_ROW_COUNT=10, PAGE_DISPLAY_COUNT=10):
@@ -79,8 +80,13 @@ def video_scrap(request):
         else:
             messages.warning(request, '스크랩할 동영상을 선택해주세요.')
 
-    response = redirect("beauty:video_list", request.POST['period'])
-    response['Location'] += '?pageNum='+request.POST['pageNum']
+    if request.GET['q']:
+        response = redirect("beauty:search")
+        response['Location'] = response['Location']+'?q='+parse.quote(request.GET['q'])
+    else:
+        response = redirect("beauty:video_list", request.POST['period'])
+        response['Location'] += '?pageNum='+request.POST['pageNum']
+
     return response
 
 def list_for_cosmetic(request, kind, combinate=False, PAGE_ROW_COUNT=10):
@@ -144,9 +150,14 @@ def cosmetic_scrap(request):
                 messages.success(request, '선택하신 화장품들이 내 화장품에 등록되었습니다.')
             else:
                 messages.warning(request, '내 화장품에 등록할 화장품을 선택해주세요.')
+
+    if request.GET['q']:
+        response = redirect("beauty:search")
+        response['Location'] = response['Location']+'?q='+parse.quote(request.GET['q'])
+    else:
+        response = redirect("beauty:cosmetic_list", request.POST['kind'])
+        response['Location'] += '?pageNum=' + request.POST['pageNum']
    
-    response = redirect("beauty:cosmetic_list", request.POST['kind'])
-    response['Location'] += '?pageNum=' + request.POST['pageNum']
     return response
 
 def combine_cosmetic(request, kind=""):
@@ -322,5 +333,6 @@ def search(request):
         'cosmetics' : cosmetics,
         'youtubers' : youtubers,
         'q' : q,
+        'big_categories' : Bigcate.objects.all(),
     })
         

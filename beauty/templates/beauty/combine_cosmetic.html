@@ -1,7 +1,7 @@
 {% extends 'beauty/base.html' %}
 
 {% block title %}
-Combine Cosmetics
+Veauty Inside - Combination
 {% endblock %}
 
 {% block content %}
@@ -129,7 +129,7 @@ Combine Cosmetics
         </div>
         <div class="col-sm-12 col-md-5 col-lg-4">
             <div class="d-flex justify-content-center align-items-center border border-primary rounded mb-1">
-                <h5 class="m-2 font-weight-normal text-primary">Basket</h5>
+                <h5 class="m-2 font-weight-normal text-primary"><i class="fa fa-shopping-basket" aria-hidden="true"></i></h5>
             </div>
             <form action="{% url 'beauty:cosmetic_delete' %}" method="post">
                 {% csrf_token %}

@@ -402,7 +402,7 @@ def processing_csv(request):
                 video.title = row[1].replace("??", "")
                 video.yt_url = row[2]
                 video.youtuber = get_object_or_404(Youtuber, name=row[3])
-                video.hits = int(row[4][:-2])
+                video.hits = int(row[4])
                 video.upload_at = row[5].replace(" ", "").replace(".", "-")[:-1]
                 video.save()
                 for cos in row[6:]: 
