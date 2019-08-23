@@ -43,7 +43,6 @@ def pagination(request, contexts, contexts_name, PAGE_ROW_COUNT=10, PAGE_DISPLAY
     }
 
 def home(request):
-     # return redirect("beauty:video_list")
     return render(request, 'beauty/home.html')
 
 def video_list(request, period=""):
@@ -66,7 +65,6 @@ def video_list(request, period=""):
     contexts.update({
         'period' : period,
         'big_categories' : Bigcate.objects.all(),
-        'user_videos' : (lambda x : request.user.video.all() if x else [])(request.user.is_authenticated),
     })
 
     return render(request, 'beauty/video_list.html', contexts)
@@ -75,6 +73,7 @@ def video_scrap(request):
     if request.method == 'POST':
         videos = Video.objects.filter(pk__in=request.POST.getlist("video_id"))
         request.user.video.add(*videos)
+        
         if videos:
             messages.success(request, '선택하신 동영상들이 스크랩되었습니다.')
         else:

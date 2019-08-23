@@ -16,7 +16,11 @@
                     {% for cosmetic in cosmetics %}
                     <tr>
                         <td>
-                            <input type="checkbox" name="cosmetic_id" value="{{ cosmetic.id }}">
+                            <div class="custom-control custom-checkbox d-inline">
+                                <input type="checkbox" class="custom-control-input" name="cosmetic_id"
+                                    id="customCheck{{ cosmetic.id }}" value="{{ cosmetic.id }}">
+                                <label class="custom-control-label" for="customCheck{{ cosmetic.id }}"></label>
+                            </div>
                         </td>
                         <td>{{ cosmetic.name }}</td>
                     </tr>

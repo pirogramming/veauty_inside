@@ -24,7 +24,11 @@
                     {% load mathfilters %}
                     <tr>
                         <td class="vid-select">
-                            <input type="checkbox" name="video_id" value="{{ video.id }}">
+                            <div class="custom-control custom-checkbox d-inline">
+                                <input type="checkbox" class="custom-control-input" name="video_id"
+                                    id="customCheck{{ video.id }}" value="{{ video.id }}">
+                                <label class="custom-control-label" for="customCheck{{ video.id }}"></label>
+                            </div>
                         </td>
                         <td>
                             {% if pageNum %}

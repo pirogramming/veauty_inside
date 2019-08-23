@@ -55,7 +55,6 @@ body{
 }
 
 .card-img-top {
-    display: block;
     width: 100%;
     height: auto;
 }
@@ -86,6 +85,14 @@ body{
 
 .card-inverse .btn {
     border: 1px solid rgba(0, 0, 0, .05);
+}
+.card-hover {
+    transition: transform .2s;
+}
+.card-hover:hover {
+    transform: scale(1.05);
+    background-color : #ffe6f7;
+    opacity: .5;
 }
 
 .profile {
@@ -312,6 +319,7 @@ li{
     font-weight: 400
 }
 
+
 @media (max-width: 768px) {
     .container-fluid {
       margin-left: 14%;
@@ -337,4 +345,5 @@ li{
         margin : 0px;
         width : 100%;
     }
+
  }
