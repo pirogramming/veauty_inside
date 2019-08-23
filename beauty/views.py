@@ -72,9 +72,9 @@ def video_list(request, period=""):
 def video_scrap(request):
     if request.method == 'POST':
         videos = Video.objects.filter(pk__in=request.POST.getlist("video_id"))
-        request.user.video.add(*videos)
-        
+
         if videos:
+            request.user.video.add(*videos)
             messages.success(request, '선택하신 동영상들이 스크랩되었습니다.')
         else:
             messages.warning(request, '스크랩할 동영상을 선택해주세요.')
@@ -127,7 +127,6 @@ def cosmetic_list(request, kind=""):
         contexts.update({
             'yt_num' : youtube_num,
             'yt_range' : range(youtube_num),
-            'user_cosmetics' : (lambda x : request.user.cosmetic.all() if x else [])(request.user.is_authenticated),
         })
         
         return render(request, 'beauty/cosmetic_list.html', contexts)
@@ -325,12 +324,10 @@ def search(request):
     q = request.GET['q']
     videos = Video.objects.filter(title__contains=q)
     cosmetics = Cosmetic.objects.filter(name__contains=q)
-    youtubers = Youtuber.objects.filter(name__contains=q)
 
     return render(request, "beauty/search_result.html", {
         'videos' : videos,
         'cosmetics' : cosmetics,
-        'youtubers' : youtubers,
         'q' : q,
         'big_categories' : Bigcate.objects.all(),
     })
