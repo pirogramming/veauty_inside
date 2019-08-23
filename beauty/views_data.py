@@ -347,11 +347,11 @@ def cosmetic_edit(request, num):
 def processing_csv(request):
     if request.user.is_superuser:
         #Caution!! these codes will delete all DB
-        
+        '''
         Youtuber.objects.all().delete()
         Video.objects.all().delete()
         Cosmetic.objects.all().delete()
-        
+        '''
         #################################
         with open("output.csv", 'r') as f:
             reader = csv.reader(f, delimiter=",")
@@ -399,7 +399,7 @@ def processing_csv(request):
 
                 print("here")
                 video = Video()
-                video.title = row[1].replace("??", "")
+                video.title = row[1].strip().replace("♀", "").replace("?", "")
                 video.yt_url = row[2]
                 video.youtuber = get_object_or_404(Youtuber, name=row[3])
                 video.hits = int(row[4])
@@ -409,7 +409,7 @@ def processing_csv(request):
                     temp_cos = list(cos.split(":"))
                     cos_name = temp_cos[-1].strip().replace("{", "").replace("}", "").replace("'", "")
                     cosmetics = Cosmetic.objects.all()
-
+                    
                     if '[' not in cos_name and ']' in cos_name:
                         cos_name = '[' + cos_name
                     for cosmetic in cosmetics:

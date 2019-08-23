@@ -5,7 +5,7 @@ Veauty Inside - Cosmetic
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container mt-1">
     {% if messages %}
     {% for message in messages %}
     <div class="alert alert-{{ message.tags }} alert-dismissable show fade mt-1" role="alert">
@@ -87,10 +87,10 @@ Veauty Inside - Cosmetic
                                 {% endif %}
                                 <td><span class="text-primary">{{ cosmetic.name }}</span></td>
                                 <td>
-                                    <ul class="m-0">
+                                    <ul class="m-0 mt-1">
                                         {% for video in cosmetic.video_set.all|slice:yt_num %}
-                                        <li>
-                                            <a href="{{ video.yt_url }}" class="text-dark">{{ video.title }}</a>
+                                        <li class="mb-1">
+                                                <i class="fa fa-television mr-1" aria-hidden="true"></i></i></i><a href="{{ video.yt_url }}" class="text-dark">{{ video.title }}</a>
                                         </li>
                                         {% endfor %}
                                     </ul>

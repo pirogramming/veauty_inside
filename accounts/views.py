@@ -36,7 +36,7 @@ signup = SignupView.as_view()
 
 class LoginView(auth_views.LoginView):
     template_name="accounts/login.html"
-    redirect_authenticated_user = True
+    redirect_authenticated_user = True    
 
 login = LoginView.as_view()
 

@@ -98,10 +98,10 @@ Combine Result
                                     </td>
                                     <td class="text-right">{{ video.hits }}</td>
                                     <td class="big-cate">
-                                        <ul class="m-0">
+                                        <ul class="m-0 mt-1">
                                             {% for cosmetic in video.cosmetic.all %}
                                             {% if cosmetic in cosmetics %}
-                                            <li>{{ cosmetic }} </li>
+                                            <li class="mb-1"><i class="fa fa-smile-o mr-1" aria-hidden="true"></i>{{ cosmetic }} </li>
                                             {% endif %}
                                             {% endfor %}
                                         </ul>
