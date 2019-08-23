@@ -42,9 +42,9 @@ Veauty Inside - Video
                         <thead>
                             <tr>
                                 {% if user.is_authenticated %}
-                                <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
+                                <th class="vid-select text-center"><span><i class="fa fa-check"></i></span></th>
                                 {% endif %}
-                                <th>랭킹</th>
+                                <th class="text-center">랭킹</th>
                                 <th>제목</th>
                                 <th>유튜버</th>
                                 {% for big_category in big_categories %}
@@ -59,17 +59,15 @@ Veauty Inside - Video
                             {% load mathfilters %}
                             <tr>
                                 {% if user.is_authenticated %}
-                                <td class="big-cate">
-
+                                <td>
                                     <div class="custom-control custom-checkbox d-inline">
                                         <input type="checkbox" class="custom-control-input" name="video_id"
                                             id="customCheck{{ video.id }}" value="{{ video.id }}">
                                         <label class="custom-control-label" for="customCheck{{ video.id }}"></label>
                                     </div>
-
                                 </td>
                                 {% endif %}
-                                <td>
+                                <td class="text-center">
                                     {% if pageNum %}
                                     {{ pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
                                     {% else %}

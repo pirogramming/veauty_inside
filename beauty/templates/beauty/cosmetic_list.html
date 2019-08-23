@@ -49,10 +49,10 @@ Veauty Inside - Cosmetic
                         <thead>
                             <tr>
                                 {% if user.is_authenticated %}
-                                <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
+                                <th class="vid-select text-center"><span><i class="fa fa-check"></i></span></th>
                                 {% endif %}
 
-                                <th width="20">랭킹</th>
+                                <th class="text-center">랭킹</th>
 
                                 {% if kind == 'all' %}
                                 <th>분류</th>
@@ -75,7 +75,7 @@ Veauty Inside - Cosmetic
                                     </div>
                                 </td>
                                 {% endif %}
-                                <td>
+                                <td class="text-center">
                                     {% if pageNum %}
                                     {{ pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
                                     {% else %}
@@ -90,7 +90,8 @@ Veauty Inside - Cosmetic
                                     <ul class="m-0 mt-1">
                                         {% for video in cosmetic.video_set.all|slice:yt_num %}
                                         <li class="mb-1">
-                                                <i class="fa fa-television mr-1" aria-hidden="true"></i></i></i><a href="{{ video.yt_url }}" class="text-dark">{{ video.title }}</a>
+                                            <i class="fa fa-television mr-1" aria-hidden="true"></i>
+                                            <a href="{{ video.yt_url }}" class="text-dark">{{ video.title }}</a>
                                         </li>
                                         {% endfor %}
                                     </ul>

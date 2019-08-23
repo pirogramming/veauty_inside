@@ -8,8 +8,8 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
-                        <th>랭킹</th>
+                        <th class="vid-select text-center"><span><i class="fa fa-check"></i></span></th>
+                        <th class="text-center">랭킹</th>
                         <th>제목</th>
 
                         {% for big_category in big_categories %}
@@ -23,7 +23,7 @@
                     {% for video in videos %}
                     {% load mathfilters %}
                     <tr>
-                        <td class="vid-select">
+                        <td class="vid-select text-center">
                             <input type="checkbox" name="video_id" value="{{ video.id }}">
                         </td>
                         <td>

@@ -78,8 +78,8 @@ Veauty Inside - Combination
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
-                                    <th width="20">랭킹</th>
+                                    <th class="vid-select text-center"><span><i class="fa fa-check"></i></span></th>
+                                    <th class="text-center">랭킹</th>
                                     {% if kind == 'all' %}
                                     <th>분류</th>
                                     {% endif %}
@@ -98,7 +98,7 @@ Veauty Inside - Combination
                                                 for="customCheck{{ cosmetic.id }}"></label>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         {% if pageNum %}
                                         {{ pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
                                         {% else %}
@@ -138,7 +138,7 @@ Veauty Inside - Combination
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th><span><i class="fa fa-check"></i></span></th>
+                                    <th class="text-center"><span><i class="fa fa-check"></i></span></th>
                                     <th>분류</th>
                                     <th>제품</th>
                                 </tr>

@@ -37,9 +37,9 @@ Veauty Inside - {{q}}
                         <thead>
                             <tr>
                                 {% if user.is_authenticated %}
-                                <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
+                                <th class="vid-select text-center"><span><i class="fa fa-check"></i></span></th>
                                 {% endif %}
-                                <th>랭킹</th>
+                                <th class="text-center">랭킹</th>
                                 <th>제목</th>
                                 <th>유튜버</th>
                                 {% for big_category in big_categories %}
@@ -63,7 +63,7 @@ Veauty Inside - {{q}}
 
                                 </td>
                                 {% endif %}
-                                <td>
+                                <td class="text-center">
                                     {{ forloop.counter }}
                                 </td>
                                 <td><a href="{{ video.yt_url }}" target="_blank">{{ video.title }}</a></td>
@@ -111,9 +111,9 @@ Veauty Inside - {{q}}
                         <thead>
                             <tr>
                                 {% if user.is_authenticated %}
-                                <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
+                                <th class="vid-select text-center"><span><i class="fa fa-check"></i></span></th>
                                 {% endif %}
-                                <th>순서</th>
+                                <th class="text-center">순서</th>
                                 <th>분류</th>
                                 <th>제품</th>
                             </tr>
@@ -131,7 +131,7 @@ Veauty Inside - {{q}}
                                     </div>
                                 </td>
                                 {% endif %}
-                                <td>
+                                <td class="text-center">
                                     {{ forloop.counter }}
                                 </td>
                                 <td>{{ cosmetic.category.bigcate }}</td>

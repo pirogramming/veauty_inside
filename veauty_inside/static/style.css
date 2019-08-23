@@ -7,6 +7,10 @@ body{
     background-color: #F6648C;
 }
 
+.custom-control{
+    padding-left : 36px !important;
+}
+
 .fa.fa-navicon {
     color: white;
 }
@@ -201,8 +205,10 @@ li{
     list-style: none;
 }
 
-
-
+table, td, #footer{
+    border:1px solid #EEEEEE;
+    font-size : 0.9em;
+}
 
 .footer {
     font-family: 'Raleway', sans-serif;
