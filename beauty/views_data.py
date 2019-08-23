@@ -229,9 +229,15 @@ def convert_xlsx_to_csv(request):
 
         your_csv_file.close()
 
+        try:
+            os.remove('output.csv')
+        except:
+            pass
+
         with open('temp_output.csv', 'r') as infile, open('output.csv', 'w', encoding='euc_kr', newline='') as outfile:
             reader = csv.reader(infile, delimiter=",")
             wr = csv.writer(outfile)
+            smallcates = Smallcate.objects.all()
 
             for row in reader:
                 try:
@@ -247,7 +253,28 @@ def convert_xlsx_to_csv(request):
                             break
                     except:
                         break
-                    temp_list.append(row[i])
+
+                    if i >= 6:
+                        temp_cos = list(row[i].split(":"))
+                        small_cate = temp_cos[0].strip().replace("{", "").replace("}", "").replace("'", "")
+                        cosmetic_name = temp_cos[-1].strip().replace("{", "").replace("}", "").replace("'", "")
+                        for smallcate in smallcates:
+                            cnt = 0
+                            for j in range(0,5+1):
+                                try:
+                                    if small_cate[j] != smallcate.name[j]:
+                                        cnt = 1
+                                        break
+                                except:
+                                    break
+                            if cnt == 0:
+                                real_small_cate = smallcate.name
+                                temp_list.append(real_small_cate+":"+cosmetic_name)
+                                break
+
+                    else:
+                        temp_list.append(row[i])
+
                     print(row[i])
                     i = i + 1
                 wr.writerow(temp_list)
@@ -320,33 +347,34 @@ def cosmetic_edit(request, num):
 def processing_csv(request):
     if request.user.is_superuser:
         #Caution!! these codes will delete all DB
-        
+        '''
         Youtuber.objects.all().delete()
         Video.objects.all().delete()
         Cosmetic.objects.all().delete()
-        
+        '''
         #################################
         with open("output.csv", 'r') as f:
             reader = csv.reader(f, delimiter=",")
 
             for row in reader:
-                for youtuber_name in row[3:4]:
-                    try:
-                        get_object_or_404(Youtuber, name=youtuber_name)
-                    except:
-                        youtuber = Youtuber()
-                        youtuber.name = youtuber_name
-                        youtuber.save()
+                try:
+                    if row[6] == "":
+                        continue
+                except:
+                    continue
 
                 for cos in row[6:]:
+                    if cos == "":
+                        break
+
                     cosmetics = Cosmetic.objects.all()
 
                     temp_cos = list(cos.split(":"))
                     small_cate = temp_cos[0].strip().replace("{", "").replace("}", "").replace("'", "")
                     cosmetic_name = temp_cos[-1].strip().replace("{", "").replace("}", "").replace("'", "")
 
-                    print(small_cate)
-                    print(cosmetic_name)
+                    if '[' not in cosmetic_name and ']' in cosmetic_name:
+                        cosmetic_name = '[' + cosmetic_name
 
                     cnt = 0
                     for cosmetic in cosmetics:
@@ -356,21 +384,34 @@ def processing_csv(request):
                     if cnt == 0:
                         cosmetic = Cosmetic()
                         cosmetic.name = cosmetic_name
+                        print(small_cate)
                         cosmetic.category = get_object_or_404(Smallcate, name=small_cate)
                         cosmetic.save()
+                        print(cosmetic_name)
+
+                for youtuber_name in row[3:4]:
+                    try:
+                        get_object_or_404(Youtuber, name=youtuber_name)
+                    except:
+                        youtuber = Youtuber()
+                        youtuber.name = youtuber_name
+                        youtuber.save()
+
                 print("here")
                 video = Video()
-                video.title = row[1]
+                video.title = row[1].strip().replace("♀", "").replace("?", "")
                 video.yt_url = row[2]
                 video.youtuber = get_object_or_404(Youtuber, name=row[3])
-                video.hits = int(row[4][:-2])
+                video.hits = int(row[4])
                 video.upload_at = row[5].replace(" ", "").replace(".", "-")[:-1]
                 video.save()
                 for cos in row[6:]: 
                     temp_cos = list(cos.split(":"))
                     cos_name = temp_cos[-1].strip().replace("{", "").replace("}", "").replace("'", "")
                     cosmetics = Cosmetic.objects.all()
-
+                    
+                    if '[' not in cos_name and ']' in cos_name:
+                        cos_name = '[' + cos_name
                     for cosmetic in cosmetics:
                         if cosmetic.name.replace(" ", "") == cos_name.replace(" ", ""):
                             video.cosmetic.add(cosmetic)

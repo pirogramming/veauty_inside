@@ -2,24 +2,31 @@
 
 {% block content %}
 <div class="container">
-    <div class="row d-flex justify-content-center">
-        <h2>{{ user }}</h2>
-
-        <a href="{% url "password_change" %}">비밀번호 변경하기</a>
+    <div class="row d-flex justify-content-center align-items-center" style="height:15vh;">
+        <h2>{{ user.nickname }}<small>님</small></h2>
+{#        <a href="{% url "password_change" %}">비밀번호 변경하기</a>#}
 {#        <a href="{% url "nickname_change" %}">닉네임 변경하기</a>#}
     </div>
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissable show fade mt-1" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
 
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link {% if kind == taps.0 %} active {% endif %}" href="{% url 'profile' taps.0 %}">Videos</a>
+            <a class="nav-link {% if kind == taps.0 %} active {% endif %}" href="{% url 'profile' taps.0 %}">스크랩 동영상</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {% if kind == taps.1 %} active {% endif %}" href="{% url 'profile' taps.1 %}">Interested
-                Cosmetics</a>
+            <a class="nav-link {% if kind == taps.1 %} active {% endif %}" href="{% url 'profile' taps.1 %}">관심 화장품</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {% if kind == taps.2 %} active {% endif %}" href="{% url 'profile' taps.2 %}">MY
-                Cosmetics</a>
+            <a class="nav-link {% if kind == taps.2 %} active {% endif %}" href="{% url 'profile' taps.2 %}">내 화장품</a>
         </li>
     </ul>
     {% block table %}

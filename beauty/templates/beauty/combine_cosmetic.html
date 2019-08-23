@@ -1,26 +1,57 @@
 {% extends 'beauty/base.html' %}
 
 {% block title %}
-Combine Cosmetics
+Veauty Inside - Combination
 {% endblock %}
 
 {% block content %}
 <div class="container-fluid mt-1">
     <div class="row">
         <div class="col-sm-12 col-md-7 col-lg-8">
+            {% if messages %}
+            {% for message in messages %}
+            {% if 'pick' in message.tags %}
+            <div class="alert alert-{{ message_tags }} alert-dismissable show fade mt-1" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                {{ message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            {% if messages %}
+            {% for message in messages %}
+            {% if 'basket' in message.tags %}
+            <div class="alert alert-{{ message_tags }} alert-dismissable show fade mt-1" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                {{ message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-7 col-lg-8">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
                     <a class="nav-link {% if kind == 'all' %} active {% endif %}"
-                        href="{% url 'beauty:combine_cosmetic' 'all' %}{{ query_cos }}">all</a>
+                        href="{% url 'beauty:combine_cosmetic' 'all' %}{{ query_cos }}">전체 화장품</a>
                 </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link {% if kind == 'interest' %} active {% endif %}"
-                        href="{% url 'beauty:combine_cosmetic' 'interest' %}{{ query_cos }}">interest</a>
+                        href="{% url 'beauty:combine_cosmetic' 'interest' %}{{ query_cos }}">관심 화장품</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if kind == 'my' %} active {% endif %}"
-                        href="{% url 'beauty:combine_cosmetic' 'my' %}{{ query_cos }}">my</a>
+                        href="{% url 'beauty:combine_cosmetic' 'my' %}{{ query_cos }}">내 화장품</a>
                 </li>
                 {% endif %}
                 {% for big_category in big_categories %}
@@ -40,24 +71,19 @@ Combine Cosmetics
                 {% endfor %}
             </ul>
             {% endif %}
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12 col-md-7 col-lg-8">
             <form action="{% url 'beauty:cosmetic_pick' %}" method="post">
                 {% csrf_token %}
-                <div class="tab-content">
-                    <div class="show scrolling table-responsive">
+                <div class="scroll-wrap  mb-1 combine-table">
+                    <div class="scrolling table-responsive scrollbar-lady-lips thin square">
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
-                                    <th width="20">Rank</th>
+                                    <th width="20">랭킹</th>
                                     {% if kind == 'all' %}
-                                    <th>category</th>
+                                    <th>분류</th>
                                     {% endif %}
-                                    <th>cosmetic</th>
+                                    <th>제품</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -102,34 +128,39 @@ Combine Cosmetics
             </form>
         </div>
         <div class="col-sm-12 col-md-5 col-lg-4">
+            <div class="d-flex justify-content-center align-items-center border border-primary rounded mb-1">
+                <h5 class="m-2 font-weight-normal text-primary"><i class="fa fa-shopping-basket" aria-hidden="true"></i></h5>
+            </div>
             <form action="{% url 'beauty:cosmetic_delete' %}" method="post">
                 {% csrf_token %}
-                <div class="show table-responsive scrolling">
-                    <table class="table scrolltbody combine-table">
-                        <thead>
-                            <tr>
-                                <th><span><i class="fa fa-check"></i></span></th>
-                                <th>category</th>
-                                <th>cosmetic</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for selection in selected %}
-                            <tr>
-                                <td>
-                                    <div class="custom-control custom-checkbox d-inline">
-                                        <input type="checkbox" class="custom-control-input" name="del_cos"
-                                            id="customCheck1{{ selection.id }}" value="{{ selection.id }}">
-                                        <label class="custom-control-label"
-                                            for="customCheck1{{ selection.id }}"></label>
-                                    </div>
-                                </td>
-                                <td>{{ selection.category }}</td>
-                                <td>{{ selection.name }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                <div class="scroll-wrap mb-1 combine-list-table">
+                    <div class="scrolling table-responsive scrollbar-lady-lips thin square">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th><span><i class="fa fa-check"></i></span></th>
+                                    <th>분류</th>
+                                    <th>제품</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for selection in selected %}
+                                <tr>
+                                    <td>
+                                        <div class="custom-control custom-checkbox d-inline">
+                                            <input type="checkbox" class="custom-control-input" name="del_cos"
+                                                id="customCheck1{{ selection.id }}" value="{{ selection.id }}">
+                                            <label class="custom-control-label"
+                                                for="customCheck1{{ selection.id }}"></label>
+                                        </div>
+                                    </td>
+                                    <td>{{ selection.category }}</td>
+                                    <td>{{ selection.name }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="cosmetic-combine text-right">
                     <input type="hidden" name="kind" value="{{ kind }}">
@@ -147,6 +178,7 @@ Combine Cosmetics
                     {% csrf_token %}
                     <input type="hidden" name="kind" value="{{ kind }}">
                     <input type="hidden" name="pageNum" value="{{ pageNum }}">
+                    <input type="hidden" name="distinction" value="{% if curr_cos %}y{% else %}n{% endif %}">
                     <button type="submit" class="btn btn-primary mt-auto col-4 col-sm-3 col-md-5 col-lg-5">목록
                         초기화</button>
                 </form>

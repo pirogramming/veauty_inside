@@ -3,55 +3,57 @@
 {% block table %}
 <form action="{% url 'video_scrap_processing' %}" method="post">
     {% csrf_token %}
-    <div class="show scrolling table-responsive">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
-                    <th>Rank</th>
-                    <th>title</th>
+    <div class="scroll-wrap mb-1 profile-table">
+        <div class="scrolling table-responsive scrollbar-lady-lips thin square">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
+                        <th>랭킹</th>
+                        <th>제목</th>
 
-                    {% for big_category in big_categories %}
-                    <th>
-                        {{ big_category }}
-                    </th>
-                    {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for video in videos %}
-                {% load mathfilters %}
-                <tr>
-                    <td class="vid-select">
-                        <input type="checkbox" name="video_id" value="{{ video.id }}">
-                    </td>
-                    <td>
-                        {% if pageNum %}
-                        {{ pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
-                        {% else %}
-                        {{ forloop.counter }}
-                        {% endif %}
-                    </td>
-                    <td><a href="{{ video.yt_url }}" target="_blank">{{ video.title }}</a></td>
-
-                    {% for big_category in big_categories %}
-                    <td class="big-cate">
-                        <ul class="m-0">
-                            {% for cosmetic in video.cosmetic.all %}
-
-                            {% if cosmetic.category.bigcate == big_category %}
-                            <li>
-                                {{ cosmetic.name }}
-                            </li>
+                        {% for big_category in big_categories %}
+                        <th>
+                            {{ big_category }}
+                        </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for video in videos %}
+                    {% load mathfilters %}
+                    <tr>
+                        <td class="vid-select">
+                            <input type="checkbox" name="video_id" value="{{ video.id }}">
+                        </td>
+                        <td>
+                            {% if pageNum %}
+                            {{ pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
+                            {% else %}
+                            {{ forloop.counter }}
                             {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </td>
+                        </td>
+                        <td width="350em" nowrap><a href="{{ video.yt_url }}" target="_blank">{{ video.title }}</a></td>
+
+                        {% for big_category in big_categories %}
+                        <td class="big-cate">
+                            <ul class="m-0">
+                                {% for cosmetic in video.cosmetic.all %}
+
+                                {% if cosmetic.category.bigcate == big_category %}
+                                <li>
+                                    {{ cosmetic.name }}
+                                </li>
+                                {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        {% endfor %}
+                    </tr>
                     {% endfor %}
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="scrap-wrap">
         <div class="text-right">
