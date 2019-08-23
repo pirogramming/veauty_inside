@@ -5,6 +5,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
 from .models import Youtuber, Video, Cosmetic, Bigcate, Smallcate
 from urllib import parse
+from . import message_string as msg
 import datetime
 
 def pagination(request, contexts, contexts_name, PAGE_ROW_COUNT=10, PAGE_DISPLAY_COUNT=10):
@@ -45,6 +46,7 @@ def pagination(request, contexts, contexts_name, PAGE_ROW_COUNT=10, PAGE_DISPLAY
 def home(request):
     return render(request, 'beauty/home.html')
 
+
 def video_list(request, period=""):
     if period == "all" or period == "":
         period = "all"
@@ -75,9 +77,9 @@ def video_scrap(request):
 
         if videos:
             request.user.video.add(*videos)
-            messages.success(request, '선택하신 동영상들이 스크랩되었습니다.')
+            messages.success(request, msg.VIDEO_SCRAP)
         else:
-            messages.warning(request, '스크랩할 동영상을 선택해주세요.')
+            messages.warning(request, msg.NO_VIDEO_SELECT)
 
     if request.GET.get('q'):
         response = redirect("beauty:search")
@@ -138,16 +140,16 @@ def cosmetic_scrap(request):
         if request.POST['selection'] == 'interest':
             request.user.cosmetic.add(*cosmetics)
             if cosmetics:
-                messages.success(request, '선택하신 화장품들이 관심 화장품에 등록되었습니다.')
+                messages.success(request, msg.INTEREST_COS_SCRAP)
             else:
-                messages.warning(request, '관심 화장품에 등록할 화장품을 선택해주세요.')
+                messages.warning(request, msg.NO_INTEREST_SELECT)
 
         elif request.POST['selection'] == 'my':
             request.user.my_cosmetic.add(*cosmetics)
             if cosmetics:
-                messages.success(request, '선택하신 화장품들이 내 화장품에 등록되었습니다.')
+                messages.success(request, msg.MY_COS_SCRAP)
             else:
-                messages.warning(request, '내 화장품에 등록할 화장품을 선택해주세요.')
+                messages.warning(request, msg.NO_MY_SELECT)
 
     if request.GET.get('q'):
         response = redirect("beauty:search")
@@ -182,9 +184,9 @@ def cosmetic_pick(request):
 
         cosmetics_list = request.POST.getlist('cosmetic_id')
         if cosmetics_list:
-            messages.success(request, '바구니에 선택하신 화장품들을 담았습니다.', extra_tags='pick')
+            messages.success(request, msg.PUT_IN_BASKET, extra_tags='pick')
         else:
-            messages.warning(request, '바구니에 담을 화장품을 선택해주세요.', extra_tags='pick')
+            messages.warning(request, msg.NO_BASKET_SELECT, extra_tags='pick')
 
         for c in cosmetics_list:
             if not c in request.POST.getlist('curr_cos'):
@@ -202,9 +204,9 @@ def cosmetic_delete(request):
 
         delete_list = request.POST.getlist('del_cos')
         if delete_list:
-            messages.success(request, '바구니에서 선택하신 화장품들을 제거했습니다.', extra_tags='basket')
+            messages.success(request, msg.DELETE_COS_IN_BASKET, extra_tags='basket')
         else:
-            messages.warning(request, '바구니에서 제거할 화장품을 선택해주세요.', extra_tags='basket')
+            messages.warning(request, msg.NO_DELETE_COS, extra_tags='basket')
 
         for c in request.POST.getlist('curr_cos'):
             if not c in delete_list:
@@ -219,9 +221,9 @@ def cosmetic_delete(request):
 def cosmetic_reset(request):
     if request.method == "POST":
         if request.POST['distinction'] == 'y':
-            messages.success(request, '바구니를 비웠습니다.', extra_tags='basket')
+            messages.success(request, msg.RESET_BASKET, extra_tags='basket')
         else:
-            messages.warning(request, '바구니가 비어있습니다.', extra_tags='basket')
+            messages.warning(request, msg.NO_BASKET, extra_tags='basket')
 
         response = redirect("beauty:combine_cosmetic", request.POST['kind'])
         response['Location'] += "?pageNum=" + request.POST['pageNum']
@@ -239,7 +241,7 @@ def combine_processing(request):
             response['Location'] += querystring
             return response
         else:
-            messages.warning(request, '바구니에 화장품을 담아주세요.', extra_tags='basket')
+            messages.warning(request, msg.NO_BASKET, extra_tags='basket')
             return redirect("beauty:combine_cosmetic", 'all')
     else:
         return redirect("beauty:combine_cosmetic", 'all')
@@ -285,12 +287,12 @@ def cosmetic_save(request):
             cosmetics = Cosmetic.objects.filter(pk__in=request.POST.getlist('cosmetic_id'))
             if request.POST['selection'] == 'interest':
                 request.user.cosmetic.add(*cosmetics)
-                messages.success(request, '선택한 화장품들을 관심 화장품으로 등록했습니다.', extra_tags='cosmetic')
+                messages.success(request, msg.INTEREST_COS_SCRAP, extra_tags='cosmetic')
             elif request.POST['selection'] == 'my':
                 request.user.my_cosmetic.add(*cosmetics)
-                messages.success(request, '선택한 화장품들을 내 화장품으로 등록했습니다.', extra_tags='cosmetic')
+                messages.success(request, msg.MY_COS_SCRAP, extra_tags='cosmetic')
         else:
-            messages.info(request, '로그인 후 사용할 수 있습니다.', extra_tags='cosmetic')
+            messages.info(request, msg.LOGIN_REQUIRE, extra_tags='cosmetic')
 
 
     querystring = (lambda x: '?c=' + '&c='.join(x) if x else "?")(request.POST.getlist('cosmetic_id'))
@@ -307,11 +309,11 @@ def recommend_scrap(request):
                 videos = Video.objects.filter(pk__in=video_list)
                 request.user.video.add(*videos)
             
-                messages.success(request, '선택한 동영상들을 스크랩했습니다.', extra_tags='video')
+                messages.success(request, msg.VIDEO_SCRAP, extra_tags='video')
             else:
-                messages.warning(request, '스크랩할 동영상을 선택해주세요.', extra_tags='video')
+                messages.warning(request, msg.NO_VIDEO_SELECT, extra_tags='video')
         else:
-            messages.info(request, '로그인 후 사용할 수 있습니다.', extra_tags='video')
+            messages.info(request, msg.LOGIN_REQUIRE, extra_tags='video')
 
 
     querystring = (lambda x: '?c=' + '&c='.join(x) if x else "?")(request.POST.getlist('cosmetic_id'))
