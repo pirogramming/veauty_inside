@@ -80,7 +80,7 @@ def video_scrap(request):
         else:
             messages.warning(request, '스크랩할 동영상을 선택해주세요.')
 
-    if request.GET['q']:
+    if request.GET.get('q'):
         response = redirect("beauty:search")
         response['Location'] = response['Location']+'?q='+parse.quote(request.GET['q'])
     else:
@@ -151,7 +151,7 @@ def cosmetic_scrap(request):
             else:
                 messages.warning(request, '내 화장품에 등록할 화장품을 선택해주세요.')
 
-    if request.GET['q']:
+    if request.GET.get('q'):
         response = redirect("beauty:search")
         response['Location'] = response['Location']+'?q='+parse.quote(request.GET['q'])
     else:
