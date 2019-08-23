@@ -347,7 +347,7 @@ def cosmetic_edit(request, num):
     return redirect("beauty:home.html")
 
 def processing_csv(request):
-"""     
+    """     
     if request.user.is_superuser:
         #Caution!! these codes will delete all DB
         
@@ -418,7 +418,7 @@ def processing_csv(request):
                     for cosmetic in cosmetics:
                         if cosmetic.name.replace(" ", "") == cos_name.replace(" ", ""):
                             video.cosmetic.add(cosmetic)
- """
+    """
 
     return redirect("beauty:home")
     
