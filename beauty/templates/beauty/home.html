@@ -77,7 +77,7 @@
                 <div class="row text-center">
 
                     <div class="col-sm-6 col-md-4 col-lg-4 mt-4">
-                        <div class="card card-inverse card-info">
+                        <div class="card card-inverse card-info" onclick="location.href='{% url 'beauty:video_list' %}'">
                             <img class="card-img-top" style="height:200px" src="http://file3.instiz.net/data/cached_img/upload/2018/02/18/11/ed794b305ec49018b83cbfc59d94413a.png">
                             <div class="card-block" style="height:200px">
                                 <h4 class="card-title">뷰티유튜버 컨텐츠 내 화장품</br> 정보 공유 서비스</h4>
@@ -88,7 +88,8 @@
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-4 mt-4">
-                        <div class="card card-inverse card-info">
+                        <div class="card card-inverse card-info" onclick="location.href='{% url 'beauty:video_list' %}'">
+                            <img class="card-img-top" style="height:" onclick="location.href='{% url 'beauty:cosmetic_list' %}'">
                             <img class="card-img-top" style="height:200px" src="{% static 'card_2.jpeg' %}">
                             <div class="card-block" style="height:200px">
                                 <h4 class="card-title">뷰티유튜버 컨텐츠 기반 화장품</br> 랭킹 공유 서비스</h4>
@@ -99,7 +100,7 @@
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-4 mt-4">
-                        <div class="card card-inverse card-info">
+                        <div class="card card-inverse card-info" onclick="location.href='{% url 'beauty:combine_cosmetic' %}'">
                             <img class="card-img-top" style="height:200px"
                                  src="{% static 'card_3.jpeg' %}">
                             <div class="card-block" style="height:200px">
