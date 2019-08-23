@@ -4,7 +4,7 @@
 
 
 {% block title %}
-Veauty Inside
+    Veauty Inside
 {% endblock %}
 
 {% block nav %}
@@ -28,9 +28,9 @@ Veauty Inside
         <div class="container h-100">
             <div class="row h-100">
                 <div class="col-12">
-                    <div class="text-center m-0 vh-100 d-flex flex-column justify-content-center">
+                    <div class="text-center m-0 vh-100 d-flex flex-column justify-content-center align-content-center">
                         <h1 class="display-4">Veauty Inside</h1>
-                        <div class="row">
+                        <div class="row mb-3">
                             <div class="col-lg-4 col-sm-6 mx-auto">
                                 <div class="input-group mb-3 d-flex justify-content-center">
                                     {% if user.is_authenticated %}
@@ -71,50 +71,42 @@ Veauty Inside
         </div>
     </header>
 
-    <section class="container" data-aos="fade-up">
-        <div class="row vh-100">
-            <div class="col-12 my-auto">
-                <div class="row text-center">
-                    <div class="col-lg-4 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                                <h1 class="display-2 text-primary"><i class="fa fa-youtube-square"
-                                                                      aria-hidden="true"></i></h1>
-                                <h4 class="card-title text-primary">비디오</h4>
-                                <p class="card-text">
-                                    <div class="text-primary">뷰티유튜버 컨텐츠 내 화장품 정보 공유 서비스</div>
-                                    <div>뷰티유튜버 컨텐츠에서 사용된 모든 화장품 정보 제공</div>
-                                </p>
-                                
-                                <a href="video/" class="btn btn-primary mt-auto">보러 가기</a>
+    <section class="container" >
+        <div class="row">
+            <div class="col-12 my-5 d-flex justify-content-center">
+                <div class="row w-100 d-flex justify-content-center">
+                    <div class="col-12 col-sm-10 col-lg-7 mt-4 "data-aos="fade-up">
+                        <div class="card card-inverse card-info card-hover" onclick="location.href='{% url 'beauty:video_list' %}'">
+                            <img class="card-img-top" src="{% static 'card_1.jpeg' %}">
+                            <div class="card-block">
+                                <h4 class="card-title text-center">뷰티유튜버 컨텐츠 내 화장품</br> 정보 공유 서비스</h4>
+                                <div class="card-text text-center" style="font-size:15px">
+                                    뷰티유튜버 컨텐츠에서 사용된 모든</br> 화장품 정보 제공
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                                <h1 class="display-2 text-primary"><i class="fa fa-eyedropper" aria-hidden="true"></i>
-                                </h1>
-                                <h4 class="card-title text-primary">화장품</h4>
-                                <p class="card-text">
-                                    <div class="text-primary">뷰티유튜버 컨텐츠 기반 화장품 랭킹 공유 서비스</div>
-                                    <div>뷰티유튜버 컨텐츠에서 가장 많이 사용된 화장품 랭킹 정보 제공품</div>
-                                </p>
-                                <a href="cosmetic/" class="btn btn-primary mt-auto">보러 가기</a>
+                    <div class="col-12 col-sm-10 col-lg-7 mt-4 "data-aos="fade-up">
+                        <div class="card card-inverse card-info card-hover" onclick="location.href='{% url 'beauty:cosmetic_list' %}'">
+                            <img class="card-img-top" src="{% static 'card_2.jpeg' %}">
+                            <div class="card-block">
+                                <h4 class="card-title text-center">뷰티유튜버 컨텐츠 기반 화장품</br> 랭킹 공유 서비스</h4>
+                                <div class="card-text text-center" style="font-size:15px">
+                                    뷰티유튜버 컨텐츠에서 가장 많이 사용된</br> 화장품 랭킹 정보 제공
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                                <h1 class="display-2 text-primary"><i class="fa fa-thumb-tack" aria-hidden="true"></i>
-                                </h1>
-                                <h4 class="card-title text-primary">조합</h4>
-                                <p class="card-text">
-                                    <div class="text-primary">특정 화장품 사용 뷰티유튜버 컨텐츠 추천 서비스</div>
-                                    <div>소유하고 있거나 관심있는 화장품을 등록하여 해당 제품들이 등장하는 뷰티유튜버 컨텐츠 추천</div>
-                                </p>
-                                <a href="combine/" class="btn btn-primary mt-auto">보러 가기</a>
+                    <div class="col-12 col-sm-10 col-lg-7 mt-4 "data-aos="fade-up">
+                        <div class="card card-inverse card-info card-hover" onclick="location.href='{% url 'beauty:combine_cosmetic' %}'">
+                            <img class="card-img-top"
+                                 src="{% static 'card_3.jpeg' %}">
+                            <div class="card-block">
+                                <h4 class="card-title text-center">특정 화장품 사용 뷰티유튜버</br> 컨텐츠 추천 서비스</h4>
+                                <div class="card-text text-center" style="font-size:15px">
+                                    소유하고 있거나 관심있는 화장품을 등록하여</br>해당 제품들이 등장하는 뷰티유튜버 컨텐츠 추천
+                                </div>
+
                             </div>
                         </div>
                     </div>

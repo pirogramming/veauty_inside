@@ -23,8 +23,17 @@
                     {% for video in videos %}
                     {% load mathfilters %}
                     <tr>
+<<<<<<< HEAD
                         <td class="vid-select text-center">
                             <input type="checkbox" name="video_id" value="{{ video.id }}">
+=======
+                        <td class="vid-select">
+                            <div class="custom-control custom-checkbox d-inline">
+                                <input type="checkbox" class="custom-control-input" name="video_id"
+                                    id="customCheck{{ video.id }}" value="{{ video.id }}">
+                                <label class="custom-control-label" for="customCheck{{ video.id }}"></label>
+                            </div>
+>>>>>>> templates_upone
                         </td>
                         <td>
                             {% if pageNum %}

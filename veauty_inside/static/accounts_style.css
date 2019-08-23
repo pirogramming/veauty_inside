@@ -21,3 +21,13 @@ body {
 html, body{
     overflow : auto;
 }
+
+
+@media (max-width: 768px) {
+    #signup-img, #signup-img img{
+        visibility : hidden;
+        width : 0px;
+        height : 0px;
+    }
+
+ }
