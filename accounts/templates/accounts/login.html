@@ -2,38 +2,55 @@
 
 {% block content %}
 
-    <div class="container">
-        <div class="row d-flex justify-content-center align-items-center">
-            <div id="L">
-                <div class="loginA">
-                    <div id="top">
-                        <form action="" method="post">
-                            {% csrf_token %}
-                            <h1><a onclick="location.href='{% url 'root' %}'">Veauty Inside</a></h1>
-                            <p>스타 유튜버들의 잇템을 공유하세요!</p>
-                            <table>
-                                {{ form.as_table }}
-                            </table>
-                            <input type="submit" id="submit" class="submit_L"/>
-                        </form>
-                        <p>-----------------또는-----------------</p>
-                        <button>
-                            <a href="">
-                                <img src="https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg"
-                                     width="20px">
-                                구글로 로그인하기
-                            </a>
+<div class="container">
+    <div class="row d-flex justify-content-center align-content-center">
+        <div class="col-md-8 col-lg-5 px-5 py-4 border border-primary">
+            <div class="row d-flex justify-content-center">
+                <h1><a href="{% url 'root' %}">Veauty Inside</a></h1>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <p>스타 유튜버들의 잇템을 공유하세요!</p>
+            </div>
+
+
+            <div class="row d-flex justify-content-center">
+                <form action="" method="post" class="w-100 p-1">
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                    <div class="w-100 alert alert-danger alert-dismissable show fade mt-1" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
                         </button>
+                        {{ error }}
                     </div>
-                    <div id="bottom">
-                        계정이 없으신가요?
-                        <button onclick="location.href='{% url 'signup' %}'">회원가입</button>
-                        <hr/>
-                        <p onclick="location.href='{% url 'root' %}'">둘러보기</p>
-                    </div>
-                </div>
+                    {% endfor %}
+                    {% endif %}
+                    <input type="text" name="username" class="form-control mb-2" autofocus required id="id_username"
+                        placeholder="ID">
+                    <input type="password" name="password" class="form-control mb-2" required id="id_password"
+                        placeholder="Password">
+
+                    <button type="submit" class="btn btn-outline-primary w-100">로그인</button>
+                </form>
+            </div>
+            <hr />
+            <div class="row d-flex justify-content-center">
+                <p>계정이 없으신가요?</p>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <button type="submit" class="btn btn-outline-primary w-100 m-1"
+                    onclick='location.href="{% url "signup" %}";'>회원가입</button>
+            </div>
+            <hr />
+            <div class="row d-flex justify-content-center">
+                <p>회원가입 없이</p>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <a href="{% url 'beauty:combine_cosmetic' %}">둘러보기</a>
             </div>
         </div>
     </div>
+</div>
 
 {% endblock %}

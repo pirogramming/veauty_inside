@@ -1,79 +1,62 @@
 {% extends "accounts/base.html" %}
 
 {% block content %}
+<div class="container">
+    <div class="row d-flex justify-content-center align-content-center">
+        <div class="col-sm-0 col-md-6 col-lg-5 border align-content-center">
 
-    <div class="container">
-        <div class="row d-flex justify-content-center row align-items-center">
-            <div class="d-none d-xl-block d-lg-block">
-                <img src="https://pds.joins.com/news/component/htmlphoto_mmdata/201508/04/htm_20150804173259c010c021.jpg"
-                     width=454 height=618>
+        </div>
+        <div class="col-sm-10 col-md-6 col-lg-5 px-5 py-4 border border-primary">
+            <div class="row d-flex justify-content-center">
+                <h1><a href="{% url 'root' %}">Veauty Inside</a></h1>
             </div>
-            <div>
-                <div id="Signup">
-                    <form action="" method="post">
-                        {% csrf_token %}
-                        <h1><a onclick="location.href='{% url 'root' %}'">Veauty Inside</a></h1>
-                        <h4>Sign up</h4>
-                        {% for field in form %}
-                            <p>
-                                {% for error in field.errors %}
-                                    <p>{{ error }}</p>
-                                {% endfor %}
-                            </p>
-                        {% endfor %}
-                        <p>
-                            <input type="text" name="username" class="form-control" maxlength="150" autofocus required
-                                   id="id_username" placeholder="User name">
-                        </p>
+            <div class="row d-flex justify-content-center">
+                <p>스타 유튜버들의 잇템을 공유하세요!</p>
+            </div>
 
-                        <p>
-                            <input type="text" name="first_name" class="form-control" maxlength="30" id="id_first_name"
-                                   placeholder="First name">
-                        </p>
-
-                        <p>
-                            <input type="text" name="last_name" class="form-control" maxlength="150" id="id_last_name"
-                                   placeholder="Last name">
-                        </p>
-
-                        <p>
-                            <input type="text" name="nickname" class="form-control" maxlength="50" required
-                                   id="id_nickname"
-                                   placeholder="NickName">
-                        </p>
-
-                        <p>
-                            <input type="password" name="password1" class="form-control" required id="id_password1"
-                                   placeholder="Password">
-                        </p>
-
-                        <p>
-                            <input type="password" name="password2" class="form-control" required id="id_password2"
-                                   placeholder="Password Confirmation">
-                        </p>
-
-                        <p>
-                            <input type="text" name="birth" class="form-control" required id="id_birth"
-                                   placeholder="Birth ex)2019-08-15">
-                        </p>
-
-                        <p>
-                            <label for="id_gender">Gender:</label><br>
-                            <select name="gender" class="form-control" required id="id_gender">
-                                <option value="">---------</option>
-                                <option value="m">남성</option>
-                                <option value="f">여성</option>
-                                <option value="o" selected="selected">기타</option>
-                            </select>
-                        </p>
-                        <p>가입 시 Veauty Inside의 약관, 데이터
-                            정책 및 쿠키 정책에 동의하게 됩니다.
-                            <input type="submit" id="submit"/></p>
-                    </form>
+            <div class="row d-flex justify-content-center">
+                {% for field in form %}
+                {% for error in field.errors %}
+                <div class="w-100 alert alert-danger alert-dismissable show fade m-1" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    {{ error }}
                 </div>
+                {% endfor %}
+                {% endfor %}
+                <form action="" method="post" class="w-100 p-1">
+                    {% csrf_token %}
+                    <input type="text" name="username" class="form-control mb-2" maxlength="150" autofocus required
+                        id="id_username" placeholder="ID">
+                    <input type="text" name="first_name" class="form-control mb-2" maxlength="30" id="id_first_name"
+                        placeholder="First name">
+                    <input type="text" name="last_name" class="form-control mb-2" maxlength="150" id="id_last_name"
+                        placeholder="Last name">
+                    <input type="text" name="nickname" class="form-control mb-2" maxlength="50" required
+                        id="id_nickname" placeholder="NickName">
+                    <input type="password" name="password1" class="form-control mb-2" required id="id_password1"
+                        placeholder="Password">
+                    <input type="password" name="password2" class="form-control mb-2" required id="id_password2"
+                        placeholder="Password Confirmation">
+                    <input type="text" name="birth" class="form-control mb-2" required id="id_birth"
+                        placeholder="YYYY-MM-DD">
+                    <select name="gender" class="form-control mb-2" required id="id_gender">
+                        <option value="m">남성</option>
+                        <option value="f">여성</option>
+                        <option selected="selected">성별</option>
+                    </select>
+                    <button type="submit" class="btn btn-outline-primary w-100">가입하기</button>
+                </form>
+            </div>
+            <hr />
+            <div class="row  d-flex justify-content-center">
+                <p>회원가입 없이</p>
+            </div>
+            <div class="row  d-flex justify-content-center">
+                <a href="{% url 'beauty:combine_cosmetic' %}">둘러보기</a>
             </div>
         </div>
     </div>
-
+</div>
 {% endblock %}
-

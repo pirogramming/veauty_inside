@@ -1,169 +1,23 @@
 
 body {
     font-family: "Nanum Gothic", sans-serif !important
-
 }
 
-div > img {
-    float: left;
-}
-
-div > div {
-    color: #F6648C;
-}
-
-div > div > h1 {
-    cursor: pointer;
-    text-align: center;
-}
-
-
-div > div > h4 {
-    text-align: center;
-}
-
-div > div > p > p {
-    color: red;
-}
-
-#Signup p {
-    width: 80%;
-    margin: 10px auto;
-}
-
-#Signup p > input {
-    box-shadow: none !important;
-    width: 258px;
-    height: 36px;
-}
-
-#Signup p > .form-control {
-    width: 258px;
-    height: 36px;
-    color: black;
-}
-
-#Signup {
-    border: 1px solid #d6d6d6;
-    width: 335px;
-    height: 615px;
-}
-
-
-#Signup p > input:active {
-    outline: pink solid 2px;
-}
-
-#Signup p > input:focus {
-    outline: pink solid 2px;
-}
-#Signup h1 {
-    cursor: pointer;
-    text-align: center;
-}
-#Signup h4 {
-    text-align: center;
-}
-
-
-
-
-p > select > option {
-    color: #9F9F9F;
-}
-
-#selected {
-    color: #9F9F9F;
-}
-
-
-#id_gender:focus {
-    box-shadow: none !important;
-    outline: pink solid 2px;
-}
 
 input::placeholder {
     color: #9F9F9F !important;
 }
 
-
-#top {
-    border: 1px solid;
-    /*padding:10px;*/
-    width: 400px;
-    height: 300px;
-    color: #F6648C;
-}
-
-#top  h1 {
-    cursor: pointer;
-}
-
-
-.loginA table input:active {
-    outline: pink solid 2px;
-}
-
-.loginA table input:focus {
-    outline: pink solid 2px;
-}
-
-#submit {
-    background-color: #F6648C;
-    color: white;
-}
-
-
-#top  input {
-}
-
-#top  button {
-    background-color: #F6648C;
-}
-
-#top  button > a {
-    color: white;
-}
-
-#bottom {
-    border: 1px solid;
-    width: 400px;
-    height: 120px;
-    color: #F6648C;
-}
-
-#bottom  button {
-    background-color: #F6648C;
-    color: white;
-}
-
-
-#PasswordReset {
-    border: 1px solid;
-    padding: 10px;
-    width: 400px;
-    height: 400px;
-    color: #F6648C;
-}
-
-#PasswordR > p > input {
-    box-shadow: none !important;
-    width: 258px;
-    height: 36px;
-}
-
-.flex-center {
-    align-items: center;
-    justify-content: center;
+body {
+    display: flex;
     flex-direction: column;
-}
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+  }
+
 
 html, body{
-    height:100%;
-}
-.container{
-    height:100%;
-}
-.container > .row{
-    height:100%
+    overflow : auto;
 }
