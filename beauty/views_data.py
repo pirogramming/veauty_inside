@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from random import randint
 from .models import Youtuber, Video, Cosmetic, Bigcate, Smallcate
+from random import randint
 import datetime
 import copy
 import csv
@@ -81,10 +81,10 @@ def create_test_DB(request):
                     id_set.append(cos_id)
                     video.cosmetic.add(cosmetic)
     '''
-    return redirect("login")
+    return redirect("beauty:home")
 
 def create_category_csv(request):
-    if request.user.is_superuser:
+    """ if request.user.is_superuser:
         if request.method =="POST":
             try:
                 os.remove('category.csv')
@@ -163,10 +163,11 @@ def create_category_csv(request):
                 smallcate.save()
                 print(smallcate)
 
-    return render(request, "beauty/category_edit.html", contexts)
+        return render(request, "beauty/category_edit.html", contexts) """
+    return redirect("beauty:home")
 
 def create_test_csv(request):
-    if request.user.is_superuser:
+    """ if request.user.is_superuser:
         smallcates = Smallcate.objects.all()
         try:
             os.remove('output.csv')
@@ -213,12 +214,12 @@ def create_test_csv(request):
                     "youtuber"+str(randint(1, 10)),
                     randint(1, 1000000),
                     str(upload)[:11]+"-"
-                ]+cos_set)        
+                ]+cos_set)         """
 
-    return render(request, "beauty/base.html")
+    return redirect("beauty:home")
 
 def convert_xlsx_to_csv(request):
-    if request.user.is_superuser:
+    """ if request.user.is_superuser:
         wb = xlrd.open_workbook('result.xlsx')
         sh = wb.sheet_by_name('Sheet1')
         your_csv_file = open('temp_output.csv', 'w')
@@ -279,12 +280,12 @@ def convert_xlsx_to_csv(request):
                     i = i + 1
                 wr.writerow(temp_list)
 
-        os.remove('temp_output.csv')
+        os.remove('temp_output.csv') """
 
-    return render(request, "beauty/base.html")
+    return redirect("beauty:home")
 
 def cosmetic_edit(request, num):
-    if request.user.is_superuser:
+    """ if request.user.is_superuser:
         if request.method =="POST":
             with open("output.csv") as f_in, open("temp_output.csv", 'w', encoding='euc_kr', newline='') as f_out:
                 reader = csv.reader(f_in, delimiter=",")
@@ -342,10 +343,11 @@ def cosmetic_edit(request, num):
                     "num":num
                     })
 
-    return render(request, "beauty/cosmetic_edit.html", contexts)
+        return render(request, "beauty/cosmetic_edit.html", contexts) """
+    return redirect("beauty:home.html")
 
 def processing_csv(request):
-    if request.user.is_superuser:
+    """ if request.user.is_superuser:
         #Caution!! these codes will delete all DB
         '''
         Youtuber.objects.all().delete()
@@ -414,7 +416,7 @@ def processing_csv(request):
                         cos_name = '[' + cos_name
                     for cosmetic in cosmetics:
                         if cosmetic.name.replace(" ", "") == cos_name.replace(" ", ""):
-                            video.cosmetic.add(cosmetic)
+                            video.cosmetic.add(cosmetic) """
 
-    return render(request, "beauty/base.html")
+    return redirect("beauty:home")
     
