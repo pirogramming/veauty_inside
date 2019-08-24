@@ -91,7 +91,7 @@ Veauty Inside - Cosmetic
                                         {% for video in cosmetic.video_set.all|slice:yt_num %}
                                         <li class="mb-1">
                                             <i class="fa fa-television mr-1" aria-hidden="true"></i>
-                                            <a href="{{ video.yt_url }}" class="text-dark">{{ video.title }}</a>
+                                            <a href="{{ video.yt_url }}" target="_new" class="text-dark">{{ video.title }}</a>
                                         </li>
                                         {% endfor %}
                                     </ul>
