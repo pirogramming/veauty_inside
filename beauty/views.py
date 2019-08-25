@@ -47,20 +47,30 @@ def home(request):
     return render(request, 'beauty/home.html')
 
 
+def decide_videos(period):
+    today = datetime.datetime.now()
+    year = today.year
+    month = today.month
+    seven_days = datetime.timedelta(days=7)
+
+    VIDEO_FILTER = {
+        "all" : Video.objects.all().order_by('-hits'),
+        "month" : Video.objects.filter(upload_at__month=month).filter(upload_at__year=year).order_by('-hits'),
+        "week" : Video.objects.filter(upload_at__gte=(today-seven_days)).order_by('-hits'),
+    }
+
+    if period == "":
+        period = list(VIDEO_FILTER.keys())[0]
+
+    videos = VIDEO_FILTER.get(period, None)
+
+    return videos
+
+
 def video_list(request, period=""):
-    if period == "all" or period == "":
-        period = "all"
-        videos = Video.objects.all().order_by('-hits')
-    elif period == "month":
-        today = datetime.datetime.now()
-        year = today.year
-        month = today.month
-        videos = Video.objects.filter(upload_at__month=month).filter(upload_at__year=year).order_by('-hits')
-    elif period == "week":
-        today = datetime.datetime.now()
-        seven_days = datetime.timedelta(days=7)
-        videos = Video.objects.filter(upload_at__gte=(today-seven_days)).order_by('-hits')
-    else:
+    videos = decide_videos(period)
+
+    if videos is None:
         return redirect("beauty:home")
 
     contexts = pagination(request, videos, 'videos')
