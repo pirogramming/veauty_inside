@@ -34,7 +34,7 @@
                             <div class="col-lg-4 col-sm-6 mx-auto">
                                 <div class="input-group mb-3 d-flex justify-content-center">
                                     {% if user.is_authenticated %}
-                                        <div class="input-group-append">
+                                        <div class="input-group-append mr-1">
                                             <button class="btn btn-outline-dark rounded home-btn" type="button"
                                                     onclick="location.href='{% url 'profile' %}' ">
                                                 프로필
@@ -47,7 +47,7 @@
                                             </button>
                                         </div>
                                     {% else %}
-                                        <div class="input-group-append">
+                                        <div class="input-group-append mr-1">
                                             <button class="btn btn-outline-dark rounded home-btn" type="button"
                                                     onclick="location.href='{% url 'login' %}?next={{ request.path }}' ">
                                                 로그인

@@ -48,7 +48,7 @@ Veauty Inside - Video
                                 <th>제목</th>
                                 <th>유튜버</th>
                                 {% for big_category in big_categories %}
-                                <th class="big-cate" width="100">
+                                <th>
                                     {{ big_category }}
                                 </th>
                                 {% endfor %}
@@ -77,7 +77,7 @@ Veauty Inside - Video
                                 <td width="350em" nowrap><a href="{{ video.yt_url }}" target="_blank">{{ video.title }}</a></td>
                                 <td>{{ video.youtuber }}</td>
                                 {% for big_category in big_categories %}
-                                <td class="big-cate">
+                                <td>
                                     <ul class="m-0 mt-1">
                                         {% for cosmetic in video.cosmetic.all %}
 

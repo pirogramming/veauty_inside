@@ -116,10 +116,7 @@ Veauty Inside - Combination
                     </div>
                 </div>
                 <input type="hidden" name="kind" value="{{ kind }}">
-                <input type="hidden" name="pageNum" value="{{ pageNum }}">
-                {% for cos in curr_cos %}
-                <input type="hidden" name="curr_cos" value="{{ cos }}">
-                {% endfor %}
+                <input type="hidden" name="curr_query" value="{{ request.GET.urlencode }}">
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary mt-auto col-4 col-sm-3 col-md-4 col-lg-3">화장품
                         담기</button>
@@ -129,7 +126,8 @@ Veauty Inside - Combination
         </div>
         <div class="col-sm-12 col-md-5 col-lg-4">
             <div class="d-flex justify-content-center align-items-center border border-primary rounded mb-1">
-                <h5 class="m-2 font-weight-normal text-primary"><i class="fa fa-shopping-basket" aria-hidden="true"></i></h5>
+                <h5 class="m-2 font-weight-normal text-primary"><i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                </h5>
             </div>
             <form action="{% url 'beauty:cosmetic_delete' %}" method="post">
                 {% csrf_token %}
@@ -164,10 +162,7 @@ Veauty Inside - Combination
                 </div>
                 <div class="cosmetic-combine text-right">
                     <input type="hidden" name="kind" value="{{ kind }}">
-                    <input type="hidden" name="pageNum" value="{{ pageNum }}">
-                    {% for cos in curr_cos %}
-                    <input type="hidden" name="curr_cos" value="{{ cos }}">
-                    {% endfor %}
+                    <input type="hidden" name="curr_query" value="{{ request.GET.urlencode }}">
                     <button type="submit" class="btn btn-primary mt-auto col-4 col-sm-3 col-md-5 col-lg-5">목록에서
                         제거</button>
                 </div>
@@ -177,8 +172,7 @@ Veauty Inside - Combination
                 <form action="{% url 'beauty:cosmetic_reset' %}" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="kind" value="{{ kind }}">
-                    <input type="hidden" name="pageNum" value="{{ pageNum }}">
-                    <input type="hidden" name="distinction" value="{% if curr_cos %}y{% else %}n{% endif %}">
+                    <input type="hidden" name="curr_query" value="{{ request.GET.urlencode }}">
                     <button type="submit" class="btn btn-primary mt-auto col-4 col-sm-3 col-md-5 col-lg-5">목록
                         초기화</button>
                 </form>
@@ -187,9 +181,8 @@ Veauty Inside - Combination
             <div class="cosmetic-combine text-right">
                 <form action="{% url 'beauty:combine_processing' %}" method="post">
                     {% csrf_token %}
-                    {% for cos in curr_cos %}
-                    <input type="hidden" name="curr_cos" value="{{ cos }}">
-                    {% endfor %}
+                    <input type="hidden" name="kind" value="{{ kind }}">
+                    <input type="hidden" name="curr_query" value="{{ request.GET.urlencode }}">
                     <button type="submit" class="btn btn-primary mt-auto col-4 col-sm-3 col-md-5 col-lg-5">결과
                         보기</button>
                 </form>

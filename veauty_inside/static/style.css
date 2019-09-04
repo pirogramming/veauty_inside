@@ -1,10 +1,26 @@
-body{
+section {
     font-family: 'Noto Sans KR', sans-serif !important;
-
+    margin-bottom : 10px;
+}
+nav {
+    font-family: 'Noto Sans KR', sans-serif !important;
 }
 
-.bg-custom {
-    background-color: #F6648C;
+footer {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+}
+
+ul{
+    padding: 0;
+}
+li{
+    list-style: none;
+}
+
+table, td{
+    border:1px solid #EEEEEE;
+    font-size : 0.9em;
 }
 
 .custom-control{
@@ -20,25 +36,7 @@ body{
     box-shadow: none;
 }
 
-.text-bold {
-    font-weight: 700;
-}
-
-
-.meta {
-    font-size: 1em;
-    color: rgba(0, 0, 0, .4);
-}
-
-.meta a {
-    text-decoration: none;
-    color: rgba(0, 0, 0, .4);
-}
-
-.meta a:hover {
-    color: rgba(0, 0, 0, .87);
-}
-
+/* home card */
 .card {
     font-size: 1em;
     overflow: hidden;
@@ -98,57 +96,8 @@ body{
     background-color : #ffe6f7;
     opacity: .5;
 }
+/* home card end */
 
-.profile {
-    position: absolute;
-    top: -12px;
-    display: inline-block;
-    overflow: hidden;
-    box-sizing: border-box;
-    width: 25px;
-    height: 25px;
-    margin: 0;
-    border: 1px solid #fff;
-    border-radius: 50%;
-}
-
-.profile-avatar {
-    display: block;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-}
-
-.profile-inline {
-    position: relative;
-    top: 0;
-    display: inline-block;
-}
-
-.profile-inline ~ .card-title {
-    display: inline-block;
-    margin-left: 4px;
-    vertical-align: top;
-}
-
-/* a.nav-link:active {
-    background-color: #F6648C;
-    color: black;
-}
-
-a.nav-link:link {
-    color: black;
-}
-
-a.nav-link:visited {
-    color: black;
-    background-color: #F6648C;
-} */
-
-
-body > div > ul {
-    margin-top: 5px;
-}
 
 table > tbody > tr:hover {
     background-color: #F0F0F0;
@@ -163,12 +112,6 @@ td a.nav-link:hover {
     text-decoration: none;
 }
 
-body > div > div > div > form > div.text-right {
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-    margin-left: 2px;
-}
 
 .page_display {
     display: flex;
@@ -177,17 +120,18 @@ body > div > div > div > form > div.text-right {
     margin-bottom: 0px;
 }
 
-/*.scrap-wrap{*/
-/*    display: inline-flex;*/
-/*    width: 100%;*/
-/*    justify-content: space-between;*/
-/*}*/
+.pagination *,
+.pagination *:link,
+.pagination *:active,
+.pagination *:visited {
+    color: #F6648C !important;
+    outline: none;
+    box-shadow: none !important;
+}
 
-/*.cosmetic-combine {*/
-/*    display: inline-flex;*/
-/*    width: 100%;*/
-/*    justify-content: space-around;*/
-/*}*/
+.pagination *:hover {
+    color: #F6648C;
+}
 
 .home-btn {
     width : 100px;
@@ -196,7 +140,6 @@ body > div > div > div > form > div.text-right {
 .nav-item > .active {
     font-weight: bold;
 }
-
 
 .vid-select {
     width: 30px;
@@ -214,35 +157,10 @@ tbody > .vid-select > input {
     margin-right: 5px;
 }
 
-/*.nav-item {*/
-/*    padding-right: 10px;*/
-/*}*/
-
 .btn {
-    margin-right: 5px;
-    margin-bottom : 10px;
+    margin-bottom : 5px; 
 }
 
-.pagination *,
-.pagination *:link,
-.pagination *:active,
-.pagination *:visited {
-    color: #F6648C !important;
-    outline: none;
-    box-shadow: none !important;
-}
-
-.pagination *:hover {
-    color: #F6648C;
-}
-
-/*
-.scrolling{
-    overflow: auto;
-    white-space: nowrap;
-    table-layout: fixed;
-}
-*/
 
 .profile-table, .profile-table div {
     height : 60vh;
@@ -278,6 +196,7 @@ tbody > .vid-select > input {
     white-space: nowrap; 
 }
 
+/* scroll-bar */
 .scrollbar-lady-lips::-webkit-scrollbar-track {
 -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
 background-color: #F5F5F5;
@@ -303,28 +222,7 @@ border-radius: 0 !important; }
 
 .thin::-webkit-scrollbar {
 width: 6px; height:10px;}
-
-/*.big-cate{*/
-
-/*    width: 200px;*/
-/*}*/
-ul{
-    padding: 0;
-}
-li{
-    list-style: none;
-}
-
-table, td, #footer{
-    border:1px solid #EEEEEE;
-    font-size : 0.9em;
-}
-
-.footer {
-    font-family: 'Raleway', sans-serif;
-    font-weight: 400
-}
-
+/* scroll-bar end */
 
 @media (max-width: 768px) {
     .container-fluid {

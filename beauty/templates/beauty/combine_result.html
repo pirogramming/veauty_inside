@@ -58,15 +58,12 @@ Combine Result
             </div>
             <form action="{% url 'beauty:cosmetic_save' %}" method="POST">
                 {% csrf_token %}
-
-                {% for cosmetic in cosmetics %}
-                <input type="hidden" name="cosmetic_id" value="{{ cosmetic.id }}">
-                {% endfor %}
+                <input type="hidden" name="curr_query" value="{{ request.GET.urlencode }}">
                 <div class="row d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary mt-auto col-5 col-md-8 col-lg-5" name="selection"
+                    <button type="submit" class="btn btn-primary mt-auto col-5 col-md-8 col-lg-5 mr-1" name="selection"
                         value="interest">관심 화장품 등록</button>
-                    <button type="submit" class="btn btn-primary mt-auto col-5 col-md-8 col-lg-5" name="selection"
-                        value="my">내 화장품 등록</button>
+                    <button type="submit" class="btn btn-primary mt-auto col-5 col-md-8 col-lg-5" name="selection" value="my">내 화장품
+                        등록</button>
                 </div>
             </form>
         </div>
@@ -112,9 +109,7 @@ Combine Result
                         </table>
                     </div>
                 </div>
-                {% for cosmetic in cosmetics %}
-                <input type="hidden" name="cosmetic_id" value="{{ cosmetic.id }}">
-                {% endfor %}
+                <input type="hidden" name="curr_query" value="{{ request.GET.urlencode }}">
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary mt-auto col-4 col-sm-4 col-md-4 col-lg-3">동영상
                         스크랩</button>
