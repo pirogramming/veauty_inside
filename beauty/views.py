@@ -21,7 +21,7 @@ def redirect_with_query(url_path, querystring, url_parameter=""):
         response = redirect(url_path)
         
     response['Location'] += querystring
-
+    
     return response
 
 def pagination(request, contexts, contexts_name, PAGE_ROW_COUNT=10, PAGE_DISPLAY_COUNT=10):
