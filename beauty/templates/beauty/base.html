@@ -5,9 +5,8 @@
 <link rel="stylesheet" href="{% static 'hello_kiddie.css' %}">
 {% endblock %}
 
-
-
 {% block body %}
+{% block nav %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
     <div class="container">
         <a class="navbar-brand text-white" href="{% url 'beauty:home' %}">Veauty Inside</a>
@@ -19,7 +18,7 @@
 
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'beauty:video_list' %}">비디오 랭킹</a>
+                    <a class="nav-link" href="{% url 'beauty:video_list' %}">동영상 랭킹</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'beauty:cosmetic_list' %}">화장품 목록</a>
@@ -28,41 +27,103 @@
                     <a class="nav-link" href="{% url 'beauty:combine_cosmetic' %}">화장품 조합</a>
                 </li>
             </ul>
-
             <ul class="nav navbar-nav">
-                {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'profile' %}">
-                        <i class="fa fa-user-o" aria-hidden="true"></i>My Page</a>
+                <li class="nav-item d-flex align-items-center">
+                    <a class="nav-link" data-toggle="collapse" href="#search" aria-expanded="false"
+                        aria-controls="search">
+                        <i class="fa fa-search" aria-hidden="true"></i>Search
+                    </a>
+
+                    <div class="collapse" id="search">
+                        <form class="form-inline mx-2 my-lg-0" method="GET" action="{% url 'beauty:search' %}">
+                            <input class="form-control mr-sm-2 h-50" type="search" placeholder="Search"
+                                aria-label="Search" name="q" {% if q %} value="{{ q }}" {% endif %}>
+                        </form>
+                    </div>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}?next={{ request.get_full_path|urlencode }}">
-                        <i class="fa fa-sign-in" aria-hidden="true"></i>Logout</a>
+                    <div class="dropdown ">
+                        <a class="dropdown-toggle nav-link" href="#" role="button" id="dropdownMenuLink"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Accounts
+                        </a>
+                        {% if user.is_authenticated %}
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="{% url 'profile' %}">
+                                <i class="fa fa-user-o" aria-hidden="true"></i>My Page
+                            </a>
+                            <a class="dropdown-item"
+                                href="{% url 'logout' %}?next={{ request.get_full_path|urlencode }}">
+                                <i class="fa fa-sign-in" aria-hidden="true"></i>Logout
+                            </a>
+                        </div>
+                        {% else %}
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item"
+                                href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}">
+                                <i class="fa fa-user-o" aria-hidden="true"></i>Sign in
+                            </a>
+                            <a class="dropdown-item"
+                                href="{% url 'signup' %}?next={{ request.get_full_path|urlencode }}">
+                                <i class="fa fa-sign-in" aria-hidden="true"></i>Sign Up
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
                 </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}">
-                        <i class="fa fa-user-o" aria-hidden="true"></i>Sign in</a></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'signup' %}?next={{ request.get_full_path|urlencode }}">
-                        <i class="fa fa-sign-in" aria-hidden="true"></i>Sign Up</a>
-                </li>
-                {% endif %}
             </ul>
         </div>
     </div>
 </nav>
-
-
-
-{% block content %}
 {% endblock %}
 
 
-<footer id="footer" class="bg-dark text-light py-5 mt-5">
-    <div class="container">
-        &copy;Veauty Inside Team
+<section>
+    {% block content %}
+    {% endblock %}
+</section>
+
+
+<footer class="bg-dark text-light py-5">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-6 col-md-6 col-lg-3 mb-2">
+                <h5 class="text-uppercase">More about</h5>
+                <ul class="nav flex-column">
+                    <li><a class="text-white" target="ext" rel="nofollow"
+                            href="https://www.facebook.com/p.rogramming3k/"
+                            title="Pirogramming Facebook Page">Pirogramming</a></li>
+                    <li><a class="text-white" target="ext" rel="nofollow"
+                            href="https://github.com/orgs/pirogramming/teams/veauty_inside"
+                            title="Veauty Inside Team Github">Veauty Inside Team</a></li>
+                    <li><a class="text-white" target="ext" rel="nofollow"
+                            href="https://www.google.com/search?q=100000000%24" title="">Our values</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md-6 col-lg-3 mb-2">
+                <h5 class="text-uppercase">Developers</h5>
+                <ul class="nav flex-column">
+                    <li><a class="text-white" target="_new" href="https://github.com/kimsangwond">김상원</a></li>
+                    <li><a class="text-white" target="_new" href="https://github.com/kho903">김지훈</a></li>
+                    <li><a class="text-white" target="_new" href="https://github.com/choibumsu">최범수</a></li>
+                    <li><a class="text-white" target="_new" href="https://github.com/Hwang-Injun">황인준</a></li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-12 col-lg-6 mb-2 text-right">
+                <h5 class="text-uppercase">Follow</h5>
+                <ul class="nav float-right">
+                    <li><a class="text-white mr-2" target="_new" rel="nofollow" href="https://twitter.com/"
+                            title="Follow on Twitter"><i class="fa fa-twitter fa-3x" aria-hidden="true"></i></a></li>
+                    <li><a class="text-white mr-2" target="_new" rel="nofollow"
+                            href="https://www.facebook.com/p.rogramming3k/" title="Follow on Facebook"><i
+                                class="fa fa-facebook-square fa-3x" aria-hidden="true"></i></a></li>
+                    <li><a class="text-white mr" target="_new" rel="nofollow"
+                            href="https://github.com/orgs/pirogramming/teams/veauty_inside" title="Follow on GitHub"><i
+                                class="fa fa-github fa-3x" aria-hidden="true"></i></a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 </footer>
 

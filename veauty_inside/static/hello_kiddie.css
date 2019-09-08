@@ -2848,7 +2848,7 @@ input[type="button"].btn-block {
 .alert-link {
   font-weight: 700; }
 
-.alert-dismissible {
+/* .alert-dismissible {
   padding-right: 4rem; }
   .alert-dismissible .close {
     position: absolute;
@@ -2927,7 +2927,7 @@ input[type="button"].btn-block {
   .alert-dark hr {
     border-top-color: #b4bab4; }
   .alert-dark .alert-link {
-    color: black; }
+    color: black; } */
 
 @keyframes progress-bar-stripes {
   from {

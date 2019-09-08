@@ -5,77 +5,114 @@ Combine Result
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid">
-    <div class="row p-1">
-        <div class="col-md-4">
-            <table class='table scrolltbody result-cos'>
-                <thead>
-                    <tr>
-                        <th>선택한 화장품</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for cosmetic in cosmetics %}
-                    <tr>
-                        <td>{{ cosmetic.name }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+<div class="container-fluid mt-1">
+    <div class="row">
+        <div class="col-sm-12 col-md-4">
+            {% if messages %}
+            {% for message in messages %}
+            {% if 'cosmetic' in message.tags %}
+            <div class="alert alert-{{ message_tags }} alert-dismissable show fade mt-1" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                {{ message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-sm-12 col-md-8">
+            {% if messages %}
+            {% for message in messages %}
+            {% if 'video' in message.tags %}
+            <div class="alert alert-{{ message_tags }} alert-dismissable show fade mt-1" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                {{ message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-4">
+            <div class="scroll-wrap mb-1 result-table">
+                <div class="scrolling table-responsive scrollbar-lady-lips thin square">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>선택한 화장품</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cosmetic in cosmetics %}
+                            <tr>
+                                <td>{{ cosmetic.name }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             <form action="{% url 'beauty:cosmetic_save' %}" method="POST">
                 {% csrf_token %}
-
-                {% for cosmetic in cosmetics %}
-                <input type="hidden" name="cosmetic_id" value="{{ cosmetic.id }}">
-                {% endfor %}
+                <input type="hidden" name="curr_query" value="{{ request.GET.urlencode }}">
                 <div class="row d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary mt-auto col-5 col-md-8 col-lg-5" name="selection" value="interest">관심 화장품 등록</button>
-                    <button type="submit" class="btn btn-primary mt-auto col-5 col-md-8 col-lg-5" name="selection" value="my">내 화장품 등록</button>
+                    <button type="submit" class="btn btn-primary mt-auto col-5 col-md-8 col-lg-5 mr-1" name="selection"
+                        value="interest">관심 화장품 등록</button>
+                    <button type="submit" class="btn btn-primary mt-auto col-5 col-md-8 col-lg-5" name="selection" value="my">내 화장품
+                        등록</button>
                 </div>
             </form>
         </div>
-        <div class="col-md-8">
+        <div class="col-sm-12 col-md-8">
             <form action="{% url 'beauty:recommend_scrap' %}" method="POST">
                 {% csrf_token %}
-                <table class='table scrolltbody result-video'>
-                    <thead>
-                        <tr>
-                            <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
-                            <th>추천 동영상</th>
-                            <th>조회수</th>
-                            <th>포함 화장품</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for video in videos %}
-                        <tr>
-                            <td>
-                                <div class="custom-control custom-checkbox d-inline">
-                                    <input type="checkbox" class="custom-control-input" name="video_id" id="customCheck{{ video.id }}"
-                                        value="{{ video.id }}">
-                                    <label class="custom-control-label" for="customCheck{{ video.id }}"></label>
-                                </div>
-                            </td>
-                            <td><a href="http://{{ video.yt_url }}" target="_blank">{{ video.title }}</a></td>
-                            <td>{{ video.hits }}</td>
-                            <td class="big-cate">
-                                <ul class="m-0">
-                                    {% for cosmetic in video.cosmetic.all %}
-                                    {% if cosmetic in cosmetics %}
-                                    <li>{{ cosmetic }} </li>
-                                    {% endif %}
-                                    {% endfor %}
-                                </ul>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% for cosmetic in cosmetics %}
-                <input type="hidden" name="cosmetic_id" value="{{ cosmetic.id }}">
-                {% endfor %}
+                <div class="scroll-wrap mb-1 result-table">
+                    <div class="scrolling table-responsive scrollbar-lady-lips thin square">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="vid-select text-center"><span><i class="fa fa-check"></i></span></th>
+                                    <th>추천 동영상</th>
+                                    <th>조회수</th>
+                                    <th>포함 화장품</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for video in videos %}
+                                <tr>
+                                    <td>
+                                        <div class="custom-control custom-checkbox d-inline">
+                                            <input type="checkbox" class="custom-control-input" name="video_id"
+                                                id="customCheck{{ video.id }}" value="{{ video.id }}">
+                                            <label class="custom-control-label" for="customCheck{{ video.id }}"></label>
+                                        </div>
+                                    </td>
+                                    <td><a href="http://{{ video.yt_url }}" target="_blank">{{ video.title }}</a>
+                                    </td>
+                                    <td class="text-right">{{ video.hits }}</td>
+                                    <td class="big-cate">
+                                        <ul class="m-0 mt-1">
+                                            {% for cosmetic in video.cosmetic.all %}
+                                            {% if cosmetic in cosmetics %}
+                                            <li class="mb-1"><i class="fa fa-smile-o mr-1" aria-hidden="true"></i>{{ cosmetic }} </li>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <input type="hidden" name="curr_query" value="{{ request.GET.urlencode }}">
                 <div class="text-right">
-                    <button type="submit" class="btn btn-primary mt-auto col-4 col-sm-4 col-md-4 col-lg-3">동영상 스크랩</button>
+                    <button type="submit" class="btn btn-primary mt-auto col-4 col-sm-4 col-md-4 col-lg-3">동영상
+                        스크랩</button>
                 </div>
             </form>
         </div>

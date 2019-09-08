@@ -1,90 +1,100 @@
 {% extends 'beauty/base.html' %}
 
 {% block title %}
-Video List
+Veauty Inside - Video
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container mt-1">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissable show fade mt-1" role="alert">
+        <button type="button" class="close pb-1" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a class="nav-link {% if period == 'all' %} active {% endif %}"
-                href="{% url 'beauty:video_list' 'all' %}">All-time Best</a>
+                href="{% url 'beauty:video_list' 'all' %}">전체 랭킹</a>
         </li>
         <li class="nav-item">
             <a class="nav-link {% if period == 'month' %} active {% endif %}"
-                href="{% url 'beauty:video_list' 'month' %}">Monthly Best</a>
+                href="{% url 'beauty:video_list' 'month' %}">월간 랭킹</a>
         </li>
         <li class="nav-item">
             <a class="nav-link {% if period == 'week' %} active {% endif %}"
-                href="{% url 'beauty:video_list' 'week' %}">Weekly Best</a>
+                href="{% url 'beauty:video_list' 'week' %}">주간 랭킹</a>
         </li>
     </ul>
     <div class="tab-content">
-
         {% if user.is_authenticated %}
         <form action="{% url 'beauty:video_scrap' %}" method="post">
             {% csrf_token %}
             {% endif %}
-            <div class="tab-pane fade show active scrolling table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            {% if user.is_authenticated %}
-                            <th class="vid-select"><span><i class="fa fa-check"></i></span></th>
-                            {% endif %}
-                            <th>랭킹</th>
-                            <th>제목</th>
-                            <th>유튜버</th>
-                            {% for big_category in big_categories %}
-                            <th class="big-cate" width="100">
-                                {{ big_category }}
-                            </th>
-                            {% endfor %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for video in videos %}
-                        {% load mathfilters %}
-                        <tr>
-                            {% if user.is_authenticated %}
-                            <td class="big-cate">
-
-                                <div class="custom-control custom-checkbox d-inline">
-                                    <input type="checkbox" class="custom-control-input" name="video_id" id="customCheck{{ video.id }}"
-                                        value="{{ video.id }}">
-                                    <label class="custom-control-label" for="customCheck{{ video.id }}"></label>
-                                </div>
-
-                            </td>
-                            {% endif %}
-                            <td>
-                                {% if pageNum %}
-                                {{ pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
-                                {% else %}
-                                {{ forloop.counter }}
+            <div class="scroll-wrap mb-1 main-table">
+                <div class="scrolling table-responsive scrollbar-lady-lips thin square">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                {% if user.is_authenticated %}
+                                <th class="vid-select text-center"><span><i class="fa fa-check"></i></span></th>
                                 {% endif %}
-                            </td>
-                            <td><a href="{{ video.yt_url }}" target="_blank">{{ video.title }}</a></td>
-                            <td>{{ video.youtuber }}</td>
-                            {% for big_category in big_categories %}
-                            <td class="big-cate">
-                                <ul class="m-0">
-                                    {% for cosmetic in video.cosmetic.all %}
-
-                                    {% if cosmetic.category.bigcate == big_category %}
-                                    <li>
-                                        {{ cosmetic.name }}
-                                    </li>
+                                <th class="text-center">랭킹</th>
+                                <th>제목</th>
+                                <th>유튜버</th>
+                                {% for big_category in big_categories %}
+                                <th>
+                                    {{ big_category }}
+                                </th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for video in videos %}
+                            {% load mathfilters %}
+                            <tr>
+                                {% if user.is_authenticated %}
+                                <td>
+                                    <div class="custom-control custom-checkbox d-inline">
+                                        <input type="checkbox" class="custom-control-input" name="video_id"
+                                            id="customCheck{{ video.id }}" value="{{ video.id }}">
+                                        <label class="custom-control-label" for="customCheck{{ video.id }}"></label>
+                                    </div>
+                                </td>
+                                {% endif %}
+                                <td class="text-center">
+                                    {% if pageNum %}
+                                    {{ pageNum|mul:PAGE_ROW_COUNT| sub:PAGE_ROW_COUNT |add:forloop.counter }}
+                                    {% else %}
+                                    {{ forloop.counter }}
                                     {% endif %}
-                                    {% endfor %}
-                                </ul>
-                            </td>
+                                </td>
+                                <td width="350em" nowrap><a href="{{ video.yt_url }}" target="_blank">{{ video.title }}</a></td>
+                                <td>{{ video.youtuber }}</td>
+                                {% for big_category in big_categories %}
+                                <td>
+                                    <ul class="m-0 mt-1">
+                                        {% for cosmetic in video.cosmetic.all %}
+
+                                        {% if cosmetic.category.bigcate == big_category %}
+                                        <li class="mb-1">
+                                            <i class="fa fa-smile-o mr-1" aria-hidden="true"></i>{{ cosmetic.name }}
+                                        </li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </td>
+                                {% endfor %}
+                            </tr>
                             {% endfor %}
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             {% if user.is_authenticated %}
             <input type="hidden" name="period" value="{{ period }}">
